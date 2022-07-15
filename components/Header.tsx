@@ -1,7 +1,340 @@
+import React from "react";
+import Link from "next/link";
+import styled from "styled-components";
+import useEscapeKeydownClose from "../hooks/useEscapeKeydownClose";
+import useOutsideClick from "../hooks/useOutsideClick";
+
 export default function Header() {
+  const menuRef = React.useRef<HTMLDivElement>(null);
+  const [showMenu, setShowMenu] = React.useState(false);
+  useOutsideClick(showMenu, setShowMenu, menuRef);
+  useEscapeKeydownClose(showMenu, setShowMenu);
+
   return (
-    <header>
-      <h1>This is the header</h1>
-    </header>
+    <HeaderStyles>
+      <div>
+        <div className="brand">
+          <h1>Lakeshore Officials Association</h1>
+        </div>
+        <nav>
+          <Link href="/">
+            <a className="active">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                  clipRule="evenodd"
+                />
+                <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
+              </svg>
+              Your calendar
+            </a>
+          </Link>
+          <Link href="/baseball">
+            <a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+              </svg>
+              Baseball
+            </a>
+          </Link>
+          <Link href="/basketball">
+            <a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+              </svg>
+              Basketball
+            </a>
+          </Link>
+          <Link href="/football">
+            <a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+              </svg>
+              Football
+            </a>
+          </Link>
+          <Link href="/softball">
+            <a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+              </svg>
+              Softball
+            </a>
+          </Link>
+          <Link href="/volleyball">
+            <a>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+              </svg>
+              Volleyball
+            </a>
+          </Link>
+        </nav>
+      </div>
+      <div className="user">
+        <div className="flex-row">
+          <div className="preview">TR</div>
+          <div>
+            <p className="name">Tom Rusch</p>
+            <p className="email">rusch@lutheranhigh.com</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowMenu(!showMenu);
+          }}
+          className="nav-menu-button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+            />
+          </svg>
+          <span className="sr-only">Toggle menu</span>
+        </button>
+        {showMenu ? (
+          <div ref={menuRef} className="header-menu">
+            <Link href="/account">
+              <a>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Your account
+              </a>
+            </Link>
+            <button type="button" className="logout-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Log out
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </HeaderStyles>
   );
 }
+
+const HeaderStyles = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 22rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #162131;
+
+  .brand {
+    padding: 3rem 1.75rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    color: #eef2f6;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      padding: 0.8125rem 2.5rem;
+      display: flex;
+      align-items: center;
+      color: #b5c0d1;
+      font-size: 1rem;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: color 100ms linear;
+
+      svg {
+        margin: 0 0.75rem 0 0;
+        height: 1.25rem;
+        width: 1.25rem;
+        opacity: 0.2;
+      }
+
+      &.active {
+        background-color: #202b3b;
+        color: #fff;
+        border-left-color: #ff441a;
+      }
+
+      &:hover {
+        color: #edf1f7;
+      }
+    }
+  }
+
+  .user {
+    padding: 1.875rem 1rem 1.875rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #141a25;
+  }
+
+  .flex-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .preview {
+    height: 2.75rem;
+    width: 2.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #06080b;
+    border-radius: 9999px;
+    color: #fbfcfd;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .name {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fbfcfd;
+  }
+
+  .email {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #6b717e;
+  }
+
+  .nav-menu-button {
+    padding: 0;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 9999px;
+    color: #9ea3ad;
+    cursor: pointer;
+    transition: all 100ms linear;
+
+    svg {
+      height: 1.375rem;
+      width: 1.375rem;
+    }
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .header-menu {
+    position: absolute;
+    right: 3rem;
+    bottom: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    background-color: #e9eaec;
+    border-radius: 0.375rem;
+
+    a,
+    button {
+      padding: 0.875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      border: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #06080b;
+      text-align: left;
+      border-bottom: 1px solid #bec1c8;
+      cursor: pointer;
+      transition: all 100ms linear;
+
+      &:hover {
+        background-color: #dee0e3;
+      }
+
+      &:first-child {
+        border-top-right-radius: 0.375rem;
+        border-top-left-radius: 0.375rem;
+      }
+
+      &:last-child {
+        border-bottom: none;
+        border-bottom-right-radius: 0.375rem;
+        border-bottom-left-radius: 0.375rem;
+        color: #000;
+      }
+
+      svg {
+        margin: 0 0.4375rem 0 0;
+        height: 1rem;
+        width: 1rem;
+        color: #9499a4;
+      }
+    }
+  }
+`;
