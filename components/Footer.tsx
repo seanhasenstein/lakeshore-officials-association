@@ -43,4 +43,13 @@ const FooterStyles = styled.footer`
       color: #1a1c1f;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 2.25rem 0;
+    flex-direction: column-reverse;
+
+    p {
+      margin: 2.5rem 0 0;
+    }
+  }
 `;

@@ -4,15 +4,43 @@ import styled from "styled-components";
 import useEscapeKeydownClose from "../hooks/useEscapeKeydownClose";
 import useOutsideClick from "../hooks/useOutsideClick";
 
-export default function Header() {
+type Props = {
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export default function Header(props: Props) {
   const menuRef = React.useRef<HTMLDivElement>(null);
+  const headerRef = React.useRef<HTMLHeadingElement>(null);
   const [showMenu, setShowMenu] = React.useState(false);
+  useOutsideClick(props.show, props.setShow, headerRef);
   useOutsideClick(showMenu, setShowMenu, menuRef);
   useEscapeKeydownClose(showMenu, setShowMenu);
 
   return (
-    <HeaderStyles>
+    <HeaderStyles ref={headerRef} className={props.show ? "show" : ""}>
       <div>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            props.setShow(false);
+          }}
+          className="close-nav-button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span className="sr-only">Close navigation</span>
+        </button>
         <div className="brand">
           <h1>Lakeshore Officials Association</h1>
         </div>
@@ -171,12 +199,17 @@ const HeaderStyles = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  width: 22rem;
+  max-width: 22rem;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: #162131;
+
+  .close-nav-button {
+    display: none;
+  }
 
   .brand {
     padding: 3rem 1.75rem;
@@ -335,6 +368,34 @@ const HeaderStyles = styled.header`
         width: 1rem;
         color: #9499a4;
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    left: -100%;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 1), 0 8px 10px -6px rgb(0 0 0 / 1);
+
+    &.show {
+      left: 0;
+    }
+
+    .close-nav-button {
+      display: flex;
+      position: absolute;
+      top: 1.625rem;
+      right: 1.25rem;
+      background-color: transparent;
+      border: none;
+      color: #6b717e;
+
+      svg {
+        height: 1.375rem;
+        width: 1.375rem;
+      }
+    }
+
+    .brand {
+      padding: 1.5rem 1.75rem;
     }
   }
 `;
