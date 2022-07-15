@@ -1,9 +1,9 @@
-import Layout from "../components/Layout";
+import FullLayout from "../components/FullLayout";
 
 export default function Home() {
   return (
-    <Layout>
+    <FullLayout>
       <h2>This is the home page...</h2>
-    </Layout>
+    </FullLayout>
   );
 }

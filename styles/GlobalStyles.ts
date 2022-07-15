@@ -86,10 +86,10 @@ a {
 }
 
 label {
-  margin: 0 0 0.375rem;
+  margin: 0 0 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #64748b;
+  color: #747b89;
 }
 
 input,
@@ -97,21 +97,21 @@ select {
   appearance: none;
   background-color: #fff;
   border: 1px solid #cbd5e1;
-  border-radius: 0.375rem;
+  border-radius: 0.25rem;
   font-size: 0.875rem;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
 
 input:not([type="checkbox"], [type="radio"]) {
-  padding: 0.6875rem 0.75rem;
+  padding: 0.625rem 0.75rem;
 
   &:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
-    box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, #1f30c2 0px 0px 0px 1px,
+    box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px, #1860cc 0px 0px 0px 1px,
       rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-    border: 1px solid #1f30c2;
+    border: 1px solid #1860cc;
   }
 }
 
