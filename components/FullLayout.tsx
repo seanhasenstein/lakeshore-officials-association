@@ -90,6 +90,7 @@ const LayoutStyles = styled.div`
       background-color: transparent;
       border: none;
       color: #7a7a7e;
+      cursor: pointer;
 
       &.hide {
         display: none;

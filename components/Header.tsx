@@ -387,6 +387,7 @@ const HeaderStyles = styled.header`
       background-color: transparent;
       border: none;
       color: #6b717e;
+      cursor: pointer;
 
       svg {
         height: 1.375rem;
