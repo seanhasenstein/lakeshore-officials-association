@@ -1,8 +1,10 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import useEscapeKeydownClose from '../hooks/useEscapeKeydownClose';
 import useOutsideClick from '../hooks/useOutsideClick';
+import NavLinkItem from './NavLinkItem';
 
 type Props = {
   show: boolean;
@@ -10,6 +12,7 @@ type Props = {
 };
 
 export default function Header(props: Props) {
+  const router = useRouter();
   const menuRef = React.useRef<HTMLDivElement>(null);
   const headerRef = React.useRef<HTMLHeadingElement>(null);
   const [showMenu, setShowMenu] = React.useState(false);
@@ -45,83 +48,36 @@ export default function Header(props: Props) {
           <h1>Lakeshore Officials Association</h1>
         </div>
         <nav>
-          <Link href="/">
-            <a className="active">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                  clipRule="evenodd"
-                />
-                <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
-              </svg>
-              Your calendar
-            </a>
-          </Link>
-          <Link href="/baseball">
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-              </svg>
-              Baseball
-            </a>
-          </Link>
-          <Link href="/basketball">
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-              </svg>
-              Basketball
-            </a>
-          </Link>
-          <Link href="/football">
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-              </svg>
-              Football
-            </a>
-          </Link>
-          <Link href="/softball">
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-              </svg>
-              Softball
-            </a>
-          </Link>
-          <Link href="/volleyball">
-            <a>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
-              </svg>
-              Volleyball
-            </a>
-          </Link>
+          <NavLinkItem
+            label="Your calendar"
+            href="/"
+            isActive={router.pathname === '/'}
+          />
+          <NavLinkItem
+            label="Baseball"
+            href="/baseball"
+            isActive={router.query.sport === 'baseball'}
+          />
+          <NavLinkItem
+            label="Basketball"
+            href="/basketball"
+            isActive={router.query.sport === 'basketball'}
+          />
+          <NavLinkItem
+            label="Football"
+            href="/football"
+            isActive={router.query.sport === 'football'}
+          />
+          <NavLinkItem
+            label="Softball"
+            href="/softball"
+            isActive={router.query.sport === 'softball'}
+          />
+          <NavLinkItem
+            label="Volleyball"
+            href="/volleyball"
+            isActive={router.query.sport === 'volleyball'}
+          />
         </nav>
       </div>
       <div className="user">

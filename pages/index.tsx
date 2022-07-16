@@ -1,23 +1,46 @@
 import { GetServerSideProps } from 'next';
 import { connectToDb, user } from '../db';
 
+import { useQuery } from 'react-query';
+import { UsersBySports } from '../interfaces';
+import { getUsersBySport } from '../utils/queries';
 import FullLayout from '../components/FullLayout';
-import { User } from '../interfaces';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const db = await connectToDb();
-  const users = await user.getAllUsersSeparatedBySport(db);
-  return { props: { users } };
+  const usersBySports = await user.getUsersBySports(db);
+  return { props: { usersBySports } };
 };
 
 type Props = {
-  users: User[];
+  usersBySports: UsersBySports;
 };
 
 export default function Home(props: Props) {
+  useQuery(['users', 'baseball'], () => getUsersBySport('Baseball'), {
+    initialData: props.usersBySports.Baseball,
+    staleTime: 1000 * 60 * 5,
+  });
+  useQuery(['users', 'basketball'], () => getUsersBySport('Basketball'), {
+    initialData: props.usersBySports.Basketball,
+    staleTime: 1000 * 60 * 5,
+  });
+  useQuery(['users', 'football'], () => getUsersBySport('Football'), {
+    initialData: props.usersBySports.Football,
+    staleTime: 1000 * 60 * 5,
+  });
+  useQuery(['users', 'softball'], () => getUsersBySport('Softball'), {
+    initialData: props.usersBySports.Softball,
+    staleTime: 1000 * 60 * 5,
+  });
+  useQuery(['users', 'volleyball'], () => getUsersBySport('Volleyball'), {
+    initialData: props.usersBySports.Volleyball,
+    staleTime: 1000 * 60 * 5,
+  });
+
   return (
     <FullLayout>
-      <pre>{JSON.stringify(props.users, null, 2)}</pre>
+      <h2>This is the homepage</h2>
     </FullLayout>
   );
 }

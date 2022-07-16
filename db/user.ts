@@ -1,5 +1,5 @@
 import { Db, ObjectId } from 'mongodb';
-import { Sport, User } from '../interfaces';
+import { Sport, User, UsersBySports } from '../interfaces';
 
 export async function getUser(db: Db, _id: string) {
   const result = await db
@@ -20,18 +20,10 @@ export async function getUsers(db: Db) {
   return result;
 }
 
-interface SportsAccumulator {
-  Baseball: User[];
-  Basketball: User[];
-  Football: User[];
-  Softball: User[];
-  Volleyball: User[];
-}
-
-export async function getAllUsersSeparatedBySport(db: Db) {
+export async function getUsersBySports(db: Db) {
   const allUsers = await getUsers(db);
   const usersBySport = allUsers.reduce(
-    (accumulator: SportsAccumulator, currentUser) => {
+    (accumulator: UsersBySports, currentUser) => {
       currentUser.sports.forEach(sport => {
         accumulator[sport.name] = [...accumulator[sport.name], currentUser];
       });

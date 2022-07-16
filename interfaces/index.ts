@@ -28,6 +28,14 @@ export interface User {
   }[];
 }
 
+export interface UsersBySports {
+  Baseball: User[];
+  Basketball: User[];
+  Football: User[];
+  Softball: User[];
+  Volleyball: User[];
+}
+
 export interface Request extends NextApiRequest {
   db: Db;
   dbClient: MongoClient;

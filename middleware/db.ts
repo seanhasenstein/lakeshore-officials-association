@@ -1,6 +1,6 @@
-import { NextApiResponse } from "next";
-import { connectToDb } from "../db";
-import { Request } from "../interfaces";
+import { NextApiResponse } from 'next';
+import { connectToDb } from '../db';
+import { Request } from '../interfaces';
 
 export default async function database(
   req: Request,
@@ -9,5 +9,5 @@ export default async function database(
 ) {
   const db = await connectToDb();
   req.db = db;
-  next();
+  return next();
 }
