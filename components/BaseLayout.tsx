@@ -1,6 +1,6 @@
-import React from "react";
-import Head from "next/head";
-import { GlobalStyles } from "../styles/GlobalStyles";
+import React from 'react';
+import Head from 'next/head';
+import { GlobalStyles } from '../styles/GlobalStyles';
 
 type Props = {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ export default function BaseLayout({ children, title }: Props) {
     <>
       <Head>
         <title>
-          {title ? `${title} | ` : ""}Lakeshore Officials Association
+          {`${title ? `${title} | ` : ''}Lakeshore Officials Association`}
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

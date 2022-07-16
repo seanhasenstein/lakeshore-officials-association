@@ -9,6 +9,5 @@ export default async function database(
 ) {
   const db = await connectToDb();
   req.db = db;
-
   next();
 }

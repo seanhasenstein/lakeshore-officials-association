@@ -1,8 +1,8 @@
-import React from "react";
-import Link from "next/link";
-import styled from "styled-components";
-import useEscapeKeydownClose from "../hooks/useEscapeKeydownClose";
-import useOutsideClick from "../hooks/useOutsideClick";
+import React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
+import useEscapeKeydownClose from '../hooks/useEscapeKeydownClose';
+import useOutsideClick from '../hooks/useOutsideClick';
 
 type Props = {
   show: boolean;
@@ -18,11 +18,11 @@ export default function Header(props: Props) {
   useEscapeKeydownClose(showMenu, setShowMenu);
 
   return (
-    <HeaderStyles ref={headerRef} className={props.show ? "show" : ""}>
+    <HeaderStyles ref={headerRef} className={props.show ? 'show' : ''}>
       <div>
         <button
           type="button"
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             props.setShow(false);
           }}
@@ -129,12 +129,14 @@ export default function Header(props: Props) {
           <div className="preview">TR</div>
           <div>
             <p className="name">Tom Rusch</p>
-            <p className="email">rusch@lutheranhigh.com</p>
+            <p className="email" title="rusch@lutheranhigh.com">
+              rusch@lutheranhigh.com
+            </p>
           </div>
         </div>
         <button
           type="button"
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             setShowMenu(!showMenu);
           }}
@@ -285,6 +287,14 @@ const HeaderStyles = styled.header`
     letter-spacing: 0.05em;
   }
 
+  .name,
+  .email {
+    max-width: 13rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .name {
     margin: 0 0 0.25rem;
     font-size: 1rem;
@@ -324,7 +334,7 @@ const HeaderStyles = styled.header`
 
   .header-menu {
     position: absolute;
-    right: 3rem;
+    right: 3.25rem;
     bottom: 2.25rem;
     display: flex;
     flex-direction: column;
@@ -397,6 +407,13 @@ const HeaderStyles = styled.header`
 
     .brand {
       padding: 1.5rem 1.75rem;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .user {
+      padding-left: 0.875rem;
+      padding-right: 0.75rem;
     }
   }
 `;

@@ -1,5 +1,5 @@
-import React from "react";
-import BaseLayout from "./BaseLayout";
+import React from 'react';
+import BaseLayout from './BaseLayout';
 
 type Props = {
   children: React.ReactNode;

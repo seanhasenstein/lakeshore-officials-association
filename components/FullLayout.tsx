@@ -1,8 +1,8 @@
-import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import styled from "styled-components";
-import BaseLayout from "./BaseLayout";
+import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
+import styled from 'styled-components';
+import BaseLayout from './BaseLayout';
 
 type Props = {
   children: React.ReactNode;
@@ -21,11 +21,11 @@ export default function Layout({ children, title }: Props) {
             <h2>Lakeshore Officials Association</h2>
             <button
               type="button"
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
                 setShowHeader(!showHeader);
               }}
-              className={`nav-toggle-button ${showHeader ? "hide" : ""}`}
+              className={`nav-toggle-button ${showHeader ? 'hide' : ''}`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

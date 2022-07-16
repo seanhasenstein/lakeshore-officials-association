@@ -1,5 +1,5 @@
-import Link from "next/link";
-import styled from "styled-components";
+import Link from 'next/link';
+import styled from 'styled-components';
 
 export default function Footer() {
   return (
@@ -33,6 +33,10 @@ const FooterStyles = styled.footer`
     color: #474b54;
     border-right: 2px solid #d3d6da;
     transition: color 100ms linear;
+
+    &:first-of-type {
+      padding-left: 0;
+    }
 
     &:last-of-type {
       padding-right: 0;
