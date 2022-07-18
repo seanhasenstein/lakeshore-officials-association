@@ -9,14 +9,14 @@ import {
   formatToTitleCase,
   getUrlParam,
 } from '../utils/misc';
-import { getUsersBySport } from '../utils/queries';
+import { fetchUsersBySport } from '../utils/queries';
 
 export default function SportPage() {
   const router = useRouter();
   const [sport, setSport] = React.useState<string>();
   const { data, isLoading } = useQuery(
     ['users', sport],
-    () => getUsersBySport(sport as Sport | undefined),
+    () => fetchUsersBySport(sport as Sport | undefined),
     {
       staleTime: 1000 * 60 * 5,
     }
@@ -39,10 +39,10 @@ export default function SportPage() {
               <table>
                 <thead>
                   <tr>
-                    <th>Name</th>
+                    <th>Name/City</th>
                     <th>Level</th>
-                    <th>Phone number</th>
-                    <th>Email address</th>
+                    <th>Phone</th>
+                    <th>Email</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -60,22 +60,22 @@ export default function SportPage() {
                         </td>
                         <td>{s?.level}</td>
                         <td>
-                          <div className="contact">
+                          <div className="phone-numbers">
                             {v.homePhone && (
                               <div>
-                                <span className="abbreviation">Home:</span>
+                                <span className="abbreviation">H:</span>
                                 {formatPhoneNumber(v.homePhone)}
                               </div>
                             )}
                             {v.cellPhone && (
                               <div>
-                                <span className="abbreviation">Cell:</span>
+                                <span className="abbreviation">C:</span>
                                 {formatPhoneNumber(v.cellPhone)}
                               </div>
                             )}
                             {v.workPhone.number && (
                               <div>
-                                <span className="abbreviation">Work:</span>
+                                <span className="abbreviation">W:</span>
                                 {formatPhoneNumber(v.workPhone.number)}
                                 {v.workPhone.extension && (
                                   <span className="extension">
@@ -172,15 +172,19 @@ const SportPageStyles = styled.div`
       color: #9499a4;
     }
 
-    .contact {
+    .phone-numbers {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
 
+      .number {
+        display: flex;
+        align-items: center;
+      }
+
       .abbreviation {
-        margin: 0 0.375rem 0 0;
         display: inline-block;
-        width: 3.25rem;
+        width: 1.375rem;
         color: #9499a4;
       }
 

@@ -15,7 +15,11 @@ export async function getUser(db: Db, _id: string) {
 export async function getUsers(db: Db) {
   const result = await db
     .collection('users')
-    .aggregate<User>([{ $match: {} }, { $set: { _id: { $toString: '$_id' } } }])
+    .aggregate<User>([
+      { $match: {} },
+      { $sort: { lastName: 1, firstName: 1 } },
+      { $set: { _id: { $toString: '$_id' } } },
+    ])
     .toArray();
   return result;
 }
