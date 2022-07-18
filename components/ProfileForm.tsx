@@ -20,9 +20,7 @@ export default function ProfileForm(props: Props) {
     <ProfileFormStyles>
       <div className="instructions">
         <h3>Contact information</h3>
-        <p>
-          Provide the ways for your fellow Lakeshore officials to contact you.
-        </p>
+        <p>This information will be available to all Lakeshore Officials.</p>
       </div>
       <Formik
         initialValues={props.initialValues}
@@ -76,7 +74,7 @@ export default function ProfileForm(props: Props) {
                 />
               </div>
             </div>
-            <div className="work-phone-grid">
+            <div className="grid-cols-2">
               <div className="item">
                 <label htmlFor="workPhone.number">Work phone</label>
                 <Field name="workPhone.number" id="workPhone.number" />
@@ -87,7 +85,7 @@ export default function ProfileForm(props: Props) {
                 />
               </div>
               <div className="item">
-                <label htmlFor="workPhone.extension">Extension</label>
+                <label htmlFor="workPhone.extension">Work extension</label>
                 <Field name="workPhone.extension" id="workPhone.extension" />
                 <ErrorMessage
                   component="div"
@@ -105,7 +103,8 @@ export default function ProfileForm(props: Props) {
               <div className="instructions">
                 <h3>Sports</h3>
                 <p>
-                  Select a level for the sports that you currently officiate.
+                  Select a level for all of the sports that you currently
+                  officiate.
                 </p>
               </div>
               {values.sports.map(sport => (
@@ -206,14 +205,8 @@ const ProfileFormStyles = styled.div`
 
   .grid-cols-2 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(calc(50% - 1.5rem), 1fr));
-    gap: 1.5rem;
-  }
-
-  .work-phone-grid {
-    display: grid;
-    grid-template-columns: 1fr 8rem;
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 0 1.5rem;
   }
 
   .item {
@@ -307,6 +300,29 @@ const ProfileFormStyles = styled.div`
     font-size: 0.875rem;
     font-weight: 500;
     color: #de2900;
+  }
+
+  @media (max-width: 1024px) {
+    max-width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    padding: 1.5rem;
+
+    .actions {
+      margin: 2.25rem 0 0;
+      padding: 1.25rem 0 0;
+      border-top: 1px solid #e6e7e9;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cancel-link,
+    .submit-button {
+      display: flex;
+      max-width: 100%;
+      width: 100%;
+    }
   }
 `;
 

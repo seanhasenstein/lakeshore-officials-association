@@ -71,7 +71,9 @@ export default function CreateProfile() {
     <FullLayout title="Create a profile">
       <CreateProfileStyles>
         <h2>Create a profile</h2>
-        <p>Use this form to create your profile for the Lakeshore Officials.</p>
+        <p>
+          Complete this form to create a profile for the Lakeshore Officials.
+        </p>
         <ProfileForm initialValues={initialValues} onSubmit={onSubmit} />
       </CreateProfileStyles>
     </FullLayout>
