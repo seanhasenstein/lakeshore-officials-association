@@ -16,31 +16,31 @@ export default function Layout({ children, title }: Props) {
     <BaseLayout title={title}>
       <LayoutStyles>
         <Header show={showHeader} setShow={setShowHeader} />
-        <div className="lg-right-column">
-          <div className="sm-screen-header">
-            <h2>Lakeshore Officials Association</h2>
-            <button
-              type="button"
-              onClick={e => {
-                e.stopPropagation();
-                setShowHeader(!showHeader);
-              }}
-              className={`nav-toggle-button ${showHeader ? 'hide' : ''}`}
+        <div className="sm-screen-header">
+          <h2>Lakeshore Officials Association</h2>
+          <button
+            type="button"
+            onClick={e => {
+              e.stopPropagation();
+              setShowHeader(!showHeader);
+            }}
+            className={`nav-toggle-button ${showHeader ? 'hide' : ''}`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="sr-only">Toggle navigation</span>
-            </button>
-          </div>
+              <path
+                fillRule="evenodd"
+                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="sr-only">Toggle navigation</span>
+          </button>
+        </div>
+        <div className="lg-right-column">
           <main>{children}</main>
           <Footer />
         </div>
@@ -53,7 +53,7 @@ const LayoutStyles = styled.div`
   height: 100%;
 
   .lg-right-column {
-    padding: 4rem 4rem 0 26rem;
+    padding: 5rem 4rem 0 26rem;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -64,9 +64,9 @@ const LayoutStyles = styled.div`
     display: none;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .lg-right-column {
-      padding: 0;
+      padding: 3.5rem 1.5rem 0;
     }
 
     .sm-screen-header {

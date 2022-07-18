@@ -1,27 +1,15 @@
-import Link from 'next/link';
 import styled from 'styled-components';
 
 export default function Footer() {
   return (
     <FooterStyles>
       <p>&copy; {new Date().getFullYear()} Lakeshore Officials Association</p>
-      <div className="nav">
-        <Link href="/terms-and-conditions">
-          <a>Terms &amp; conditions</a>
-        </Link>
-        <Link href="/privacy-policy">
-          <a>Privacy policy</a>
-        </Link>
-      </div>
     </FooterStyles>
   );
 }
 
 const FooterStyles = styled.footer`
   padding: 1.875rem 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   border-top: 1px solid #d3d6da;
   font-size: 0.9375rem;
   font-weight: 500;
@@ -48,12 +36,8 @@ const FooterStyles = styled.footer`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     padding: 2.25rem 0;
-    flex-direction: column-reverse;
-
-    p {
-      margin: 2.5rem 0 0;
-    }
+    text-align: center;
   }
 `;

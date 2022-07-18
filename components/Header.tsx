@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import useEscapeKeydownClose from '../hooks/useEscapeKeydownClose';
 import useOutsideClick from '../hooks/useOutsideClick';
 import NavLinkItem from './NavLinkItem';
+import usePreventYScroll from '../hooks/usePreventYScroll';
 
 type Props = {
   show: boolean;
@@ -19,6 +20,7 @@ export default function Header(props: Props) {
   useOutsideClick(props.show, props.setShow, headerRef);
   useOutsideClick(showMenu, setShowMenu, menuRef);
   useEscapeKeydownClose(showMenu, setShowMenu);
+  usePreventYScroll(props.show);
 
   return (
     <HeaderStyles ref={headerRef} className={props.show ? 'show' : ''}>
@@ -48,36 +50,110 @@ export default function Header(props: Props) {
           <h1>Lakeshore Officials Association</h1>
         </div>
         <nav>
-          <NavLinkItem
-            label="Your calendar"
-            href="/"
-            isActive={router.pathname === '/'}
-          />
-          <NavLinkItem
-            label="Baseball"
-            href="/baseball"
-            isActive={router.query.sport === 'baseball'}
-          />
-          <NavLinkItem
-            label="Basketball"
-            href="/basketball"
-            isActive={router.query.sport === 'basketball'}
-          />
-          <NavLinkItem
-            label="Football"
-            href="/football"
-            isActive={router.query.sport === 'football'}
-          />
-          <NavLinkItem
-            label="Softball"
-            href="/softball"
-            isActive={router.query.sport === 'softball'}
-          />
-          <NavLinkItem
-            label="Volleyball"
-            href="/volleyball"
-            isActive={router.query.sport === 'volleyball'}
-          />
+          <div className="section">
+            <h3>
+              {router.query.sport &&
+              [
+                'baseball',
+                'basketball',
+                'football',
+                'softball',
+                'volleyball',
+              ].includes(
+                Array.isArray(router.query.sport)
+                  ? router.query.sport[0]
+                  : router.query.sport
+              ) ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                    clipRule="evenodd"
+                  />
+                  <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                </svg>
+              )}
+              Sports directories
+            </h3>
+            <ul>
+              <NavLinkItem
+                label="Baseball"
+                href="/baseball"
+                isActive={router.query.sport === 'baseball'}
+              />
+              <NavLinkItem
+                label="Basketball"
+                href="/basketball"
+                isActive={router.query.sport === 'basketball'}
+              />
+              <NavLinkItem
+                label="Football"
+                href="/football"
+                isActive={router.query.sport === 'football'}
+              />
+              <NavLinkItem
+                label="Softball"
+                href="/softball"
+                isActive={router.query.sport === 'softball'}
+              />
+              <NavLinkItem
+                label="Volleyball"
+                href="/volleyball"
+                isActive={router.query.sport === 'volleyball'}
+              />
+            </ul>
+          </div>
+          <div className="section">
+            <h3>
+              {router.pathname === '/' || router.pathname === '/profile' ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
+                    clipRule="evenodd"
+                  />
+                  <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                </svg>
+              )}
+              Your account
+            </h3>
+            <ul>
+              <NavLinkItem
+                label="Calendar"
+                href="/"
+                isActive={router.pathname === '/'}
+              />
+              <NavLinkItem
+                label="Profile"
+                href="/profile"
+                isActive={router.pathname === '/profile'}
+              />
+            </ul>
+          </div>
         </nav>
       </div>
       <div className="user">
@@ -116,32 +192,42 @@ export default function Header(props: Props) {
         </button>
         {showMenu ? (
           <div ref={menuRef} className="header-menu">
-            <Link href="/account">
+            <Link href="/profile/update">
               <a>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                    clipRule="evenodd"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                Your account
+                Update profile
               </a>
             </Link>
             <button type="button" className="logout-button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
               >
                 <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
               Log out
@@ -170,7 +256,7 @@ const HeaderStyles = styled.header`
   }
 
   .brand {
-    padding: 3rem 1.75rem;
+    padding: 3rem 2rem 0;
   }
 
   h1 {
@@ -184,29 +270,56 @@ const HeaderStyles = styled.header`
   nav {
     display: flex;
     flex-direction: column;
+  }
+
+  .section {
+    margin: 3.25rem 0 0;
+    padding: 0 2.25rem;
+
+    h3 {
+      display: flex;
+      gap: 0.8125rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #f1f3f7;
+
+      svg {
+        height: 1.25rem;
+        width: 1.25rem;
+        color: #b5c0d1;
+        opacity: 0.25;
+      }
+    }
+
+    ul {
+      margin: 1rem 0 0 0;
+      padding: 0 0 0 0.5rem;
+    }
+
+    li {
+      padding: 0;
+      list-style-type: none;
+      line-height: 1;
+      background-color: transparent;
+
+      &.active {
+        a {
+          background-color: #202b3b;
+          border-left-color: #ff441a;
+          color: #fff;
+        }
+      }
+    }
 
     a {
-      padding: 0.8125rem 2.5rem;
-      display: flex;
-      align-items: center;
+      padding: 0.8125rem 0 0.8125rem 1.875rem;
+      display: block;
+      background-color: transparent;
       color: #b5c0d1;
       font-size: 1rem;
       font-weight: 500;
-      border-left: 3px solid transparent;
+      border-left: 2px solid rgba(181, 192, 209, 0.1);
       transition: color 100ms linear;
-
-      svg {
-        margin: 0 0.75rem 0 0;
-        height: 1.25rem;
-        width: 1.25rem;
-        opacity: 0.2;
-      }
-
-      &.active {
-        background-color: #202b3b;
-        color: #fff;
-        border-left-color: #ff441a;
-      }
 
       &:hover {
         color: #edf1f7;
@@ -299,7 +412,7 @@ const HeaderStyles = styled.header`
 
     a,
     button {
-      padding: 0.875rem 1.25rem;
+      padding: 0.875rem 1.625rem 0.875rem 1.25rem;
       display: flex;
       align-items: center;
       background-color: transparent;
@@ -332,17 +445,25 @@ const HeaderStyles = styled.header`
         margin: 0 0.4375rem 0 0;
         height: 1rem;
         width: 1rem;
-        color: #9499a4;
+        color: #898f9b;
       }
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     left: -100%;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 1), 0 8px 10px -6px rgb(0 0 0 / 1);
 
     &.show {
       left: 0;
+
+      .user {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        max-width: 22rem;
+        width: 100%;
+      }
     }
 
     .close-nav-button {
@@ -363,6 +484,16 @@ const HeaderStyles = styled.header`
 
     .brand {
       padding: 1.5rem 1.75rem;
+    }
+
+    .section:first-of-type {
+      margin: 1.75rem 0 0;
+    }
+
+    nav {
+      padding-bottom: 3rem;
+      height: calc(100vh - 104px - 85px);
+      overflow-y: scroll;
     }
   }
 
