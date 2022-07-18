@@ -1,52 +1,17 @@
 import Link from 'next/link';
 import React from 'react';
-// import { useQuery } from 'react-query';
-// import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import FullLayout from '../components/FullLayout';
-import { User } from '../interfaces';
 import { formatPhoneNumber } from '../utils/misc';
-// import { fetchUser } from '../utils/queries';
-// import { getUrlParam } from '../utils/misc';
+import { fetchUser } from '../utils/queries';
 
 export default function Profile() {
-  const isLoading = false;
-  const data: User = {
-    _id: '12345',
-    firstName: 'Michael',
-    lastName: 'Johnson',
-    city: 'Sheboygan',
-    homePhone: '9201234567',
-    cellPhone: '9201234567',
-    workPhone: {
-      number: '9201234567',
-      extension: '12345',
-    },
-    email: 'fake.email@thisisatest.com',
-    sports: [
-      {
-        name: 'Basketball',
-        level: 'MS',
-      },
-      {
-        name: 'Football',
-        level: 'L3',
-      },
-    ],
-  };
-  // const router = useRouter();
-  // const [userId, setUserId] = React.useState<string>();
-  // const { data, isLoading } = useQuery(
-  //   ['users', router.query._id],
-  //   () => fetchUser(userId),
-  //   { staleTime: 1000 * 60 * 5 }
-  // );
-
-  // React.useEffect(() => {
-  //   if (router.isReady && router.query._id) {
-  //     setUserId(getUrlParam(router.query._id));
-  //   }
-  // }, [router.isReady, router.query._id]);
+  const { data, isLoading } = useQuery(
+    ['users', 'user', '62d5b7f995ce684579eb9919'],
+    () => fetchUser('62d5b7f995ce684579eb9919'),
+    { staleTime: 1000 * 60 * 5 }
+  );
 
   return (
     <FullLayout title="Profile">
@@ -56,8 +21,8 @@ export default function Profile() {
           <>
             <div className="header">
               <div>
-                <h3>Profile information</h3>
-                <p>Please try to keep this information up-to-date.</p>
+                <h2>Profile information</h2>
+                <p>This information is available to all Lakeshore Officials.</p>
               </div>
               <Link href="/update-profile">
                 <a className="lg-update-link">
@@ -87,17 +52,17 @@ export default function Profile() {
             <div className="grid">
               <div className="section">
                 <div className="item">
-                  <h4>Name</h4>
+                  <h3>Name</h3>
                   <p>
                     {data.firstName} {data.lastName}
                   </p>
                 </div>
                 <div className="item">
-                  <h4>City</h4>
+                  <h3>City</h3>
                   <p>{data.city}</p>
                 </div>
                 <div className="item">
-                  <h4>Sport{data.sports.length > 1 ? 's' : ''}</h4>
+                  <h3>Sport{data.sports.length > 1 ? 's' : ''}</h3>
                   {data.sports.map(s => (
                     <p key={s.name}>
                       {s.name} - {s.level}
@@ -108,19 +73,19 @@ export default function Profile() {
               <div className="section">
                 {data.homePhone ? (
                   <div className="item">
-                    <h4>Home phone</h4>
+                    <h3>Home phone</h3>
                     <p>{formatPhoneNumber(data.homePhone)}</p>
                   </div>
                 ) : null}
                 {data.cellPhone ? (
                   <div className="item">
-                    <h4>Cell phone</h4>
+                    <h3>Cell phone</h3>
                     <p>{formatPhoneNumber(data.cellPhone)}</p>
                   </div>
                 ) : null}
                 {data.workPhone.number ? (
                   <div className="item">
-                    <h4>Work phone</h4>
+                    <h3>Work phone</h3>
                     <p>
                       {formatPhoneNumber(data.workPhone.number)}{' '}
                       {data.workPhone.extension ? (
@@ -134,7 +99,7 @@ export default function Profile() {
                   </div>
                 ) : null}
                 <div className="item">
-                  <h4>Email address</h4>
+                  <h3>Email address</h3>
                   <p>{data.email}</p>
                 </div>
               </div>
@@ -178,7 +143,7 @@ const ProfileStyles = styled.div`
     justify-content: space-between;
     align-items: flex-end;
 
-    h3 {
+    h2 {
       font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: -0.025em;
@@ -251,7 +216,7 @@ const ProfileStyles = styled.div`
       margin: 2.5rem 0 0;
     }
 
-    h4 {
+    h3 {
       font-size: 0.8125rem;
       font-weight: 600;
       text-transform: uppercase;

@@ -8,7 +8,16 @@ export type Sport =
   | 'Softball'
   | 'Volleyball';
 
-export type Level = 'MS' | 'L5' | 'L4' | 'L3' | 'L2' | 'L1';
+export type Level =
+  | 'MS'
+  | 'L5'
+  | 'L4'
+  | 'L3'
+  | 'L2'
+  | 'L1'
+  | 'L0'
+  | 'NAO'
+  | 'default';
 
 export interface User {
   _id: string;
@@ -35,6 +44,8 @@ export interface UsersBySports {
   Softball: User[];
   Volleyball: User[];
 }
+
+export type ProfileFormValues = Omit<User, '_id'>;
 
 export interface Request extends NextApiRequest {
   db: Db;

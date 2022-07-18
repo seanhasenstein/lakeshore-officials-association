@@ -1,5 +1,5 @@
 import { Db, ObjectId } from 'mongodb';
-import { Sport, User, UsersBySports } from '../interfaces';
+import { ProfileFormValues, Sport, User, UsersBySports } from '../interfaces';
 
 export async function getUser(db: Db, _id: string) {
   const result = await db
@@ -43,8 +43,32 @@ export async function getUsersForSingleSport(db: Db, sport: Sport) {
     .collection('users')
     .aggregate<User>([
       { $match: { 'sports.name': sport } },
+      { $sort: { lastName: 1, firstName: 1 } },
       { $set: { _id: { $toString: '$_id' } } },
     ])
     .toArray();
   return result;
+}
+
+export async function createUser(db: Db, newUser: ProfileFormValues) {
+  const result = await db
+    .collection<ProfileFormValues>('users')
+    .insertOne(newUser);
+  const user = await getUser(db, result.insertedId.toString());
+  return user;
+}
+
+export async function updateUser(
+  db: Db,
+  _id: string,
+  formValues: ProfileFormValues
+) {
+  const result = await db.collection('users').findOneAndUpdate(
+    { _id: new ObjectId(_id) },
+    { $set: formValues },
+    {
+      returnDocument: 'after',
+    }
+  );
+  return result.value;
 }
