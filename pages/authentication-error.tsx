@@ -1,8 +1,8 @@
-import React from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import styled from "styled-components";
-import SimpleLayout from "../components/SimpleLayout";
+import React from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import styled from 'styled-components';
+import SimpleLayout from '../components/SimpleLayout';
 
 type Props = {
   children: React.ReactNode;
@@ -36,16 +36,16 @@ function AuthErrorLayout({ children }: Props) {
 export default function AuthenticationError() {
   const router = useRouter();
   const error =
-    typeof router.query.error === "string" && router.query.error.toLowerCase();
+    typeof router.query.error === 'string' && router.query.error.toLowerCase();
 
-  if (error === "configuration") {
+  if (error === 'configuration') {
     return (
       <AuthErrorLayout>
         <h2>Server Error</h2>
         <p>
           There is a problem with the server configuration. If this problem
-          persists{" "}
-          <Link href="/contact-site-administrator">
+          persists{' '}
+          <Link href="/contact-administrator">
             <a>contact the site administrator</a>
           </Link>
           .
@@ -57,13 +57,13 @@ export default function AuthenticationError() {
     );
   }
 
-  if (error === "accessdenied") {
+  if (error === 'accessdenied') {
     return (
       <AuthErrorLayout>
         <h2>Access Denied</h2>
         <p>
-          You do not have permission to log in. If you think this is an error{" "}
-          <Link href="/contact-site-administrator">
+          You do not have permission to log in. If you think this is an error{' '}
+          <Link href="/contact-administrator">
             <a>contact the site administrator</a>
           </Link>
           .
@@ -72,7 +72,7 @@ export default function AuthenticationError() {
     );
   }
 
-  if (error == "verification") {
+  if (error == 'verification') {
     return (
       <AuthErrorLayout>
         <h2>Unable to log in</h2>
@@ -90,8 +90,8 @@ export default function AuthenticationError() {
       <AuthErrorLayout>
         <h2>Authentication Error</h2>
         <p>
-          An error occurred during authentication. If this error continues,{" "}
-          <Link href="/contact-site-administrator">
+          An error occurred during authentication. If this error continues,{' '}
+          <Link href="/contact-administrator">
             <a>contact the site administrator</a>
           </Link>
           .

@@ -93,7 +93,7 @@ label {
 }
 
 input,
-select {
+select, textarea {
   appearance: none;
   background-color: #fff;
   border: 1px solid #c9cbd1;
@@ -103,7 +103,7 @@ select {
     rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
 
-input:not([type="checkbox"], [type="radio"]) {
+input:not([type="checkbox"], [type="radio"]), textarea {
   padding: 0.625rem 0.75rem;
 
   &:focus {
@@ -113,6 +113,11 @@ input:not([type="checkbox"], [type="radio"]) {
       rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
     border: 1px solid #1860cc;
   }
+}
+
+textarea {
+  min-height: 8rem;
+  resize: vertical;
 }
 
 input[type="checkbox"]:checked,

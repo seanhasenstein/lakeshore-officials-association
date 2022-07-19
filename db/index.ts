@@ -1,5 +1,5 @@
-import { mongoClientPromise } from "./connect";
-import * as user from "./user";
+import { mongoClientPromise } from './connect';
+import * as user from './user';
 
 async function connectToDb() {
   const client = await mongoClientPromise;

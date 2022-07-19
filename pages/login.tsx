@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import SimpleLayout from "../components/SimpleLayout";
+import React from 'react';
+import styled from 'styled-components';
+import SimpleLayout from '../components/SimpleLayout';
 
 export default function Login() {
   const [serverError] = React.useState(false);

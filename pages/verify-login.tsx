@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import SimpleLayout from "../components/SimpleLayout";
+import styled from 'styled-components';
+import SimpleLayout from '../components/SimpleLayout';
 
 export default function VerifyLogin() {
   return (

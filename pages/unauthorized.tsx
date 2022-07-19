@@ -1,6 +1,6 @@
-import Link from "next/link";
-import styled from "styled-components";
-import SimpleLayout from "../components/SimpleLayout";
+import Link from 'next/link';
+import styled from 'styled-components';
+import SimpleLayout from '../components/SimpleLayout';
 
 export default function Unauthorized() {
   return (

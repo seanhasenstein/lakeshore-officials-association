@@ -1,14 +1,14 @@
-import { MongoClient } from "mongodb";
+import { MongoClient } from 'mongodb';
 
 if (!process.env.DATABASE_URL) {
-  throw new Error("Please add your Mongo URI to env variables");
+  throw new Error('Please add your Mongo URI to env variables');
 }
 
 const uri: string = process.env.DATABASE_URL;
 let client: MongoClient;
 let mongoClientPromise: Promise<MongoClient>;
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === 'development') {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
 
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === "development") {
     globalClientPromise._mongoClientPromise = client.connect();
   }
   mongoClientPromise = globalClientPromise._mongoClientPromise;
-  console.log("connected to DB");
+  console.log('connected to DB');
 } else {
   // In production mode, it's best to not use a global variable.
   client = new MongoClient(uri);

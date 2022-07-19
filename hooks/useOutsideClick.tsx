@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function useOutsideClick(
   open: boolean,
@@ -13,11 +13,11 @@ export default function useOutsideClick(
     };
 
     if (open) {
-      document.addEventListener("click", handleClick);
+      document.addEventListener('click', handleClick);
     }
 
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener('click', handleClick);
     };
   }, [open, ref, setOpen]);
 }
