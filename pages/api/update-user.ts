@@ -23,11 +23,17 @@ router.use(database).post(async (req, res) => {
 });
 
 export default router.handler({
-  onError: (err, _req, res) => {
-    console.error(err);
-    res.status(500).end('Internal server error');
+  onError: (err: any, req, res) => {
+    if (err.code && err.code === 11000) {
+      res
+        .status(500)
+        .end(`An account already exists with ${err.keyValue?.email}`);
+      return;
+    }
+
+    res.status(500).end('Internal server error. Please try again.');
   },
-  onNoMatch: (_req, res) => {
+  onNoMatch: (req, res) => {
     res.status(404).end('Page not found');
   },
 });

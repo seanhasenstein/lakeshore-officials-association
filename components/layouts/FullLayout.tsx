@@ -1,55 +1,66 @@
 import React from 'react';
-import Header from './Header';
-import Footer from './Footer';
+import { useSession } from 'next-auth/react';
+import Header from '../Header';
+import Footer from '../Footer';
 import styled from 'styled-components';
+import useAuthSession from '../../hooks/useAuthSession';
 import BaseLayout from './BaseLayout';
 
 type Props = {
   children: React.ReactNode;
   title?: string;
+  authRequired: boolean;
 };
 
-export default function Layout({ children, title }: Props) {
+export default function FullLayout({ children, title, authRequired }: Props) {
+  const { status: authStatus } = useSession();
+  const [session, sessionIsLoading] = useAuthSession({
+    required: authRequired,
+  });
   const [showHeader, setShowHeader] = React.useState(false);
+
+  if (authRequired && (sessionIsLoading || !session)) return <div />;
 
   return (
     <BaseLayout title={title}>
-      <LayoutStyles>
+      <FullLayoutStyles>
         <Header show={showHeader} setShow={setShowHeader} />
         <div className="sm-screen-header">
           <h2>Lakeshore Officials Association</h2>
-          <button
-            type="button"
-            onClick={e => {
-              e.stopPropagation();
-              setShowHeader(!showHeader);
-            }}
-            className={`nav-toggle-button ${showHeader ? 'hide' : ''}`}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+          {authStatus === 'authenticated' ? (
+            <button
+              type="button"
+              onClick={e => {
+                e.stopPropagation();
+                setShowHeader(!showHeader);
+              }}
+              className={`nav-toggle-button ${showHeader ? 'hide' : ''}`}
             >
-              <path
-                fillRule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span className="sr-only">Toggle navigation</span>
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="sr-only">Toggle navigation</span>
+            </button>
+          ) : null}
         </div>
         <div className="lg-right-column">
           <main>{children}</main>
           <Footer />
         </div>
-      </LayoutStyles>
+      </FullLayoutStyles>
     </BaseLayout>
   );
 }
 
-const LayoutStyles = styled.div`
+const FullLayoutStyles = styled.div`
   height: 100%;
 
   .lg-right-column {

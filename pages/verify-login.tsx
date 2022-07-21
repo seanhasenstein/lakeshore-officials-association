@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import SimpleLayout from '../components/SimpleLayout';
+import SimpleLayout from '../components/layouts/SimpleLayout';
 
 export default function VerifyLogin() {
   return (
@@ -20,10 +20,10 @@ export default function VerifyLogin() {
             </svg>
           </div>
           <h2>Login link sent</h2>
-          <h3>Please check your email</h3>
+          <h3>We sent you an email</h3>
           <p>
-            We sent you an email that contains a link. Go to that email and
-            click on the link to log in.
+            Go to that email and click on the link. It will take you to your
+            logged in dashboard.
           </p>
         </div>
       </VerifyLoginStyles>
@@ -41,7 +41,7 @@ const VerifyLoginStyles = styled.div`
 
   .container {
     position: relative;
-    padding: 3rem 3.5rem;
+    padding: 2rem 3.5rem 3rem;
     max-width: 30rem;
     width: 100%;
     display: flex;
@@ -55,11 +55,10 @@ const VerifyLoginStyles = styled.div`
   .icon {
     display: flex;
     justify-content: center;
-    align-items: center;
 
     svg {
-      height: 2.25rem;
-      width: 2.25rem;
+      height: 2rem;
+      width: 2rem;
       color: #059669;
     }
   }
@@ -71,7 +70,7 @@ const VerifyLoginStyles = styled.div`
   }
 
   h2 {
-    margin: 1rem 0 0;
+    margin: 0.5rem 0 0;
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -0.025em;
@@ -79,17 +78,15 @@ const VerifyLoginStyles = styled.div`
   }
 
   h3 {
-    margin: 1.5rem 0 0;
-    font-size: 1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    margin: 1rem 0 0;
+    font-size: 1.25rem;
+    font-weight: 500;
     color: #7f8592;
   }
 
   p {
-    margin: 2rem 0 0;
-    font-size: 1rem;
+    margin: 1.125rem 0 0;
+    font-size: 1.0625rem;
     color: #222c3e;
     line-height: 1.5;
   }

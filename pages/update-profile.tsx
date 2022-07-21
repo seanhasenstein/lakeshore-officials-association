@@ -1,16 +1,18 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { FormikHelpers } from 'formik';
 import styled from 'styled-components';
 import { ProfileFormValues, User } from '../interfaces';
-import FullLayout from '../components/FullLayout';
-import ProfileForm from '../components/ProfileForm';
+import FullLayout from '../components/layouts/FullLayout';
+import ProfileForm from '../components/forms/ProfileForm';
 import { formatDbValuesForForm, formatFormValuesForDb } from '../utils/profile';
 import { fetchUser } from '../utils/queries';
 
 export default function UpdateProfile() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [serverError, setServerError] = React.useState<string>();
 
   const userQuery = useQuery(
     ['users', 'user', '62d5b7f995ce684579eb9919'],
@@ -33,7 +35,11 @@ export default function UpdateProfile() {
         },
       });
 
-      // todo: handle !respsponse.ok or and error message from the api route
+      if (!response.ok) {
+        const data = await response.text();
+        setServerError(data);
+        throw new Error(data);
+      }
 
       const data: User = await response.json();
       return data;
@@ -68,7 +74,7 @@ export default function UpdateProfile() {
   };
 
   return (
-    <FullLayout title="Update profile">
+    <FullLayout title="Update profile" authRequired={true}>
       <UpdateProfileStyles>
         <h2>Update your profile</h2>
         <p>Use this form to update any information that has changed.</p>
@@ -78,6 +84,7 @@ export default function UpdateProfile() {
           <ProfileForm
             initialValues={formatDbValuesForForm(userQuery.data)}
             onSubmit={onSubmit}
+            serverError={serverError}
           />
         ) : null}
       </UpdateProfileStyles>

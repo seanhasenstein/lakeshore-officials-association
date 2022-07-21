@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
-import { ProfileFormValues } from '../interfaces';
-import { validationSchema } from '../utils/profile';
+import { ProfileFormValues } from '../../interfaces';
+import { validationSchema } from '../../utils/profile';
 
 type Props = {
   initialValues: ProfileFormValues;
@@ -11,6 +11,7 @@ type Props = {
     values: ProfileFormValues,
     actions: FormikHelpers<ProfileFormValues>
   ) => void;
+  serverError: string | undefined;
 };
 
 export default function ProfileForm(props: Props) {
@@ -168,6 +169,9 @@ export default function ProfileForm(props: Props) {
                 </>
               ) : null}
             </div>
+            {props.serverError ? (
+              <div className="error server-error">{props.serverError}</div>
+            ) : null}
           </Form>
         )}
       </Formik>
@@ -300,6 +304,11 @@ const ProfileFormStyles = styled.div`
     font-size: 0.875rem;
     font-weight: 500;
     color: #de2900;
+  }
+
+  .server-error {
+    margin: 1.5rem 0 0;
+    text-align: center;
   }
 
   @media (max-width: 1024px) {

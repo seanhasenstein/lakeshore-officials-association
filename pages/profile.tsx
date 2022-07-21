@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import FullLayout from '../components/FullLayout';
+import FullLayout from '../components/layouts/FullLayout';
 import { formatPhoneNumber } from '../utils/misc';
 import { fetchUser } from '../utils/queries';
 
@@ -14,7 +14,7 @@ export default function Profile() {
   );
 
   return (
-    <FullLayout title="Profile">
+    <FullLayout title="Profile" authRequired={true}>
       <ProfileStyles>
         {isLoading ? 'Loading...' : ''}
         {data ? (

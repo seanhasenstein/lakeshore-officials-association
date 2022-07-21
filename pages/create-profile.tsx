@@ -1,10 +1,11 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQueryClient } from 'react-query';
 import { FormikHelpers } from 'formik';
 import styled from 'styled-components';
 import { ProfileFormValues, User } from '../interfaces';
-import FullLayout from '../components/FullLayout';
-import ProfileForm from '../components/ProfileForm';
+import FullLayout from '../components/layouts/FullLayout';
+import ProfileForm from '../components/forms/ProfileForm';
 import { formatFormValuesForDb } from '../utils/profile';
 
 const initialValues: ProfileFormValues = {
@@ -30,6 +31,7 @@ const initialValues: ProfileFormValues = {
 export default function CreateProfile() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [serverError, setServerError] = React.useState<string>();
 
   const createProfile = useMutation(
     async (formValues: ProfileFormValues) => {
@@ -41,7 +43,11 @@ export default function CreateProfile() {
         },
       });
 
-      // todo: handle !respsonse.ok or error message from api route
+      if (!response.ok) {
+        const data = await response.text();
+        setServerError(data);
+        throw new Error(data);
+      }
 
       const data: User = await response.json();
       return data;
@@ -68,13 +74,17 @@ export default function CreateProfile() {
   };
 
   return (
-    <FullLayout title="Create a profile">
+    <FullLayout title="Create a profile" authRequired={false}>
       <CreateProfileStyles>
         <h2>Create a profile</h2>
         <p>
           Complete this form to create a profile for the Lakeshore Officials.
         </p>
-        <ProfileForm initialValues={initialValues} onSubmit={onSubmit} />
+        <ProfileForm
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          serverError={serverError}
+        />
       </CreateProfileStyles>
     </FullLayout>
   );

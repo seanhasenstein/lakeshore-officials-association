@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
-import SimpleLayout from '../components/SimpleLayout';
+import SimpleLayout from '../components/layouts/SimpleLayout';
 
 type Props = {
   children: React.ReactNode;
@@ -45,7 +45,7 @@ export default function AuthenticationError() {
         <p>
           There is a problem with the server configuration. If this problem
           persists{' '}
-          <Link href="/contact-administrator">
+          <Link href="/contact-us">
             <a>contact the site administrator</a>
           </Link>
           .
@@ -63,7 +63,7 @@ export default function AuthenticationError() {
         <h2>Access Denied</h2>
         <p>
           You do not have permission to log in. If you think this is an error{' '}
-          <Link href="/contact-administrator">
+          <Link href="/contact-us">
             <a>contact the site administrator</a>
           </Link>
           .
@@ -91,7 +91,7 @@ export default function AuthenticationError() {
         <h2>Authentication Error</h2>
         <p>
           An error occurred during authentication. If this error continues,{' '}
-          <Link href="/contact-administrator">
+          <Link href="/contact-us">
             <a>contact the site administrator</a>
           </Link>
           .

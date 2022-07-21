@@ -2,14 +2,14 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import FullLayout from '../components/FullLayout';
-import { Sport } from '../interfaces';
+import FullLayout from '../../components/layouts/FullLayout';
+import { Sport } from '../../interfaces';
 import {
   formatPhoneNumber,
   formatToTitleCase,
   getUrlParam,
-} from '../utils/misc';
-import { fetchUsersBySport } from '../utils/queries';
+} from '../../utils/misc';
+import { fetchUsersBySport } from '../../utils/queries';
 
 export default function SportPage() {
   const router = useRouter();
@@ -29,7 +29,10 @@ export default function SportPage() {
   }, [router.isReady, router.query.sport]);
 
   return (
-    <FullLayout title={sport ? formatToTitleCase(sport) : ''}>
+    <FullLayout
+      title={sport ? formatToTitleCase(sport) : ''}
+      authRequired={true}
+    >
       <SportPageStyles>
         {isLoading ? 'Loading...' : ''}
         {data && sport ? (

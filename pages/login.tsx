@@ -1,9 +1,39 @@
 import React from 'react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { getSession, signIn } from 'next-auth/react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import styled from 'styled-components';
-import SimpleLayout from '../components/SimpleLayout';
+import SimpleLayout from '../components/layouts/SimpleLayout';
+import { getUrlParam } from '../utils/misc';
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      props: {},
+      redirect: {
+        permanent: false,
+        destination: '/',
+      },
+    };
+  }
+
+  return { props: {} };
+};
 
 export default function Login() {
-  const [serverError] = React.useState(false);
+  const router = useRouter();
+  const [invalid, setInvalid] = React.useState(false);
+
+  React.useEffect(() => {
+    if (router.isReady && router.query['invalid'] === 'true') {
+      setInvalid(true);
+    }
+  }, [router.isReady, router.query['invalid']]);
 
   return (
     <SimpleLayout title="Log in">
@@ -18,19 +48,62 @@ export default function Login() {
                 an email to log in.
               </p>
             </div>
-            <form>
-              <label htmlFor="email">Email address</label>
-              <input type="text" name="email" id="email" />
-              <button type="submit" className="login-button">
-                Email a login link
-              </button>
-              {serverError ? (
-                <div className="error">
-                  Server error. Please try again or contact the site
-                  administrator.
-                </div>
-              ) : null}
-            </form>
+
+            <Formik
+              initialValues={{ email: getUrlParam(router.query.email) }}
+              enableReinitialize={true}
+              validationSchema={Yup.object().shape({
+                email: Yup.string()
+                  .email('Invalid email address')
+                  .required('Email address is required'),
+              })}
+              onSubmit={values => {
+                const email = values.email.toLowerCase().trim();
+                signIn('email', { email, callbackUrl: '/' });
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <label htmlFor="email">Email address</label>
+                  <Field name="email" id="email" />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="validation-error"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="login-button"
+                  >
+                    {isSubmitting ? (
+                      <LoadingSpinner aria-hidden="true" />
+                    ) : (
+                      'Email a login link'
+                    )}
+                  </button>
+                  {invalid ? (
+                    <div className="invalid-error">
+                      <div>The email you provided is invalid.</div>
+                      <div>
+                        If you think this is an error, please{' '}
+                        <Link href="/contact-us">
+                          {/* TODO: get the real email for this... */}
+                          <a href="mailto:seanhasenstein@gmail.com">
+                            let us know
+                          </a>
+                        </Link>
+                        . Or if you don&apos;t have an account you can{' '}
+                        <a href="mailto:seanhasenstein@gmail.com">
+                          request to create one
+                        </a>
+                        .
+                      </div>
+                    </div>
+                  ) : null}
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </LoginStyles>
@@ -47,7 +120,7 @@ const LoginStyles = styled.div`
   background-color: #f1f3f7;
 
   .container {
-    padding: 3rem 3.5rem;
+    padding: 3rem 3.5rem 3.25rem;
     max-width: 30rem;
     width: 100%;
     display: flex;
@@ -74,7 +147,7 @@ const LoginStyles = styled.div`
   }
 
   p {
-    margin: 2rem 0 3rem;
+    margin: 1.5rem 0 3rem;
     font-size: 1rem;
     color: #222c3e;
     line-height: 1.5;
@@ -86,6 +159,7 @@ const LoginStyles = styled.div`
   }
 
   .login-button {
+    position: relative;
     margin: 1.125rem 0 0;
     height: 2.5rem;
     display: flex;
@@ -115,17 +189,56 @@ const LoginStyles = styled.div`
     }
   }
 
-  .error {
-    margin: 1rem 0 0;
+  .validation-error,
+  .invalid-error {
     font-size: 0.875rem;
     font-weight: 500;
     color: #be123c;
     line-height: 1.5;
   }
 
+  .validation-error {
+    margin: 0.4375rem 0 0;
+  }
+
+  .invalid-error {
+    margin: 1.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
   @media (max-width: 640px) {
     .container {
       padding: 1.75rem 1.5rem;
     }
+  }
+`;
+
+const LoadingSpinner = styled.span`
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border-top: 2px solid #9499a4;
+    border-right: 2px solid transparent;
+    animation: spinner 0.6s linear infinite;
   }
 `;

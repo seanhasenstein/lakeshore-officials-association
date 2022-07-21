@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import SimpleLayout from '../components/SimpleLayout';
+import SimpleLayout from '../components/layouts/SimpleLayout';
 
 export default function Unauthorized() {
   return (
@@ -21,7 +21,7 @@ export default function Unauthorized() {
             </svg>
           </div>
           <h2>Unauthorized</h2>
-          <p>Access denied. You must be logged in to continue.</p>
+          <p>Access denied. You need to be logged in to continue.</p>
           <Link href="/login">
             <a className="login-link">Go to log in</a>
           </Link>

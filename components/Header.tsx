@@ -1,11 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import styled from 'styled-components';
 import useEscapeKeydownClose from '../hooks/useEscapeKeydownClose';
 import useOutsideClick from '../hooks/useOutsideClick';
-import NavLinkItem from './NavLinkItem';
 import usePreventYScroll from '../hooks/usePreventYScroll';
+import NavLinkItem from './NavLinkItem';
 
 type Props = {
   show: boolean;
@@ -90,27 +91,27 @@ export default function Header(props: Props) {
             <ul>
               <NavLinkItem
                 label="Baseball"
-                href="/baseball"
+                href="/directory/baseball"
                 isActive={router.query.sport === 'baseball'}
               />
               <NavLinkItem
                 label="Basketball"
-                href="/basketball"
+                href="/directory/basketball"
                 isActive={router.query.sport === 'basketball'}
               />
               <NavLinkItem
                 label="Football"
-                href="/football"
+                href="/directory/football"
                 isActive={router.query.sport === 'football'}
               />
               <NavLinkItem
                 label="Softball"
-                href="/softball"
+                href="/directory/softball"
                 isActive={router.query.sport === 'softball'}
               />
               <NavLinkItem
                 label="Volleyball"
-                href="/volleyball"
+                href="/directory/volleyball"
                 isActive={router.query.sport === 'volleyball'}
               />
             </ul>
@@ -215,10 +216,31 @@ export default function Header(props: Props) {
                 Update profile
               </a>
             </Link>
-            <button type="button" className="logout-button">
+            <Link href="/contact-admin">
+              <a>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+                  />
+                </svg>
+                Contact admin
+              </a>
+            </Link>
+            <button
+              type="button"
+              onClick={() => signOut()}
+              className="logout-button"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -493,7 +515,7 @@ const HeaderStyles = styled.header`
     nav {
       padding-bottom: 3rem;
       height: calc(100vh - 104px - 85px);
-      overflow-y: scroll;
+      overflow-y: auto;
     }
   }
 
