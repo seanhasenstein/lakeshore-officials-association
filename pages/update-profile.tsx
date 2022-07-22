@@ -1,24 +1,19 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { FormikHelpers } from 'formik';
 import styled from 'styled-components';
 import { ProfileFormValues, User } from '../interfaces';
+import { formatDbValuesForForm, formatFormValuesForDb } from '../utils/profile';
+import { useUser } from '../hooks/useUser';
 import FullLayout from '../components/layouts/FullLayout';
 import ProfileForm from '../components/forms/ProfileForm';
-import { formatDbValuesForForm, formatFormValuesForDb } from '../utils/profile';
-import { fetchUser } from '../utils/queries';
 
 export default function UpdateProfile() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const user = useUser();
   const [serverError, setServerError] = React.useState<string>();
-
-  const userQuery = useQuery(
-    ['users', 'user', '62d5b7f995ce684579eb9919'],
-    () => fetchUser('62d5b7f995ce684579eb9919'),
-    { staleTime: 1000 * 60 * 5 }
-  );
 
   interface UpdateMutation {
     _id: string;
@@ -55,11 +50,10 @@ export default function UpdateProfile() {
     formValues: ProfileFormValues,
     actions: FormikHelpers<ProfileFormValues>
   ) => {
-    if (!userQuery.data) return;
-
+    if (!user.data) return;
     updateProfile.mutate(
       {
-        _id: userQuery.data._id,
+        _id: user.data._id,
         formValues: formatFormValuesForDb(formValues),
       },
       {
@@ -78,15 +72,13 @@ export default function UpdateProfile() {
       <UpdateProfileStyles>
         <h2>Update your profile</h2>
         <p>Use this form to update any information that has changed.</p>
-        {userQuery.isLoading ? 'Loading...' : null}
-        {userQuery.isError ? 'An error occurred fetching your profile' : null}
-        {userQuery.data ? (
+        {user.data && (
           <ProfileForm
-            initialValues={formatDbValuesForForm(userQuery.data)}
+            initialValues={formatDbValuesForForm(user.data)}
             onSubmit={onSubmit}
             serverError={serverError}
           />
-        ) : null}
+        )}
       </UpdateProfileStyles>
     </FullLayout>
   );

@@ -1,23 +1,17 @@
 import Link from 'next/link';
 import React from 'react';
-import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import FullLayout from '../components/layouts/FullLayout';
+import { useUser } from '../hooks/useUser';
 import { formatPhoneNumber } from '../utils/misc';
-import { fetchUser } from '../utils/queries';
+import FullLayout from '../components/layouts/FullLayout';
 
 export default function Profile() {
-  const { data, isLoading } = useQuery(
-    ['users', 'user', '62d5b7f995ce684579eb9919'],
-    () => fetchUser('62d5b7f995ce684579eb9919'),
-    { staleTime: 1000 * 60 * 5 }
-  );
+  const user = useUser();
 
   return (
     <FullLayout title="Profile" authRequired={true}>
       <ProfileStyles>
-        {isLoading ? 'Loading...' : ''}
-        {data ? (
+        {user.data ? (
           <>
             <div className="header">
               <div>
@@ -54,16 +48,16 @@ export default function Profile() {
                 <div className="item">
                   <h3>Name</h3>
                   <p>
-                    {data.firstName} {data.lastName}
+                    {user.data.firstName} {user.data.lastName}
                   </p>
                 </div>
                 <div className="item">
                   <h3>City</h3>
-                  <p>{data.city}</p>
+                  <p>{user.data.city}</p>
                 </div>
                 <div className="item">
-                  <h3>Sport{data.sports.length > 1 ? 's' : ''}</h3>
-                  {data.sports.map(s => (
+                  <h3>Sport{user.data.sports.length > 1 ? 's' : ''}</h3>
+                  {user.data.sports.map(s => (
                     <p key={s.name}>
                       {s.name} - {s.level}
                     </p>
@@ -71,26 +65,26 @@ export default function Profile() {
                 </div>
               </div>
               <div className="section">
-                {data.homePhone ? (
+                {user.data.homePhone ? (
                   <div className="item">
                     <h3>Home phone</h3>
-                    <p>{formatPhoneNumber(data.homePhone)}</p>
+                    <p>{formatPhoneNumber(user.data.homePhone)}</p>
                   </div>
                 ) : null}
-                {data.cellPhone ? (
+                {user.data.cellPhone ? (
                   <div className="item">
                     <h3>Cell phone</h3>
-                    <p>{formatPhoneNumber(data.cellPhone)}</p>
+                    <p>{formatPhoneNumber(user.data.cellPhone)}</p>
                   </div>
                 ) : null}
-                {data.workPhone.number ? (
+                {user.data.workPhone.number ? (
                   <div className="item">
                     <h3>Work phone</h3>
                     <p>
-                      {formatPhoneNumber(data.workPhone.number)}{' '}
-                      {data.workPhone.extension ? (
+                      {formatPhoneNumber(user.data.workPhone.number)}{' '}
+                      {user.data.workPhone.extension ? (
                         <span className="extension">
-                          ext. {data.workPhone.extension}
+                          ext. {user.data.workPhone.extension}
                         </span>
                       ) : (
                         ''
@@ -100,7 +94,7 @@ export default function Profile() {
                 ) : null}
                 <div className="item">
                   <h3>Email address</h3>
-                  <p>{data.email}</p>
+                  <p>{user.data.email}</p>
                 </div>
               </div>
               <Link href="/update-profile">

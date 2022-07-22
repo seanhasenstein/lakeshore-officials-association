@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import styled from 'styled-components';
+import { useUser } from '../hooks/useUser';
 import useEscapeKeydownClose from '../hooks/useEscapeKeydownClose';
 import useOutsideClick from '../hooks/useOutsideClick';
 import usePreventYScroll from '../hooks/usePreventYScroll';
@@ -15,6 +16,7 @@ type Props = {
 
 export default function Header(props: Props) {
   const router = useRouter();
+  const user = useUser();
   const menuRef = React.useRef<HTMLDivElement>(null);
   const headerRef = React.useRef<HTMLHeadingElement>(null);
   const [showMenu, setShowMenu] = React.useState(false);
@@ -159,11 +161,16 @@ export default function Header(props: Props) {
       </div>
       <div className="user">
         <div className="flex-row">
-          <div className="preview">TR</div>
+          <div className="preview">
+            {user.data?.firstName[0]}
+            {user.data?.lastName[0]}
+          </div>
           <div>
-            <p className="name">Tom Rusch</p>
-            <p className="email" title="rusch@lutheranhigh.com">
-              rusch@lutheranhigh.com
+            <p className="name">
+              {user.data?.firstName} {user.data?.lastName}
+            </p>
+            <p className="email" title={user.data?.email}>
+              {user.data?.email}
             </p>
           </div>
         </div>
@@ -193,7 +200,7 @@ export default function Header(props: Props) {
         </button>
         {showMenu ? (
           <div ref={menuRef} className="header-menu">
-            <Link href="/profile/update">
+            <Link href="/update-profile">
               <a>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -464,7 +471,7 @@ const HeaderStyles = styled.header`
       }
 
       svg {
-        margin: 0 0.4375rem 0 0;
+        margin: 0 0.875rem 0 0;
         height: 1rem;
         width: 1rem;
         color: #898f9b;

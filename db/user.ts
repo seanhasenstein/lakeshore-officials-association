@@ -1,11 +1,11 @@
 import { Db, ObjectId } from 'mongodb';
 import { ProfileFormValues, Sport, User, UsersBySports } from '../interfaces';
 
-export async function getUser(db: Db, _id: string) {
+export async function getUser(db: Db, email: string) {
   const result = await db
     .collection('users')
     .aggregate<User>([
-      { $match: { _id: new ObjectId(_id) } },
+      { $match: { email } },
       { $set: { _id: { $toString: '$_id' } } },
     ])
     .toArray();

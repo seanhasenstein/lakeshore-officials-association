@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { UserProvider } from '../hooks/useUser';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -11,7 +12,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <Component {...pageProps} />
+        <UserProvider>
+          <Component {...pageProps} />
+        </UserProvider>
       </QueryClientProvider>
     </SessionProvider>
   );

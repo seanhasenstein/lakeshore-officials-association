@@ -51,7 +51,6 @@ export default NextAuth({
           { $set: { _id: { $toString: '$_id' } } },
         ])
         .toArray();
-
       if (users[0]) {
         return true;
       } else {

@@ -6,14 +6,14 @@ import database from '../../middleware/db';
 
 interface RouteRequest extends Request {
   query: {
-    _id: string;
+    email: string;
   };
 }
 
 const router = createRouter<RouteRequest, NextApiResponse<User>>();
 
 router.use(database).get(async (req, res) => {
-  const userResult = await user.getUser(req.db, req.query._id);
+  const userResult = await user.getUser(req.db, req.query.email);
   res.json(userResult);
 });
 
