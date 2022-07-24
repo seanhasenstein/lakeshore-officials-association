@@ -50,7 +50,11 @@ export default function Header(props: Props) {
           <span className="sr-only">Close navigation</span>
         </button>
         <div className="brand">
-          <h1>Lakeshore Officials Association</h1>
+          <h1>
+            <Link href="/">
+              <a>Lakeshore Officials Association</a>
+            </Link>
+          </h1>
         </div>
         <nav>
           <div className="section">
@@ -155,6 +159,13 @@ export default function Header(props: Props) {
                 href="/profile"
                 isActive={router.pathname === '/profile'}
               />
+              {user.data?.isAdmin ? (
+                <NavLinkItem
+                  label="Grant access"
+                  href="/grant-access"
+                  isActive={router.pathname === '/grant-access'}
+                />
+              ) : null}
             </ul>
           </div>
         </nav>
@@ -279,6 +290,7 @@ const HeaderStyles = styled.header`
   flex-direction: column;
   justify-content: space-between;
   background-color: #162131;
+  z-index: 100;
 
   .close-nav-button {
     display: none;
@@ -299,6 +311,8 @@ const HeaderStyles = styled.header`
   nav {
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 108px - 104px);
+    overflow-y: auto;
   }
 
   .section {
@@ -522,7 +536,6 @@ const HeaderStyles = styled.header`
     nav {
       padding-bottom: 3rem;
       height: calc(100vh - 104px - 85px);
-      overflow-y: auto;
     }
   }
 

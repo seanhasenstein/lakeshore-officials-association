@@ -9,10 +9,10 @@ type Props = {
   title?: string;
 };
 
-export default function SimpleVerticalLayout({ children, title }: Props) {
+export default function BasicTopHeaderLayout({ children, title }: Props) {
   return (
     <BaseLayout title={title}>
-      <SimpleVerticalLayoutStyles>
+      <BasicTopHeaderLayoutStyles>
         <div>
           <header>
             <h1>
@@ -24,12 +24,12 @@ export default function SimpleVerticalLayout({ children, title }: Props) {
           <main>{children}</main>
         </div>
         <Footer />
-      </SimpleVerticalLayoutStyles>
+      </BasicTopHeaderLayoutStyles>
     </BaseLayout>
   );
 }
 
-const SimpleVerticalLayoutStyles = styled.div`
+const BasicTopHeaderLayoutStyles = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

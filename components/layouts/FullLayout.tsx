@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -26,7 +27,11 @@ export default function FullLayout({ children, title, authRequired }: Props) {
       <FullLayoutStyles>
         <Header show={showHeader} setShow={setShowHeader} />
         <div className="sm-screen-header">
-          <h2>Lakeshore Officials Association</h2>
+          <h2>
+            <Link href="/">
+              <a>Lakeshore Officials Association</a>
+            </Link>
+          </h2>
           {authStatus === 'authenticated' ? (
             <button
               type="button"
@@ -76,8 +81,11 @@ const FullLayoutStyles = styled.div`
   }
 
   @media (max-width: 1024px) {
+    height: auto;
+
     .lg-right-column {
-      padding: 3.5rem 1.5rem 0;
+      min-height: calc(100vh - 105px);
+      padding: 2.5rem 1.5rem 0;
     }
 
     .sm-screen-header {

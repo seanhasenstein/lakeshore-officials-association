@@ -14,11 +14,11 @@ interface RouteRequest extends Request {
 const router = createRouter<RouteRequest, NextApiResponse>();
 
 router.use(database).post(async (req, res) => {
-  const updatedUser = await user.updateUser(
-    req.db,
-    req.body._id,
-    req.body.formValues
-  );
+  const updatedUser = await user.updateUser(req.db, req.body._id, {
+    ...req.body.formValues,
+    updatedAt: new Date().toISOString(),
+  });
+
   res.json(updatedUser);
 });
 

@@ -1,7 +1,18 @@
 import { Db, ObjectId } from 'mongodb';
 import { ProfileFormValues, Sport, User, UsersBySports } from '../interfaces';
 
-export async function getUser(db: Db, email: string) {
+export async function getUserById(db: Db, _id: string) {
+  const result = await db
+    .collection('users')
+    .aggregate<User>([
+      { $match: { _id: new ObjectId(_id) } },
+      { $set: { _id: { $toString: '$_id' } } },
+    ])
+    .toArray();
+  return result[0];
+}
+
+export async function getUserByEmail(db: Db, email: string) {
   const result = await db
     .collection('users')
     .aggregate<User>([
@@ -54,7 +65,7 @@ export async function createUser(db: Db, newUser: ProfileFormValues) {
   const result = await db
     .collection<ProfileFormValues>('users')
     .insertOne(newUser);
-  const user = await getUser(db, result.insertedId.toString());
+  const user = await getUserById(db, result.insertedId.toString());
   return user;
 }
 

@@ -28,7 +28,7 @@ export default NextAuth({
         await transport.sendMail({
           to: email,
           from,
-          subject: `Sign in to ${host} [#${id}]`,
+          subject: `Log in to your Lakeshore Officials dashboard [#${id}]`,
           text: text({ url, host }),
           html: html({ url }),
         });

@@ -35,6 +35,9 @@ export interface User {
     name: Sport;
     level: Level;
   }[];
+  isAdmin: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UsersBySports {

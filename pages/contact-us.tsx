@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import SimpleVerticalLayout from '../components/layouts/SimpleVerticalLayout';
+import BasicTopHeaderLayout from '../components/layouts/BasicTopHeaderLayout';
 import ContactAdminForm from '../components/forms/ContactAdminForm';
 
 export default function ContactAdministrator() {
   return (
-    <SimpleVerticalLayout title="Contact administrator">
+    <BasicTopHeaderLayout title="Contact administrator">
       <ConctactAdminStyles>
-        <ContactAdminForm />
+        <ContactAdminForm formTitle="Contact us" />
       </ConctactAdminStyles>
-    </SimpleVerticalLayout>
+    </BasicTopHeaderLayout>
   );
 }
 

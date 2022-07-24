@@ -8,13 +8,28 @@ interface RouteRequest extends Request {
   body: ProfileFormValues;
 }
 
-const router = createRouter<
-  RouteRequest,
-  NextApiResponse<User | Record<'error', string>>
->();
+const router = createRouter<RouteRequest, NextApiResponse<User>>();
 
 router.use(database).post(async (req, res) => {
-  const userResult = await user.createUser(req.db, req.body);
+  const email = req.body.email.toLowerCase().trim();
+
+  // check if email is already connected to an account
+  const userWithEmailAlreadyExists = await user.getUserByEmail(req.db, email);
+  if (userWithEmailAlreadyExists) {
+    res.status(500).end(`An account already exists with ${email}`);
+    return;
+  }
+
+  const timestamp = new Date().toISOString();
+
+  // create the user
+  const userResult = await user.createUser(req.db, {
+    ...req.body,
+    isAdmin: false,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  });
+
   res.json(userResult);
 });
 
@@ -23,7 +38,7 @@ export default router.handler({
     if (err.code && err.code === 11000) {
       res
         .status(500)
-        .end(`An account already exists with ${err.keyValue?.email}`);
+        .end(`An account already exists with ${err.keyValue?.email}.`);
       return;
     }
 

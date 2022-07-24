@@ -2,6 +2,24 @@ import * as Yup from 'yup';
 import { ProfileFormValues, Sport, User } from '../interfaces';
 import { formatPhoneNumber, removeNonDigits } from './misc';
 
+export const blankProfileFormValues: ProfileFormValues = {
+  firstName: '',
+  lastName: '',
+  city: '',
+  homePhone: '',
+  cellPhone: '',
+  workPhone: {
+    number: '',
+    extension: '',
+  },
+  email: '',
+  sports: [],
+  isAdmin: false,
+  // createdAt/updatedAt set on the server
+  createdAt: '',
+  updatedAt: '',
+};
+
 export function formatDbValuesForForm(input: User): ProfileFormValues {
   const { _id, ...user } = input;
   const sports: Sport[] = [

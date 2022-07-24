@@ -22,7 +22,11 @@ export const validationSchema = Yup.object().shape({
   message: Yup.string().required('A message is required'),
 });
 
-export default function ContactAdminForm() {
+type Props = {
+  formTitle: string;
+};
+
+export default function ContactAdminForm(props: Props) {
   const [status, setStatus] = React.useState<'idle' | 'error' | 'success'>(
     'idle'
   );
@@ -53,10 +57,10 @@ export default function ContactAdminForm() {
         </div>
       ) : (
         <>
-          <h2>Contact us</h2>
+          <h2>{props.formTitle}</h2>
           <p>
-            Use this form to request access to the site or for any issues or
-            questions that you have with the site.
+            Use this form to request access to the site, for any questions that
+            you have, or to report a problem with the website.
           </p>
           <div className="box">
             <Formik

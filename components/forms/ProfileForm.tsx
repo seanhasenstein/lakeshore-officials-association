@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { ProfileFormValues } from '../../interfaces';
@@ -16,6 +17,7 @@ type Props = {
 
 export default function ProfileForm(props: Props) {
   const router = useRouter();
+  const session = useSession();
 
   return (
     <ProfileFormStyles>
@@ -25,6 +27,7 @@ export default function ProfileForm(props: Props) {
       </div>
       <Formik
         initialValues={props.initialValues}
+        enableReinitialize={true}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => props.onSubmit(values, actions)}
       >
@@ -141,14 +144,14 @@ export default function ProfileForm(props: Props) {
               ))}
             </div>
             <div className="actions">
-              {router.pathname === '/create-profile' ? (
+              {router.pathname === '/create-account' ? (
                 <>
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className="submit-button"
                   >
-                    {isSubmitting ? <LoadingSpinner /> : 'Create your profile'}
+                    {isSubmitting ? <LoadingSpinner /> : 'Create your account'}
                   </button>
                 </>
               ) : null}
@@ -170,7 +173,19 @@ export default function ProfileForm(props: Props) {
               ) : null}
             </div>
             {props.serverError ? (
-              <div className="error server-error">{props.serverError}</div>
+              <div className="error server-error">
+                {props.serverError} Please{' '}
+                <Link
+                  href={
+                    session.status === 'authenticated'
+                      ? '/contact-admin'
+                      : 'contact-us'
+                  }
+                >
+                  <a>contact us</a>
+                </Link>{' '}
+                if this issue continues or if you have questions.
+              </div>
             ) : null}
           </Form>
         )}
@@ -303,12 +318,16 @@ const ProfileFormStyles = styled.div`
     margin: 0.5rem 0 0;
     font-size: 0.875rem;
     font-weight: 500;
-    color: #de2900;
+    color: #be123c;
+    line-height: 1.5;
   }
 
   .server-error {
     margin: 1.5rem 0 0;
-    text-align: center;
+
+    a {
+      text-decoration: underline;
+    }
   }
 
   @media (max-width: 1024px) {
@@ -331,6 +350,10 @@ const ProfileFormStyles = styled.div`
       display: flex;
       max-width: 100%;
       width: 100%;
+    }
+
+    .error {
+      text-align: center;
     }
   }
 `;

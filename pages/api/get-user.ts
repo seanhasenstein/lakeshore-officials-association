@@ -13,7 +13,7 @@ interface RouteRequest extends Request {
 const router = createRouter<RouteRequest, NextApiResponse<User>>();
 
 router.use(database).get(async (req, res) => {
-  const userResult = await user.getUser(req.db, req.query.email);
+  const userResult = await user.getUserByEmail(req.db, req.query.email);
   res.json(userResult);
 });
 
