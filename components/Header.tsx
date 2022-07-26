@@ -185,95 +185,103 @@ export default function Header(props: Props) {
             </p>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={e => {
-            e.stopPropagation();
-            setShowMenu(!showMenu);
-          }}
-          className="nav-menu-button"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
+        <div ref={menuRef}>
+          <button
+            type="button"
+            onClick={e => {
+              e.stopPropagation();
+              setShowMenu(!showMenu);
+            }}
+            className="nav-menu-button"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-            />
-          </svg>
-          <span className="sr-only">Toggle menu</span>
-        </button>
-        {showMenu ? (
-          <div ref={menuRef} className="header-menu">
-            <Link href="/update-profile">
-              <a>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                Update profile
-              </a>
-            </Link>
-            <Link href="/contact-admin">
-              <a>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
-                  />
-                </svg>
-                Contact admin
-              </a>
-            </Link>
-            <button
-              type="button"
-              onClick={() => signOut()}
-              className="logout-button"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+              />
+            </svg>
+            <span className="sr-only">Toggle menu</span>
+          </button>
+          {showMenu ? (
+            <div className="header-menu">
+              <Link href="/update-profile">
+                <a className="menu-link">
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                    Update profile
+                  </span>
+                </a>
+              </Link>
+              <Link href="/contact-admin">
+                <a className="menu-link">
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+                      />
+                    </svg>
+                    Contact admin
+                  </span>
+                </a>
+              </Link>
+              <button
+                type="button"
+                onClick={() => signOut()}
+                className="menu-button"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              Log out
-            </button>
-          </div>
-        ) : null}
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  Log out
+                </span>
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
     </HeaderStyles>
   );
@@ -290,7 +298,7 @@ const HeaderStyles = styled.header`
   flex-direction: column;
   justify-content: space-between;
   background-color: #162131;
-  z-index: 100;
+  z-index: 9999;
 
   .close-nav-button {
     display: none;
@@ -451,11 +459,12 @@ const HeaderStyles = styled.header`
     display: flex;
     flex-direction: column;
     background-color: #e9eaec;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
 
-    a,
-    button {
-      padding: 0.875rem 1.625rem 0.875rem 1.25rem;
+    .menu-link,
+    .menu-button {
+      margin: -1px 0 0;
+      padding: 0 0.875rem;
       display: flex;
       align-items: center;
       background-color: transparent;
@@ -464,31 +473,52 @@ const HeaderStyles = styled.header`
       font-weight: 500;
       color: #06080b;
       text-align: left;
-      border-bottom: 1px solid #bec1c8;
       cursor: pointer;
-      transition: all 100ms linear;
+      transition: background-color 75ms linear;
 
       &:hover {
+        padding: 0;
         background-color: #dee0e3;
+
+        &:not(:first-child) span {
+          border-top-color: #d3d6da;
+        }
+
+        span {
+          padding-left: 1.875rem;
+          padding-right: 2.375rem;
+        }
       }
 
       &:first-child {
-        border-top-right-radius: 0.375rem;
-        border-top-left-radius: 0.375rem;
+        border-top-right-radius: 0.5rem;
+        border-top-left-radius: 0.5rem;
       }
 
       &:last-child {
-        border-bottom: none;
-        border-bottom-right-radius: 0.375rem;
-        border-bottom-left-radius: 0.375rem;
-        color: #000;
+        border-bottom-right-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+
+        span {
+          border-bottom: none;
+        }
       }
 
       svg {
         margin: 0 0.875rem 0 0;
+        flex-shrink: 0;
         height: 1rem;
         width: 1rem;
         color: #898f9b;
+      }
+
+      span {
+        padding: 0.8125rem 1.5rem 0.8125rem 1rem;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid #d3d6da;
       }
     }
   }

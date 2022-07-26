@@ -2,7 +2,6 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import FullLayout from '../../components/layouts/FullLayout';
 import { Sport } from '../../interfaces';
 import {
   formatPhoneNumber,
@@ -10,6 +9,10 @@ import {
   getUrlParam,
 } from '../../utils/misc';
 import { fetchUsersBySport } from '../../utils/queries';
+import FullLayout from '../../components/layouts/FullLayout';
+import LevelFilter from '../../components/directory/LevelFilter';
+import DateSelection from '../../components/directory/DateSelection';
+import Search from '../../components/directory/Search';
 
 export default function SportPage() {
   const router = useRouter();
@@ -37,7 +40,12 @@ export default function SportPage() {
         {isLoading ? 'Loading...' : ''}
         {data && sport ? (
           <>
-            <h3>{formatToTitleCase(sport)} directory</h3>
+            <h3 className="title">{formatToTitleCase(sport)} directory</h3>
+            <div className="actions-row">
+              <LevelFilter />
+              <DateSelection />
+              <Search />
+            </div>
             <div className="table-container">
               <table>
                 <thead>
@@ -114,20 +122,25 @@ export default function SportPage() {
 const SportPageStyles = styled.div`
   margin: 0 0 5rem;
 
-  h3 {
+  .title {
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -0.025em;
     color: #06080b;
   }
 
+  .actions-row {
+    margin: 2.5rem 0 0;
+    display: flex;
+    align-items: flex-end;
+    max-width: 60rem;
+  }
+
   .table-container {
-    margin: 2rem 0 0;
+    margin: 1.75rem 0 0;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
       0 2px 4px -2px rgb(0 0 0 / 0.15);
-    border-width: 2px 1px 1px 1px;
-    border-style: solid;
-    border-color: #e9eaec;
+    border: 1px solid #d1d5db;
     border-radius: 0.5rem;
   }
 
@@ -143,9 +156,9 @@ const SportPageStyles = styled.div`
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #747b89;
-    background-color: #f1f3f7;
-    border-bottom: 2px solid rgba(228, 233, 240, 0.75);
+    color: #5c6a80;
+    background-color: #e5e7eb;
+    border-bottom: 1px solid #d1d5db;
 
     &:first-of-type {
       border-top-left-radius: 0.5rem;

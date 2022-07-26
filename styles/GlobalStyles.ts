@@ -133,6 +133,10 @@ input[type="checkbox"]:focus,
 input[type="radio"]:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
   box-shadow: rgb(255, 255, 255) 0px 0px 0px 2px, #1860cc 0px 0px 0px 4px,
     rgba(0, 0, 0, 0) 0px 0px 0px 0px;
 }
@@ -174,7 +178,7 @@ select {
   background-size: 1.375em 1.375em;
   background-repeat: no-repeat;
   color-adjust: exact;
-  border: 1px solid #c9cbd1;
+  border: 1px solid #d1d5db;
   border-radius: 0.375rem;
   font-weight: 500;
   color: #36383e;
