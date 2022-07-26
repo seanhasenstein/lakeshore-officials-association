@@ -105,8 +105,8 @@ export default function GrantAccess() {
                     <div className="box">
                       <h2>Grant website access</h2>
                       <p>
-                        Send an email that will grant access to create a profile
-                        and use the website.
+                        Send an email that will allow a new user to create a
+                        profile and use the website.
                       </p>
 
                       <Form>

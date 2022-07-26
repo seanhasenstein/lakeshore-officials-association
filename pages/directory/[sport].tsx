@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { Sport } from '../../interfaces';
@@ -50,10 +51,11 @@ export default function SportPage() {
               <table>
                 <thead>
                   <tr>
-                    <th>Name/City</th>
-                    <th>Level</th>
-                    <th>Phone</th>
-                    <th>Email</th>
+                    <th>Name/Location</th>
+                    <th className="level">Level</th>
+                    <th className="date-query">Date query</th>
+                    <th className="contact">Contact</th>
+                    <th />
                   </tr>
                 </thead>
                 <tbody>
@@ -69,24 +71,28 @@ export default function SportPage() {
                           </div>
                           <div className="city">{v.city}</div>
                         </td>
-                        <td>{s?.level}</td>
+                        <td className="level">{s?.level}</td>
                         <td>
-                          <div className="phone-numbers">
+                          <div className="available">Available</div>
+                          {/* <div className="unavailable">Unavailable</div> */}
+                        </td>
+                        <td className="contact">
+                          <div className="contact-info">
                             {v.homePhone && (
                               <div>
-                                <span className="abbreviation">H:</span>
+                                <span className="abbreviation">Home:</span>
                                 {formatPhoneNumber(v.homePhone)}
                               </div>
                             )}
                             {v.cellPhone && (
                               <div>
-                                <span className="abbreviation">C:</span>
+                                <span className="abbreviation">Cell:</span>
                                 {formatPhoneNumber(v.cellPhone)}
                               </div>
                             )}
                             {v.workPhone.number && (
                               <div>
-                                <span className="abbreviation">W:</span>
+                                <span className="abbreviation">Work:</span>
                                 {formatPhoneNumber(v.workPhone.number)}
                                 {v.workPhone.extension && (
                                   <span className="extension">
@@ -95,16 +101,39 @@ export default function SportPage() {
                                 )}
                               </div>
                             )}
+                            {v.email && (
+                              <div>
+                                <a
+                                  href={`mailto:${v.email}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <span className="abbreviation">Email:</span>
+                                  {v.email}
+                                </a>
+                              </div>
+                            )}
                           </div>
                         </td>
-                        <td>
-                          <a
-                            href={`mailto:${v.email}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {v.email}
-                          </a>
+                        <td className="calendar-link">
+                          <Link href={`todo`}>
+                            <a>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                              >
+                                <path
+                                  fillRule="evenodd"
+                                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                              <span className="sr-only">
+                                Go to {v.firstName} {v.lastName}&apos;s calendar
+                              </span>
+                            </a>
+                          </Link>
                         </td>
                       </tr>
                     );
@@ -167,6 +196,19 @@ const SportPageStyles = styled.div`
     &:last-of-type {
       border-top-right-radius: 0.5rem;
     }
+
+    &.level {
+      padding-left: 0;
+      text-align: center;
+    }
+
+    &.date-query {
+      text-align: center;
+    }
+
+    &.contact {
+      padding-left: 2.5rem;
+    }
   }
 
   td {
@@ -188,10 +230,43 @@ const SportPageStyles = styled.div`
       color: #9499a4;
     }
 
-    .phone-numbers {
+    &.level {
+      padding-left: 0;
+      text-align: center;
+    }
+
+    .available,
+    .unavailable {
+      margin: 0 auto;
+      padding: 0.25rem 0;
+      max-width: 7.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.075em;
+      text-align: center;
+      background-color: #d1d5db;
+    }
+
+    .available {
+      background-color: #d1fae5;
+      color: #047857;
+    }
+
+    .unavailable {
+      background-color: #ffe4e6;
+      color: #be123c;
+    }
+
+    &.contact {
+      padding-left: 2.5rem;
+    }
+
+    .contact-info {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.625rem;
 
       .number {
         display: flex;
@@ -200,17 +275,37 @@ const SportPageStyles = styled.div`
 
       .abbreviation {
         display: inline-block;
-        width: 1.375rem;
+        width: 3.25rem;
         color: #9499a4;
       }
 
       .extension {
         margin: 0 0 0 0.625rem;
       }
+
+      a:hover {
+        text-decoration: underline;
+      }
     }
 
-    a:hover {
-      text-decoration: underline;
+    &.calendar-link {
+      a {
+        height: 1.75rem;
+        width: 1.75rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #9499a4;
+
+        &:hover {
+          color: #141a25;
+        }
+      }
+
+      svg {
+        height: 1.125rem;
+        width: 1.125rem;
+      }
     }
   }
 
