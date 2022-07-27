@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { useQuery } from 'react-query';
-import { fetchUser } from '../utils/queries';
+import { fetchUserByEmail } from '../utils/queries';
 import { User } from '../interfaces';
 
 interface UserProvider {
@@ -38,9 +38,13 @@ export function useUser() {
 export function UserProvider({ children }: UserProvider) {
   const session = useSession();
   const [email, setEmail] = React.useState<string | null | undefined>();
-  const query = useQuery(['users', 'user', email], () => fetchUser(email), {
-    staleTime: 1000 * 60 * 5,
-  });
+  const query = useQuery(
+    ['users', 'user', email],
+    () => fetchUserByEmail(email),
+    {
+      staleTime: 1000 * 60 * 5,
+    }
+  );
 
   React.useEffect(() => {
     if (session.status === 'authenticated') {

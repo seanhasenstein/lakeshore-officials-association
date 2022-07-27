@@ -78,16 +78,16 @@ export default function SportPage() {
                         </td>
                         <td className="contact">
                           <div className="contact-info">
-                            {v.homePhone && (
-                              <div>
-                                <span className="abbreviation">Home:</span>
-                                {formatPhoneNumber(v.homePhone)}
-                              </div>
-                            )}
                             {v.cellPhone && (
                               <div>
                                 <span className="abbreviation">Cell:</span>
                                 {formatPhoneNumber(v.cellPhone)}
+                              </div>
+                            )}
+                            {v.homePhone && (
+                              <div>
+                                <span className="abbreviation">Home:</span>
+                                {formatPhoneNumber(v.homePhone)}
                               </div>
                             )}
                             {v.workPhone.number && (
@@ -116,7 +116,11 @@ export default function SportPage() {
                           </div>
                         </td>
                         <td className="calendar-link">
-                          <Link href={`todo`}>
+                          <Link
+                            href={`/calendar/${
+                              v._id
+                            }?sport=${s?.name.toLowerCase()}`}
+                          >
                             <a>
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -266,7 +270,7 @@ const SportPageStyles = styled.div`
     .contact-info {
       display: flex;
       flex-direction: column;
-      gap: 0.625rem;
+      gap: 0.5rem;
 
       .number {
         display: flex;

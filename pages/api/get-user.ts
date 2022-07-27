@@ -6,15 +6,31 @@ import database from '../../middleware/db';
 
 interface RouteRequest extends Request {
   query: {
-    email: string;
+    _id?: string;
+    email?: string;
   };
 }
 
 const router = createRouter<RouteRequest, NextApiResponse<User>>();
 
 router.use(database).get(async (req, res) => {
-  const userResult = await user.getUserByEmail(req.db, req.query.email);
-  res.json(userResult);
+  if (!req.query.email && !req.query._id) {
+    throw new Error(
+      "An email or _id query param is required but wasn't provided"
+    );
+  }
+
+  if (req.query.email) {
+    const userResult = await user.getUserByEmail(req.db, req.query.email);
+    res.json(userResult);
+    return;
+  }
+
+  if (req.query._id) {
+    const userResult = await user.getUserById(req.db, req.query._id);
+    res.json(userResult);
+    return;
+  }
 });
 
 export default router.handler({

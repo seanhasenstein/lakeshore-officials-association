@@ -54,7 +54,7 @@ const SearchStyles = styled.div`
 
   .icon {
     position: absolute;
-    top: 0.5rem;
+    top: 0.53125rem;
     left: 0.625rem;
     pointer-events: none;
 

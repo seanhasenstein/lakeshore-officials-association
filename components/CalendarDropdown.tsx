@@ -52,7 +52,7 @@ export default function CalendarDropdown(props: Props) {
   };
 
   return (
-    <CalendarDropdownStyles ref={props.menuRef} isOpen={props.menu.isOpen}>
+    <CalendarDropdownStyles ref={props.menuRef}>
       <div className="menu-header">
         <button
           type="button"
@@ -163,8 +163,7 @@ export default function CalendarDropdown(props: Props) {
   );
 }
 
-const CalendarDropdownStyles = styled.div<{ isOpen: boolean }>`
-  /* display: ${props => (props.isOpen ? 'inline-block' : 'none')}; */
+const CalendarDropdownStyles = styled.div`
   display: 'inline-block';
   padding: 1rem 1.5rem 1.25rem;
   position: absolute;
