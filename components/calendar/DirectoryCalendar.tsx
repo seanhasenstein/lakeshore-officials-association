@@ -302,7 +302,7 @@ const DirectoryCalendarStyles = styled.div`
     input,
     select,
     .go-to-month-button {
-      padding: 00 0.625rem;
+      padding: 0 0.625rem;
       height: 2.5rem;
       border-radius: 0.375rem;
     }

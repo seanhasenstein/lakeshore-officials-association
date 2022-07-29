@@ -5,16 +5,19 @@ import { format } from 'date-fns';
 import { getMonthCalendarData } from '../../utils/calendar';
 import CalendarDropdown from '../calendar/CalendarDropdown';
 
-export default function DateSelection() {
+type Props = {
+  selectedDate: string;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function DateSelection(props: Props) {
   const menuRef = React.useRef<HTMLDivElement>(null);
   const menu = useMenu(menuRef);
-  const [selectedDate, setSelectedDate] = React.useState(
-    format(new Date(), 'MM-dd-yyyy')
-  );
-  const [inputDate, setInputDate] = React.useState(selectedDate);
+
+  const [inputDate, setInputDate] = React.useState(props.selectedDate);
   const [dateInputError, setDateInputError] = React.useState(false);
   const [calendar, setCalendar] = React.useState(() => {
-    const now = new Date(selectedDate);
+    const now = new Date(props.selectedDate);
     return {
       selectedDate: now,
       days: getMonthCalendarData(now),
@@ -25,7 +28,7 @@ export default function DateSelection() {
     try {
       const date = new Date(inputDate);
       const stringDate = format(date, 'MM-dd-yyyy');
-      setSelectedDate(stringDate);
+      props.setSelectedDate(stringDate);
       setInputDate(stringDate);
       setDateInputError(false);
       setCalendar({
@@ -86,8 +89,8 @@ export default function DateSelection() {
           setCalendar={setCalendar}
           menuRef={menuRef}
           setInputDate={setInputDate}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+          selectedDate={props.selectedDate}
+          setSelectedDate={props.setSelectedDate}
           menu={menu}
         />
       ) : null}

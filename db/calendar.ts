@@ -46,11 +46,22 @@ function getUpdatedCalendarYear(
   return update;
 }
 
-export async function getCalendarData(db: Db) {
+export async function getAllCalendarData(db: Db) {
   const result = await db
     .collection('calendar')
     .findOne<Calendar>({ _id: new ObjectId('62e1f20d9bb0a90c47736dc6') });
   return result;
+}
+
+export async function getYearCalendarData(db: Db, year: string) {
+  const result = await db
+    .collection('calendar')
+    .aggregate([
+      { $match: { _id: new ObjectId('62e1f20d9bb0a90c47736dc6') } },
+      { $project: { [`calendar.${year}`]: 1 } },
+    ])
+    .toArray();
+  return result[0].calendar[year];
 }
 
 export async function updateCalendarDay(
@@ -59,7 +70,7 @@ export async function updateCalendarDay(
   dateString: string,
   status: 'available' | 'unavailable'
 ) {
-  const data = await getCalendarData(db);
+  const data = await getAllCalendarData(db);
   const date = new Date(dateString);
   const year = date.getFullYear().toString();
   const month = date.getMonth().toString();

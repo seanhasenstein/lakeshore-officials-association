@@ -5,17 +5,21 @@ import database from '../../middleware/db';
 import { calendar } from '../../db';
 
 interface RouteRequest extends Request {
-  body: {
-    dateString: string;
-    status: 'open' | 'closed';
+  query: {
+    year?: string;
   };
 }
 
 const router = createRouter<RouteRequest, NextApiResponse>();
 
 router.use(database).get(async (req, res) => {
-  const data = await calendar.getCalendarData(req.db);
-  res.json(data);
+  if (req.query.year) {
+    const data = await calendar.getYearCalendarData(req.db, req.query.year);
+    res.json(data);
+  } else {
+    const data = await calendar.getAllCalendarData(req.db);
+    res.json(data);
+  }
 });
 
 export default router.handler({

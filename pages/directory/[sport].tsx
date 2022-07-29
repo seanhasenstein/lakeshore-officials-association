@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useQuery } from 'react-query';
+import { format } from 'date-fns';
 import styled from 'styled-components';
 import { Sport } from '../../interfaces';
 import {
@@ -14,16 +15,37 @@ import FullLayout from '../../components/layouts/FullLayout';
 import LevelFilter from '../../components/directory/LevelFilter';
 import DateSelection from '../../components/directory/DateSelection';
 import Search from '../../components/directory/Search';
+import DateQueryStatus from '../../components/directory/DateQueryStatus';
 
 export default function SportPage() {
   const router = useRouter();
   const [sport, setSport] = React.useState<string>();
-  const { data, isLoading } = useQuery(
+  const [selectedDate, setSelectedDate] = React.useState(
+    format(new Date(), 'MM-dd-yyyy')
+  );
+  const [dateIds, setDateIds] = React.useState<string[]>();
+
+  const sportQuery = useQuery(
     ['users', sport],
     () => fetchUsersBySport(sport as Sport | undefined),
     {
       staleTime: 1000 * 60 * 5,
     }
+  );
+
+  const calendarQuery = useQuery(
+    ['calendar', selectedDate],
+    async () => {
+      const response = await fetch(
+        `/api/get-calendar-data?year=${new Date(selectedDate).getFullYear()}`
+      );
+
+      // TODO: handle !response.ok or error respsonse
+
+      const data = await response.json();
+      return data;
+    },
+    { staleTime: 1000 * 60 * 5 }
   );
 
   React.useEffect(() => {
@@ -32,19 +54,38 @@ export default function SportPage() {
     }
   }, [router.isReady, router.query.sport]);
 
+  React.useEffect(() => {
+    if (calendarQuery.data) {
+      const date = new Date(selectedDate);
+      const month = date.getMonth();
+      const day = date.getDate();
+
+      if (!calendarQuery.data[month]) {
+        setDateIds(undefined);
+        return;
+      }
+
+      const data = calendarQuery.data[month][day];
+      setDateIds(data);
+    }
+  }, [calendarQuery.data, selectedDate]);
+
   return (
     <FullLayout
       title={sport ? formatToTitleCase(sport) : ''}
       authRequired={true}
     >
       <SportPageStyles>
-        {isLoading ? 'Loading...' : ''}
-        {data && sport ? (
+        {sportQuery.isLoading ? 'Loading...' : ''}
+        {sportQuery.data && sport ? (
           <>
             <h3 className="title">{formatToTitleCase(sport)} directory</h3>
             <div className="actions-row">
               <LevelFilter />
-              <DateSelection />
+              <DateSelection
+                selectedDate={selectedDate}
+                setSelectedDate={setSelectedDate}
+              />
               <Search />
             </div>
             <div className="table-container">
@@ -59,7 +100,7 @@ export default function SportPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map(v => {
+                  {sportQuery.data.map(v => {
                     const s = v.sports.find(
                       s => s.name === formatToTitleCase(sport)
                     );
@@ -73,8 +114,7 @@ export default function SportPage() {
                         </td>
                         <td className="level">{s?.level}</td>
                         <td>
-                          <div className="available">Available</div>
-                          {/* <div className="unavailable">Unavailable</div> */}
+                          <DateQueryStatus id={v._id} dateIds={dateIds} />
                         </td>
                         <td className="contact">
                           <div className="contact-info">
@@ -237,30 +277,6 @@ const SportPageStyles = styled.div`
     &.level {
       padding-left: 0;
       text-align: center;
-    }
-
-    .available,
-    .unavailable {
-      margin: 0 auto;
-      padding: 0.25rem 0;
-      max-width: 7.5rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.075em;
-      text-align: center;
-      background-color: #d1d5db;
-    }
-
-    .available {
-      background-color: #d1fae5;
-      color: #047857;
-    }
-
-    .unavailable {
-      background-color: #ffe4e6;
-      color: #be123c;
     }
 
     &.contact {
