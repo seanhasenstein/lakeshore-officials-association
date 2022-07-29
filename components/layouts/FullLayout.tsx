@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import Header from '../Header';
-import Footer from '../Footer';
+import Header from './Header';
+import Footer from './Footer';
 import styled from 'styled-components';
 import useAuthSession from '../../hooks/useAuthSession';
 import BaseLayout from './BaseLayout';

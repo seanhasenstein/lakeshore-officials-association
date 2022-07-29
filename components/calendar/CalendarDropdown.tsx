@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
-import { CurrentMonthDays, getMonthCalendarData } from '../utils/calendar';
+import { CurrentMonthDays, getMonthCalendarData } from '../../utils/calendar';
 
 type Props = {
   calendar: {

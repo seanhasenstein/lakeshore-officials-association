@@ -6,7 +6,7 @@ import { User } from '../../interfaces';
 import { formatPhoneNumber, getUrlParam } from '../../utils/misc';
 import { fetchUserById } from '../../utils/queries';
 import FullLayout from '../../components/layouts/FullLayout';
-import DirectoryCalendar from '../../components/DirectoryCalendar';
+import DirectoryCalendar from '../../components/calendar/DirectoryCalendar';
 
 export default function OfficialCalendar() {
   const router = useRouter();

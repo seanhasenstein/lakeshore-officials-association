@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { useUser } from '../hooks/useUser';
 import { formatPhoneNumber } from '../utils/misc';
 import FullLayout from '../components/layouts/FullLayout';
-import ProfileCalendar from '../components/ProfileCalendar';
+import ProfileCalendar from '../components/calendar/ProfileCalendar';
 
 export default function Homepage() {
   const user = useUser();

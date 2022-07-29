@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import useMenu from '../../hooks/useMenu';
 import { format } from 'date-fns';
 import { getMonthCalendarData } from '../../utils/calendar';
-import CalendarDropdown from '../CalendarDropdown';
+import CalendarDropdown from '../calendar/CalendarDropdown';
 
 export default function DateSelection() {
   const menuRef = React.useRef<HTMLDivElement>(null);

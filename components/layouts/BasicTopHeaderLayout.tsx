@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import BaseLayout from './BaseLayout';
-import Footer from '../Footer';
+import Footer from './Footer';
 
 type Props = {
   children: React.ReactNode;

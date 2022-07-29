@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import styled from 'styled-components';
-import { useUser } from '../hooks/useUser';
-import useEscapeKeydownClose from '../hooks/useEscapeKeydownClose';
-import useOutsideClick from '../hooks/useOutsideClick';
-import usePreventYScroll from '../hooks/usePreventYScroll';
+import { useUser } from '../../hooks/useUser';
+import useEscapeKeydownClose from '../../hooks/useEscapeKeydownClose';
+import useOutsideClick from '../../hooks/useOutsideClick';
+import usePreventYScroll from '../../hooks/usePreventYScroll';
 import NavLinkItem from './NavLinkItem';
 
 type Props = {

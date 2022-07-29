@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
-import { getMonthCalendarData } from '../utils/calendar';
+import { getMonthCalendarData } from '../../utils/calendar';
 
 export default function DirectoryCalendar() {
   const [calendar, setCalendar] = React.useState(() => {

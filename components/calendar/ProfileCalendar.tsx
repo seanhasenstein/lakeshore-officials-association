@@ -2,9 +2,9 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
-import { getMonthCalendarData } from '../utils/calendar';
-import { Calendar } from '../interfaces';
-import DayButton from './calendar/DayButton';
+import { getMonthCalendarData } from '../../utils/calendar';
+import { Calendar } from '../../interfaces';
+import DayButton from './DayButton';
 
 export default function ProfileCalendar() {
   // TODO: move this to a custom hook
