@@ -158,7 +158,7 @@ export default function ProfileForm(props: Props) {
               {router.pathname === '/update-profile' ? (
                 <>
                   {isSubmitting ? null : (
-                    <Link href="/profile">
+                    <Link href="/">
                       <a className="cancel-link">Cancel</a>
                     </Link>
                   )}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
 import { getMonthCalendarData } from '../utils/calendar';
 
-export default function UserCalendar() {
+export default function DirectoryCalendar() {
   const [calendar, setCalendar] = React.useState(() => {
     const now = new Date();
     return {
@@ -69,7 +69,7 @@ export default function UserCalendar() {
   };
 
   return (
-    <UserCalendarStyles>
+    <DirectoryCalendarStyles>
       <div className="menu-header">
         <div className="flex space-between">
           <p className="month">{format(calendar.selectedDate, 'MMMM yyyy')}</p>
@@ -165,7 +165,7 @@ export default function UserCalendar() {
           <button
             type="button"
             onClick={handleSearchClick}
-            className="submit-date-button"
+            className="go-to-month-button"
           >
             Search
           </button>
@@ -196,11 +196,11 @@ export default function UserCalendar() {
           </>
         </div>
       </div>
-    </UserCalendarStyles>
+    </DirectoryCalendarStyles>
   );
 }
 
-const UserCalendarStyles = styled.div`
+const DirectoryCalendarStyles = styled.div`
   .menu-header {
     .flex {
       display: flex;
@@ -295,13 +295,13 @@ const UserCalendarStyles = styled.div`
   .calendar-form {
     margin: 1.5rem 0 0;
     display: grid;
-    grid-template-columns: 1fr 9rem 6rem;
+    grid-template-columns: 1fr 7rem 7rem;
     gap: 1rem;
     align-items: flex-end;
 
     input,
     select,
-    .submit-date-button {
+    .go-to-month-button {
       padding: 00 0.625rem;
       height: 2.5rem;
       border-radius: 0.375rem;
@@ -313,7 +313,7 @@ const UserCalendarStyles = styled.div`
     flex-direction: column;
   }
 
-  .submit-date-button {
+  .go-to-month-button {
     padding: 0;
     color: #e6e7e9;
     background-color: #1c2a3f;

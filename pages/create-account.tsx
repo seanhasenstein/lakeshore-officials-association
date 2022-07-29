@@ -26,7 +26,7 @@ export default function CreateAccount() {
           actions.setSubmitting(false);
         },
         onSuccess: () => {
-          router.push('/profile');
+          router.push('/');
         },
       }
     );

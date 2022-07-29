@@ -6,7 +6,7 @@ import { User } from '../../interfaces';
 import { formatPhoneNumber, getUrlParam } from '../../utils/misc';
 import { fetchUserById } from '../../utils/queries';
 import FullLayout from '../../components/layouts/FullLayout';
-import UserCalendar from '../../components/UserCalendar';
+import DirectoryCalendar from '../../components/DirectoryCalendar';
 
 export default function OfficialCalendar() {
   const router = useRouter();
@@ -53,7 +53,7 @@ export default function OfficialCalendar() {
             </div>
             <div className="grid-cols-2">
               <div className="calendar-section">
-                <UserCalendar />
+                <DirectoryCalendar />
               </div>
               <div className="contact-info">
                 <h3>Contact information</h3>

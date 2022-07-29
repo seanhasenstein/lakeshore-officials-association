@@ -124,7 +124,8 @@ export default function Header(props: Props) {
           </div>
           <div className="section">
             <h3>
-              {router.pathname === '/' || router.pathname === '/profile' ? (
+              {router.pathname === '/' ||
+              router.pathname === '/grant-access' ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -150,14 +151,9 @@ export default function Header(props: Props) {
             </h3>
             <ul>
               <NavLinkItem
-                label="Calendar"
+                label="Profile/Calendar"
                 href="/"
                 isActive={router.pathname === '/'}
-              />
-              <NavLinkItem
-                label="Profile"
-                href="/profile"
-                isActive={router.pathname === '/profile'}
               />
               {user.data?.isAdmin ? (
                 <NavLinkItem

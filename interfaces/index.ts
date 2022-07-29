@@ -50,6 +50,20 @@ export interface UsersBySports {
 
 export type ProfileFormValues = Omit<User, '_id'>;
 
+export type CalendarYear = Record<
+  string,
+  {
+    [month: string]: {
+      [day: string]: string[];
+    };
+  }
+>;
+
+export interface Calendar {
+  _id: string;
+  calendar: CalendarYear;
+}
+
 export interface Request extends NextApiRequest {
   db: Db;
   dbClient: MongoClient;

@@ -29,7 +29,7 @@ export default function UpdateProfile() {
           actions.setSubmitting(false);
         },
         onSuccess: () => {
-          router.push('/profile');
+          router.push('/');
         },
       }
     );
