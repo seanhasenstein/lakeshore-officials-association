@@ -1,9 +1,9 @@
 import { Db, ObjectId } from 'mongodb';
-import { Calendar } from '../interfaces';
+import { CalendarCollection } from '../interfaces';
 
 // TODO move to util file?
 function getUpdatedCalendarYear(
-  data: Calendar,
+  data: CalendarCollection,
   year: string,
   month: string,
   day: string,
@@ -47,9 +47,9 @@ function getUpdatedCalendarYear(
 }
 
 export async function getAllCalendarData(db: Db) {
-  const result = await db
-    .collection('calendar')
-    .findOne<Calendar>({ _id: new ObjectId('62e1f20d9bb0a90c47736dc6') });
+  const result = await db.collection('calendar').findOne<CalendarCollection>({
+    _id: new ObjectId('62e1f20d9bb0a90c47736dc6'),
+  });
   return result;
 }
 
@@ -58,10 +58,16 @@ export async function getYearCalendarData(db: Db, year: string) {
     .collection('calendar')
     .aggregate([
       { $match: { _id: new ObjectId('62e1f20d9bb0a90c47736dc6') } },
-      { $project: { [`calendar.${year}`]: 1 } },
+      {
+        $project: {
+          [`calendar.${Number(year) - 1}`]: 1,
+          [`calendar.${year}`]: 1,
+          [`calendar.${Number(year) + 1}`]: 1,
+        },
+      },
     ])
     .toArray();
-  return result[0].calendar[year];
+  return result[0].calendar;
 }
 
 export async function updateCalendarDay(

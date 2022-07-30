@@ -35,6 +35,15 @@ export function formatToTitleCase(value: string) {
   return `${value[0].toUpperCase()}${value.slice(1)}`;
 }
 
+export function formatToTwoDigits(input: string | number) {
+  const inputToNumber = Number(input);
+  if (inputToNumber < 10) {
+    return `0${input}`;
+  } else {
+    return `${input}`;
+  }
+}
+
 export function getUrlParam(param: string | string[] | undefined) {
   if (!param) return '';
   return Array.isArray(param) ? param[0] : param;

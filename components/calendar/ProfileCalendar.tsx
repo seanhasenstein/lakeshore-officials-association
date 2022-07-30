@@ -3,10 +3,14 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
 import { getMonthCalendarData } from '../../utils/calendar';
-import { Calendar } from '../../interfaces';
 import DayButton from './DayButton';
+import { Calendar, User } from '../../interfaces';
 
-export default function ProfileCalendar() {
+type Props = {
+  user: User;
+};
+
+export default function ProfileCalendar(props: Props) {
   // TODO: move this to a custom hook
   const [calendar, setCalendar] = React.useState(() => {
     const now = new Date();
@@ -25,9 +29,13 @@ export default function ProfileCalendar() {
   const [serverError, setServerError] = React.useState(false);
 
   const calendarQuery = useQuery<Calendar>(
-    ['calendar'],
+    ['calendar', 'year', calendar.selectedDate.getFullYear().toString()],
     async () => {
-      const response = await fetch('/api/get-calendar-data');
+      const response = await fetch(
+        `/api/get-calendar-data?year=${calendar.selectedDate
+          .getFullYear()
+          .toString()}`
+      );
       // TODO: handle !response.ok / error case
       const data = await response.json();
       return data;
@@ -207,9 +215,10 @@ export default function ProfileCalendar() {
                 {calendar.days.map((day, index) => (
                   <DayButton
                     key={day.date + index}
+                    calendarData={calendarQuery.data}
                     day={day}
-                    calendar={calendarQuery.data.calendar}
                     setServerError={setServerError}
+                    user={props.user}
                   />
                 ))}
               </>
@@ -397,6 +406,7 @@ const ProfileCalendarStyles = styled.div`
     position: absolute;
     top: 4.5rem;
     left: 0;
+    white-space: nowrap;
     font-size: 0.8125rem;
     font-weight: 500;
     color: #be123c;

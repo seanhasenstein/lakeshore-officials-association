@@ -33,7 +33,7 @@ export default function Homepage() {
             </div>
             <div className="grid-cols-2">
               <div className="calendar-section">
-                <ProfileCalendar />
+                <ProfileCalendar user={user.data} />
               </div>
               <div className="contact-info">
                 <h3>Contact information</h3>
@@ -103,7 +103,7 @@ export default function Homepage() {
             </div>
             <p className="last-updated">
               Last updated:{' '}
-              {format(new Date(user.data.updatedAt), "PP 'at' K:mmaaa")}
+              {format(new Date(user.data.updatedAt), "PP 'at' h:mmaaa")}
             </p>
           </>
         ) : null}

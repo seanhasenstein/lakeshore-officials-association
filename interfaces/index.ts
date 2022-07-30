@@ -50,18 +50,21 @@ export interface UsersBySports {
 
 export type ProfileFormValues = Omit<User, '_id'>;
 
-export type CalendarYear = Record<
-  string,
-  {
-    [month: string]: {
-      [day: string]: string[];
-    };
-  }
->;
+export type CalendarMonth = {
+  [date: string]: string[];
+};
 
-export interface Calendar {
+export type CalendarYear = {
+  [month: string]: CalendarMonth;
+};
+
+export type Calendar = {
+  [year: string]: CalendarYear;
+};
+
+export interface CalendarCollection {
   _id: string;
-  calendar: CalendarYear;
+  calendar: Calendar;
 }
 
 export interface Request extends NextApiRequest {

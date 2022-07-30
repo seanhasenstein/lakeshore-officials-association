@@ -1,9 +1,16 @@
 import React from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
 import { getMonthCalendarData } from '../../utils/calendar';
+import DirectoryCalendarDay from './DirectoryCalendarDay';
+import { Calendar } from '../../interfaces';
 
-export default function DirectoryCalendar() {
+type Props = {
+  userId: string;
+};
+
+export default function DirectoryCalendar(props: Props) {
   const [calendar, setCalendar] = React.useState(() => {
     const now = new Date();
     return {
@@ -18,6 +25,21 @@ export default function DirectoryCalendar() {
     calendar.selectedDate.getFullYear().toString()
   );
   const [searchError, setSearchError] = React.useState<string>();
+
+  const calendarQuery = useQuery<Calendar>(
+    ['calendar', 'year', calendar.selectedDate.getFullYear()],
+    async () => {
+      const response = await fetch(
+        `/api/get-calendar-data?year=${calendar.selectedDate.getFullYear()}`
+      );
+
+      // TODO: handle !response.ok or error respsonse
+
+      const data = await response.json();
+      return data;
+    },
+    { staleTime: 1000 * 60 * 5 }
+  );
 
   const handlePrevClick = () => {
     const prevMonth = subMonths(calendar.selectedDate, 1);
@@ -184,16 +206,20 @@ export default function DirectoryCalendar() {
         <div className="calendar-body">
           <>
             {calendar.days.map((day, index) => (
-              <div
+              <DirectoryCalendarDay
                 key={day.date + index}
-                className={`day${
-                  day.isCurrentMonth ? '' : ' not-current-month'
-                }`}
-              >
-                {day.dayOfMonth}
-              </div>
+                calendarData={calendarQuery.data}
+                day={day}
+                userId={props.userId}
+              />
             ))}
           </>
+        </div>
+      </div>
+      <div className="legend" aria-hidden="true">
+        <div className="legend-item">
+          <span className="label available" />
+          <p>Available on this day</p>
         </div>
       </div>
     </DirectoryCalendarStyles>
@@ -348,6 +374,7 @@ const DirectoryCalendarStyles = styled.div`
     position: absolute;
     top: 4.5rem;
     left: 0;
+    white-space: nowrap;
     font-size: 0.8125rem;
     font-weight: 500;
     color: #be123c;
@@ -377,57 +404,37 @@ const DirectoryCalendarStyles = styled.div`
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   }
 
-  .day {
-    margin: -1px 0 0 -1px;
-    padding: 0.625rem 0;
+  .legend {
+    margin: 1.75rem 0 0 0.625rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: #fff;
-    border: 1px solid #d1d5db;
-    font-size: 0.875rem;
-    color: #111827;
-    transition: background-color 100ms linear;
+    flex-direction: column;
+    gap: 1rem;
 
-    &.selected,
-    &.not-current-month.selected {
-      background-color: #162131;
-      border-color: #162131;
-      color: #f3f4f6;
-      font-weight: 600;
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-      &:hover {
-        background-color: #162131;
+    .label {
+      position: relative;
+      display: block;
+      height: 1.25rem;
+      width: 1.5rem;
+      border-radius: 0.0625rem;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
+      &.available {
+        background-color: #a7f3d0;
       }
     }
 
-    &.not-current-month {
-      background-color: #f3f4f6;
-
-      &:hover {
-        background-color: #e5e7eb;
-      }
-    }
-
-    &:first-of-type {
-      border-top-left-radius: 0.5rem;
-    }
-
-    &:nth-of-type(7) {
-      border-top-right-radius: 0.5rem;
-    }
-
-    &:nth-of-type(36) {
-      border-bottom-left-radius: 0.5rem;
-    }
-
-    &:last-of-type {
-      border-bottom-right-radius: 0.5rem;
-    }
-
-    &:hover {
-      background-color: #f3f4f6;
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #1f2937;
     }
   }
 `;

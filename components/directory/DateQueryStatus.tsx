@@ -28,11 +28,11 @@ export default function DateQueryStatus(props: Props) {
 
 const DateQueryStatusStyles = styled.div`
   margin: 0 auto;
-  padding: 0 0.5rem;
+  padding: 0.3125rem 0.5rem 0.25rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  line-height: 1.666666667;
+  line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.075em;
   text-align: center;

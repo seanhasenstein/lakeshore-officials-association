@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { format } from 'date-fns';
 import styled from 'styled-components';
-import { Sport } from '../../interfaces';
+import { Calendar, Sport } from '../../interfaces';
 import {
   formatPhoneNumber,
   formatToTitleCase,
@@ -26,15 +26,15 @@ export default function SportPage() {
   const [dateIds, setDateIds] = React.useState<string[]>();
 
   const sportQuery = useQuery(
-    ['users', sport],
+    ['users', 'sports', sport],
     () => fetchUsersBySport(sport as Sport | undefined),
     {
       staleTime: 1000 * 60 * 5,
     }
   );
 
-  const calendarQuery = useQuery(
-    ['calendar', selectedDate],
+  const calendarQuery = useQuery<Calendar>(
+    ['calendar', 'year', new Date(selectedDate).getFullYear().toString()],
     async () => {
       const response = await fetch(
         `/api/get-calendar-data?year=${new Date(selectedDate).getFullYear()}`
@@ -57,15 +57,16 @@ export default function SportPage() {
   React.useEffect(() => {
     if (calendarQuery.data) {
       const date = new Date(selectedDate);
+      const year = date.getFullYear();
       const month = date.getMonth();
       const day = date.getDate();
 
-      if (!calendarQuery.data[month]) {
+      if (!calendarQuery.data[year] || !calendarQuery.data[year][month]) {
         setDateIds(undefined);
         return;
       }
 
-      const data = calendarQuery.data[month][day];
+      const data = calendarQuery.data[year][month][day];
       setDateIds(data);
     }
   }, [calendarQuery.data, selectedDate]);

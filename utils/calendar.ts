@@ -1,4 +1,5 @@
 import { format, getDay, getDaysInMonth, subDays, subMonths } from 'date-fns';
+import { formatToTwoDigits } from './misc';
 
 export type CurrentMonthDays = {
   date: string;
@@ -13,9 +14,9 @@ function createDaysForCurrentMonth(
 ): CurrentMonthDays[] {
   const daysInMonth = getDaysInMonth(new Date(`${month}-01-${year}`));
   return [...Array(daysInMonth)].map((_, index) => {
-    const dayOfMonth = index + 1;
-    const m = month < 10 ? '0' + month : month;
-    const d = dayOfMonth < 10 ? '0' + dayOfMonth : dayOfMonth;
+    const dayOfMonth: number = index + 1;
+    const m = formatToTwoDigits(month);
+    const d = formatToTwoDigits(dayOfMonth);
     const date = new Date(`${year}-${m}-${d}T00:00:00`);
 
     return {
@@ -45,9 +46,9 @@ function createDaysForPreviousMonth(
     return {
       date: format(
         new Date(
-          `${prevMonth.getFullYear()}-${prevMonth.getMonth() + 1}-${
-            prevMonthLastMondayOfMonth + index
-          }`
+          `${prevMonth.getFullYear()}-${formatToTwoDigits(
+            prevMonth.getMonth() + 1
+          )}-${formatToTwoDigits(prevMonthLastMondayOfMonth + index)}T00:00:00`
         ),
         'MM-dd-yyyy'
       ),
@@ -68,7 +69,11 @@ function createDaysForNextMonth(
     return {
       date: format(
         new Date(
-          `${year}-${Number(month) === 12 ? 1 : Number(month) + 1}-${index + 1}`
+          `${
+            Number(month) === 12 ? Number(year) + 1 : Number(year)
+          }-${formatToTwoDigits(
+            Number(month) === 12 ? 1 : Number(month) + 1
+          )}-${formatToTwoDigits(index + 1)}T00:00:00`
         ),
         'MM-dd-yyyy'
       ),

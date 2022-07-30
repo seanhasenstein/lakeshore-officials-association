@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useQuery, useQueryClient } from 'react-query';
+import { format } from 'date-fns';
 import styled from 'styled-components';
 import { User } from '../../interfaces';
 import { formatPhoneNumber, getUrlParam } from '../../utils/misc';
@@ -20,7 +21,7 @@ export default function OfficialCalendar() {
   }, [router.query.id]);
 
   const query = useQuery(
-    ['calendar', id],
+    ['users', 'user', id],
     () => fetchUserById(getUrlParam(id)),
     {
       initialData: () => {
@@ -53,7 +54,7 @@ export default function OfficialCalendar() {
             </div>
             <div className="grid-cols-2">
               <div className="calendar-section">
-                <DirectoryCalendar />
+                <DirectoryCalendar userId={query.data._id} />
               </div>
               <div className="contact-info">
                 <h3>Contact information</h3>
@@ -104,6 +105,10 @@ export default function OfficialCalendar() {
                 ) : null}
               </div>
             </div>
+            <p className="last-updated">
+              Last updated:{' '}
+              {format(new Date(query.data.updatedAt), "PP 'at' h:mmaaa")}
+            </p>
           </div>
         ) : null}
       </OfficialCalendarStyles>
@@ -134,7 +139,7 @@ const OfficialCalendarStyles = styled.div`
     padding: 2.25rem 3rem 2.75rem;
     display: grid;
     grid-template-columns: 1fr 0.75fr;
-    background-color: #fafafa;
+    background-color: #fdfdfd;
     border-radius: 0.5rem;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     border-top: 1px solid #e9eaec;
@@ -186,5 +191,12 @@ const OfficialCalendarStyles = styled.div`
         }
       }
     }
+  }
+
+  .last-updated {
+    margin: 1.375rem 0 0 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #7e8694;
   }
 `;

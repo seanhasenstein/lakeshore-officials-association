@@ -1,36 +1,41 @@
+import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-import { useUser } from '../../hooks/useUser';
-import { CalendarYear } from '../../interfaces';
+import { Calendar, User } from '../../interfaces';
 import { CurrentMonthDays } from '../../utils/calendar';
 
 type Props = {
+  calendarData: Calendar;
   day: CurrentMonthDays;
-  calendar: CalendarYear;
   setServerError: React.Dispatch<React.SetStateAction<boolean>>;
+  user: User;
 };
 
 export default function DayButton(props: Props) {
   const queryClient = useQueryClient();
-  const user = useUser();
+  const [status, setStatus] = React.useState<'available' | 'unavailable'>();
 
-  const dateObj = new Date(props.day.date);
-  const year = dateObj.getFullYear().toString();
-  const month = dateObj.getMonth().toString();
-  const date = dateObj.getDate().toString();
-  const calendar = props.calendar;
-  const dateCheck =
-    calendar[year] !== undefined &&
-    calendar[year][month] !== undefined &&
-    calendar[year][month][date] !== undefined
-      ? calendar[year][month][date]
-      : undefined;
+  React.useEffect(() => {
+    const date = new Date(props.day.date);
+    const year = date.getFullYear().toString();
+    const month = date.getMonth().toString();
+    const day = date.getDate().toString();
 
-  const status = dateCheck
-    ? dateCheck.includes(user.data?._id || '')
+    if (
+      !props.calendarData[year] ||
+      !props.calendarData[year][month] ||
+      !props.calendarData[year][month][day]
+    ) {
+      setStatus('unavailable');
+      return;
+    }
+
+    const dayIdsArray = props.calendarData[year][month][day];
+    const updatedStatus = dayIdsArray.includes(props.user._id)
       ? 'available'
-      : 'unavailable'
-    : 'unavailable';
+      : 'unavailable';
+    setStatus(updatedStatus);
+  }, [props.calendarData, props.day.date, props.user._id]);
 
   const dateToggle = useMutation(
     async ({
@@ -38,16 +43,16 @@ export default function DayButton(props: Props) {
       status,
     }: {
       dateString: string;
-      status: 'available' | 'unavailable';
+      status: 'available' | 'unavailable' | undefined;
     }) => {
-      const toggledStatus =
+      const flipToggleStatus =
         status === 'unavailable' ? 'available' : 'unavailable';
       const response = await fetch('/api/update-calendar-day', {
         method: 'POST',
         body: JSON.stringify({
-          user: user.data,
+          user: props.user,
           dateString,
-          status: toggledStatus,
+          status: flipToggleStatus,
         }),
         headers: {
           'Content-Type': 'application/json',
