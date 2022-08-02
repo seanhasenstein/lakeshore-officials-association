@@ -149,8 +149,7 @@ export default function OfficialCalendar() {
 const OfficialCalendarStyles = styled.div`
   margin: 0 0 3rem;
 
-  .name {
-    margin: 2.25rem 0 0;
+  h2 {
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
