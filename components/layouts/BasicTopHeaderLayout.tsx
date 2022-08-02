@@ -1,7 +1,8 @@
 import React from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 import styled from 'styled-components';
-import BaseLayout from './BaseLayout';
+import { GlobalStyles } from '../../styles/GlobalStyles';
 import Footer from './Footer';
 
 type Props = {
@@ -11,21 +12,28 @@ type Props = {
 
 export default function BasicTopHeaderLayout({ children, title }: Props) {
   return (
-    <BaseLayout title={title}>
-      <BasicTopHeaderLayoutStyles>
-        <div>
-          <header>
-            <h1>
-              <Link href="/">
-                <a>Lakeshore Officials Association</a>
-              </Link>
-            </h1>
-          </header>
-          <main>{children}</main>
-        </div>
-        <Footer />
-      </BasicTopHeaderLayoutStyles>
-    </BaseLayout>
+    <BasicTopHeaderLayoutStyles>
+      <Head>
+        <title>
+          {`${title ? `${title} | ` : ''}Lakeshore Officials Association`}
+        </title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <GlobalStyles />
+      <div>
+        <header>
+          <h1>
+            <Link href="/">
+              <a>Lakeshore Officials Association</a>
+            </Link>
+          </h1>
+        </header>
+        <main>{children}</main>
+      </div>
+      <Footer />
+    </BasicTopHeaderLayoutStyles>
   );
 }
 

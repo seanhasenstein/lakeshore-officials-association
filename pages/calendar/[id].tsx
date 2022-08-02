@@ -168,6 +168,8 @@ const OfficialCalendarStyles = styled.div`
   .grid-cols-2 {
     margin: 2rem 0 0;
     padding: 2.25rem 3rem 2.75rem;
+    max-width: 60rem;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 0.75fr;
     background-color: #fdfdfd;
