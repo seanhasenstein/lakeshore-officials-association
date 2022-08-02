@@ -88,13 +88,14 @@ export default function Login() {
                       <div>
                         If you think this is an error, please{' '}
                         <Link href="/contact-us">
-                          {/* TODO: get the real email for this... */}
-                          <a href="mailto:seanhasenstein@gmail.com">
+                          <a
+                            href={`mailto:${process.env.NEXT_PUBLIC_TO_EMAIL}`}
+                          >
                             let us know
                           </a>
                         </Link>
                         . Or if you don&apos;t have an account you can{' '}
-                        <a href="mailto:seanhasenstein@gmail.com">
+                        <a href={`mailto:${process.env.NEXT_PUBLIC_TO_EMAIL}`}>
                           request to create one
                         </a>
                         .

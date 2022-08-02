@@ -22,6 +22,10 @@ interface RouteRequest extends NextApiRequest {
 const router = createRouter<RouteRequest, NextApiResponse>();
 
 router.post(async (req, res) => {
+  if (!process.env.CONTACT_FORM_TO_EMAIL) {
+    throw new Error('process.env.CONTACT_FORM_TO_EMAIL is required');
+  }
+
   const messageId = createIdNumber();
   const form = {
     name: req.body.fullname.trim(),
@@ -38,8 +42,7 @@ router.post(async (req, res) => {
   const zonedTime = utcToZonedTime(new Date(), 'America/Chicago');
 
   const result = await sendEmail({
-    // TODO: enter a real email address for production OR .env var?
-    to: 'seanhasenstein+lakeshore-officials@gmail.com',
+    to: process.env.CONTACT_FORM_TO_EMAIL,
     from: 'Lakeshore Officials<admin@lakeshoreofficials.com>',
     replyTo: req.body.email,
     subject: `${form.subject} [#${messageId}]`,
