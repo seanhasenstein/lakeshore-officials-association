@@ -64,7 +64,9 @@ const UpdateProfileStyles = styled.div`
   }
 
   p {
-    margin: 0.5rem 0 0;
+    margin: 1rem 0 0;
+    max-width: 36rem;
+    width: 100%;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.5;

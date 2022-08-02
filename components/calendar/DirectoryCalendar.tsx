@@ -437,4 +437,31 @@ const DirectoryCalendarStyles = styled.div`
       color: #1f2937;
     }
   }
+
+  @media (max-width: 640px) {
+    margin: 1rem 0 0;
+
+    .calendar-actions {
+      margin: 1.75rem 0 0;
+    }
+
+    .today-button {
+      padding: 0 1.5rem;
+    }
+
+    .flex.space-between {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .calendar-form {
+      display: none;
+    }
+
+    .go-to-month-button {
+      margin: 0.5rem 0 0;
+    }
+  }
 `;

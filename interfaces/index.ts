@@ -19,11 +19,14 @@ export type Level =
   | 'NAO'
   | 'default';
 
+export type FilterLevels = { name: string; checked: boolean }[];
+
 export interface User {
   _id: string;
   firstName: string;
   lastName: string;
   city: string;
+  state: string;
   homePhone: string;
   cellPhone: string;
   workPhone: {

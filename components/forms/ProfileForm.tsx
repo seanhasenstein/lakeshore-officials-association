@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { ProfileFormValues } from '../../interfaces';
 import { validationSchema } from '../../utils/profile';
+import { unitedStates } from '../../utils/states';
 
 type Props = {
   initialValues: ProfileFormValues;
@@ -53,10 +54,29 @@ export default function ProfileForm(props: Props) {
                 />
               </div>
             </div>
+            <div className="grid-cols-2">
+              <div className="item">
+                <label htmlFor="city">City</label>
+                <Field name="city" id="city" />
+                <ErrorMessage component="div" className="error" name="city" />
+              </div>
+              <div className="item">
+                <label htmlFor="state">State:</label>
+                <Field as="select" name="state" id="state">
+                  <option value="">Select your state</option>
+                  {unitedStates.map(s => (
+                    <option key={s.value} value={s.text}>
+                      {s.text}
+                    </option>
+                  ))}
+                </Field>
+                <ErrorMessage component="div" className="error" name="state" />
+              </div>
+            </div>
             <div className="item">
-              <label htmlFor="city">City</label>
-              <Field name="city" id="city" />
-              <ErrorMessage component="div" className="error" name="city" />
+              <label htmlFor="email">Email address</label>
+              <Field name="email" id="email" />
+              <ErrorMessage component="div" className="error" name="email" />
             </div>
             <div className="grid-cols-2">
               <div className="item">
@@ -97,11 +117,6 @@ export default function ProfileForm(props: Props) {
                   name="workPhone.extension"
                 />
               </div>
-            </div>
-            <div className="item">
-              <label htmlFor="email">Email address</label>
-              <Field name="email" id="email" />
-              <ErrorMessage component="div" className="error" name="email" />
             </div>
             <div className="sports">
               <div className="instructions">
@@ -195,11 +210,11 @@ export default function ProfileForm(props: Props) {
 }
 
 const ProfileFormStyles = styled.div`
-  margin: 2rem 0 0;
+  margin: 2.25rem 0 0;
   padding: 2rem;
   max-width: 38rem;
   width: 100%;
-  background-color: #fefefe;
+  background-color: #fbfbfb;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   border-top: 1px solid #e9eaec;

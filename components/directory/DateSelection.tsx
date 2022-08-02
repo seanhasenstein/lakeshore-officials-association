@@ -75,6 +75,7 @@ export default function DateSelection(props: Props) {
         <button
           type="button"
           onClick={handleSearchSubmit}
+          disabled={inputDate === format(calendar.selectedDate, 'MM-dd-yyyy')}
           className="date-calendar-button"
         >
           Search
@@ -100,12 +101,8 @@ export default function DateSelection(props: Props) {
 
 const DateStyles = styled.div<{ isOpen: boolean }>`
   position: relative;
-  margin: 0 2rem;
-  padding: 0 2rem;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #d1d5db;
-  border-left: 1px solid #d1d5db;
 
   label {
     margin: 0 0 0.75rem;
@@ -120,7 +117,6 @@ const DateStyles = styled.div<{ isOpen: boolean }>`
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.875rem;
   }
 
   .date-calendar-button {
@@ -137,6 +133,13 @@ const DateStyles = styled.div<{ isOpen: boolean }>`
     box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     cursor: pointer;
     transition: all 100ms linear;
+
+    &:disabled,
+    &:disabled:hover {
+      background-color: #1c2a3f;
+      color: #e6e7e9;
+      cursor: default;
+    }
 
     &:hover {
       color: #fbfbfc;
@@ -183,9 +186,28 @@ const DateStyles = styled.div<{ isOpen: boolean }>`
   }
 
   .date-input {
-    padding-left: 2.125rem;
+    padding-left: 2.1875rem;
     height: 2.25rem;
-    min-width: 14.25rem;
+    min-width: 14rem;
     border-radius: 0.375rem;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+
+    .date-input {
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem;
+      height: initial;
+      width: 100%;
+    }
+
+    .search-input-button {
+      top: 0.625rem;
+    }
+
+    .date-calendar-button {
+      right: 0.375rem;
+    }
   }
 `;

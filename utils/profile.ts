@@ -6,6 +6,7 @@ export const blankProfileFormValues: ProfileFormValues = {
   firstName: '',
   lastName: '',
   city: '',
+  state: '',
   homePhone: '',
   cellPhone: '',
   workPhone: {
@@ -14,10 +15,9 @@ export const blankProfileFormValues: ProfileFormValues = {
   },
   email: '',
   sports: [],
-  isAdmin: false,
-  // createdAt/updatedAt set on the server
-  createdAt: '',
-  updatedAt: '',
+  isAdmin: false, // set again on server so they can't override
+  createdAt: '', // set on the server
+  updatedAt: '', // set on the server
 };
 
 export function formatDbValuesForForm(input: User): ProfileFormValues {
@@ -46,6 +46,7 @@ export function formatDbValuesForForm(input: User): ProfileFormValues {
     firstName: input.firstName.trim(),
     lastName: input.lastName.trim(),
     city: input.city.trim(),
+    state: input.state.trim(),
     homePhone: formatPhoneNumber(input.homePhone) || '',
     cellPhone: formatPhoneNumber(input.cellPhone) || '',
     workPhone: {
@@ -69,6 +70,7 @@ export function formatFormValuesForDb(
     firstName: input.firstName.trim(),
     lastName: input.lastName.trim(),
     city: input.city.trim(),
+    state: input.state.trim(),
     homePhone: removeNonDigits(input.homePhone),
     cellPhone: removeNonDigits(input.cellPhone),
     workPhone: {

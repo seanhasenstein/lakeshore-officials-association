@@ -35,9 +35,9 @@ export default function CreateAccount() {
   return (
     <FullLayout title="Create a profile" authRequired={true}>
       <CreateAccountStyles>
-        <h2>Create an account</h2>
+        <h2>Create your account</h2>
         <p>
-          Complete this form to create an account for the Lakeshore Officials
+          Complete this form to create your account for the Lakeshore Officials
           Association website.
         </p>
         {user.data && (
@@ -54,10 +54,7 @@ export default function CreateAccount() {
 }
 
 const CreateAccountStyles = styled.div`
-  margin: 5rem auto;
-  padding: 0 1.5rem;
-  max-width: 38rem;
-  width: 100%;
+  margin: 0 0 4rem;
 
   h2 {
     font-size: 1.5rem;
@@ -67,16 +64,12 @@ const CreateAccountStyles = styled.div`
   }
 
   p {
-    margin: 0.5rem 0 0;
+    margin: 1rem 0 0;
     max-width: 36rem;
     width: 100%;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.5;
     color: #747b89;
-  }
-
-  @media (max-width: 1024px) {
-    margin: 3rem auto;
   }
 `;

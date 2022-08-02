@@ -1,24 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FilterLevels } from '../../interfaces';
 
-const initialLevels = [
-  { name: 'MS', checked: true },
-  { name: 'L5', checked: true },
-  { name: 'L4', checked: true },
-  { name: 'L3', checked: true },
-  { name: 'L2', checked: true },
-  { name: 'L1', checked: true },
-  { name: 'L0', checked: true },
-];
+type Props = {
+  levels: FilterLevels;
+  setLevels: React.Dispatch<React.SetStateAction<FilterLevels>>;
+};
 
-type Levels = { name: string; checked: boolean }[];
-
-export default function Filter() {
+export default function Filter(props: Props) {
   const menuRef = React.useRef<HTMLDivElement>(null);
-  const [levels, setLevels] = React.useState<Levels>(initialLevels);
 
   const handleClick = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedLevels = levels.map(level => {
+    const updatedLevels = props.levels.map(level => {
       if (level.name === e.target.name) {
         return { ...level, checked: e.target.checked };
       } else {
@@ -26,15 +19,15 @@ export default function Filter() {
       }
     });
 
-    setLevels(updatedLevels);
+    props.setLevels(updatedLevels);
   };
 
   return (
     <FilterStyles ref={menuRef}>
       <h3>Filter by level:</h3>
       <div className="levels">
-        {levels.map(level => (
-          <div key={level.name} className="level">
+        {props.levels.map(level => (
+          <div key={level.name} className="level-item">
             <input
               type="checkbox"
               name={level.name}
@@ -74,7 +67,7 @@ const FilterStyles = styled.div`
     border-radius: 0.3125rem;
   }
 
-  .level {
+  .level-item {
     &:first-of-type label {
       border-top-left-radius: 0.3125rem;
       border-bottom-left-radius: 0.3125rem;
@@ -122,6 +115,26 @@ const FilterStyles = styled.div`
       &:hover {
         background-color: #c5d8f8;
       }
+    }
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+
+    .levels {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    label {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 375px) {
+    label {
+      padding: 0 0.625rem;
     }
   }
 `;

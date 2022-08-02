@@ -15,7 +15,7 @@ export default function Homepage() {
       <HomepageStyles>
         {user.data ? (
           <>
-            <div className="flex-row space-between items-end">
+            <div className="header-row">
               <div>
                 <h2>Welcome back {user.data.firstName}</h2>
                 <p className="welcome">
@@ -115,16 +115,12 @@ export default function Homepage() {
 const HomepageStyles = styled.div`
   margin: 0 0 3rem;
 
-  .flex-row {
+  .header-row {
     display: flex;
-  }
-
-  .space-between {
     justify-content: space-between;
-  }
-
-  .items-end {
     align-items: flex-end;
+    max-width: 60rem;
+    width: 100%;
   }
 
   h2 {
@@ -160,6 +156,8 @@ const HomepageStyles = styled.div`
   }
 
   .update-profile-link {
+    flex-shrink: 0;
+    margin: 0 0 0 2rem;
     padding: 0.6875rem 1.125rem;
     font-size: 0.875rem;
     font-weight: 600;
@@ -187,8 +185,10 @@ const HomepageStyles = styled.div`
   }
 
   .grid-cols-2 {
-    margin: 2rem 0 0;
+    margin: 2.25rem 0 0;
     padding: 2.25rem 3rem 2.75rem;
+    max-width: 60rem;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 0.7fr;
     background-color: #fafafa;
@@ -258,6 +258,41 @@ const HomepageStyles = styled.div`
           text-decoration: underline;
         }
       }
+    }
+  }
+
+  @media (max-width: 1260px) {
+    .update-profile-link {
+      display: none;
+    }
+
+    .grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+
+    .calendar-section {
+      padding: 0;
+      border-right: none;
+    }
+
+    .contact-info {
+      margin: 3.5rem 0 0;
+      padding: 3rem 0 0;
+      border-left: none;
+      border-top: 1px solid #d1d5db;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .grid-cols-2 {
+      padding: 0;
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    p.last-updated {
+      margin: 2.25rem 0 0;
     }
   }
 `;

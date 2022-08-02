@@ -53,7 +53,7 @@ export default function CalendarDropdown(props: Props) {
 
   return (
     <CalendarDropdownStyles ref={props.menuRef}>
-      <div className="flex space-between">
+      <div className="top-row">
         <p className="month">
           {format(props.calendar.selectedDate, 'MMMM yyyy')}
         </p>
@@ -157,11 +157,11 @@ export default function CalendarDropdown(props: Props) {
 }
 
 const CalendarDropdownStyles = styled.div`
-  display: 'inline-block';
+  display: inline-block;
   padding: 1.3125rem 1.75rem 1.5rem;
   position: absolute;
-  top: 4.75rem;
-  left: 2rem;
+  top: 4.8125rem;
+  left: 0;
   white-space: nowrap;
   width: 23rem;
   background-color: #fafafa;
@@ -169,13 +169,11 @@ const CalendarDropdownStyles = styled.div`
   border-radius: 0.5rem;
   box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px,
     rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  z-index: 500;
 
-  .flex {
+  .top-row {
     display: flex;
     align-items: center;
-  }
-
-  .space-between {
     justify-content: space-between;
   }
 
@@ -340,6 +338,28 @@ const CalendarDropdownStyles = styled.div`
 
     &:focus {
       z-index: 100;
+    }
+  }
+
+  @media (max-width: 768px) {
+    top: 5.25rem;
+    right: 0;
+    left: initial;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+
+  @media (max-width: 375px) {
+    padding: 1.25rem 1rem 1rem;
+
+    .top-row {
+      flex-direction: column;
+    }
+
+    .calendar-actions {
+      margin: 1rem 0 0;
     }
   }
 `;

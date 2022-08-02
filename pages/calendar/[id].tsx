@@ -27,7 +27,8 @@ export default function OfficialCalendar() {
       initialData: () => {
         const users = queryClient.getQueryData<User[]>([
           'users',
-          getUrlParam(router.query.sport),
+          'sports',
+          getUrlParam(router.query.s),
         ]);
         if (users) {
           return users.find(u => u._id === id);
@@ -50,11 +51,15 @@ export default function OfficialCalendar() {
               <h2 className="name">
                 {query.data.firstName} {query.data.lastName}
               </h2>
-              <p className="city">{query.data.city}</p>
+              <p className="city">
+                {query.data.city}, {query.data.state}
+              </p>
             </div>
             <div className="grid-cols-2">
               <div className="calendar-section">
-                <DirectoryCalendar userId={query.data._id} />
+                {router.isReady ? (
+                  <DirectoryCalendar userId={query.data._id} />
+                ) : null}
               </div>
               <div className="contact-info">
                 <h3>Contact information</h3>
@@ -120,6 +125,7 @@ const OfficialCalendarStyles = styled.div`
   margin: 0 0 3rem;
 
   .name {
+    margin: 2.25rem 0 0;
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
@@ -152,10 +158,9 @@ const OfficialCalendarStyles = styled.div`
 
   .contact-info {
     margin: 0 0 0 -1px;
-    padding: 0 0 0 3.75rem;
+    padding: 2rem 0 0 3.75rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     border-left: 1px solid #d1d5db;
 
     h3 {
@@ -194,9 +199,45 @@ const OfficialCalendarStyles = styled.div`
   }
 
   .last-updated {
-    margin: 1.375rem 0 0 0.875rem;
+    margin: 1.75rem 0 0 0.875rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: #7e8694;
+  }
+
+  @media (max-width: 1260px) {
+    .grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+
+    .calendar-section {
+      padding: 0;
+      border-right: none;
+    }
+
+    .contact-info {
+      margin: 3.5rem 0 0;
+      padding: 3rem 0 0;
+      border-left: none;
+      border-top: 1px solid #d1d5db;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .name,
+    .city {
+      text-align: center;
+    }
+
+    .grid-cols-2 {
+      padding: 0;
+      background-color: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    .last-updated {
+      margin: 2.25rem 0 0;
+    }
   }
 `;

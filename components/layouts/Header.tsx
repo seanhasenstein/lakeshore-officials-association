@@ -157,7 +157,7 @@ export default function Header(props: Props) {
               />
               {user.data?.isAdmin ? (
                 <NavLinkItem
-                  label="Grant access"
+                  label="Grant site access"
                   href="/grant-access"
                   isActive={router.pathname === '/grant-access'}
                 />
