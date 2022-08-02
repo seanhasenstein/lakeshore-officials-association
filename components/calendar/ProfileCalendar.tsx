@@ -1,51 +1,38 @@
 import React from 'react';
-import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
-import { getMonthCalendarData } from '../../utils/calendar';
-import DayButton from './DayButton';
 import { Calendar, User } from '../../interfaces';
+import { CurrentMonthDays, getMonthCalendarData } from '../../utils/calendar';
+import DayButton from './DayButton';
 
 type Props = {
   user: User;
+  calendar: {
+    selectedDate: Date;
+    days: CurrentMonthDays[];
+  };
+  setCalendar: React.Dispatch<
+    React.SetStateAction<{
+      selectedDate: Date;
+      days: CurrentMonthDays[];
+    }>
+  >;
+  calendarQueryData: Calendar;
 };
 
 export default function ProfileCalendar(props: Props) {
-  // TODO: move this to a custom hook
-  const [calendar, setCalendar] = React.useState(() => {
-    const now = new Date();
-    return {
-      selectedDate: now,
-      days: getMonthCalendarData(now),
-    };
-  });
   const [monthInput, setMonthInput] = React.useState(
-    calendar.selectedDate.getMonth().toString()
+    props.calendar.selectedDate.getMonth().toString()
   );
   const [yearInput, setYearInput] = React.useState<string>(
-    calendar.selectedDate.getFullYear().toString()
+    props.calendar.selectedDate.getFullYear().toString()
   );
   const [searchError, setSearchError] = React.useState<string>();
   const [serverError, setServerError] = React.useState(false);
 
-  const calendarQuery = useQuery<Calendar>(
-    ['calendar', 'year', calendar.selectedDate.getFullYear().toString()],
-    async () => {
-      const response = await fetch(
-        `/api/get-calendar-data?year=${calendar.selectedDate
-          .getFullYear()
-          .toString()}`
-      );
-      // TODO: handle !response.ok / error case
-      const data = await response.json();
-      return data;
-    },
-    { staleTime: 1000 * 60 * 5 }
-  );
-
   const handlePrevClick = () => {
-    const prevMonth = subMonths(calendar.selectedDate, 1);
-    setCalendar({
+    const prevMonth = subMonths(props.calendar.selectedDate, 1);
+    props.setCalendar({
       selectedDate: prevMonth,
       days: getMonthCalendarData(prevMonth),
     });
@@ -54,8 +41,8 @@ export default function ProfileCalendar(props: Props) {
   };
 
   const handleNextClick = () => {
-    const nextMonth = addMonths(calendar.selectedDate, 1);
-    setCalendar({
+    const nextMonth = addMonths(props.calendar.selectedDate, 1);
+    props.setCalendar({
       selectedDate: nextMonth,
       days: getMonthCalendarData(nextMonth),
     });
@@ -79,7 +66,7 @@ export default function ProfileCalendar(props: Props) {
         monthIndexPlusOne < 10 ? `0${monthIndexPlusOne}` : monthIndexPlusOne;
       const requestedDate = new Date(`${yearInput}-${month}-01T00:00:00`);
 
-      setCalendar({
+      props.setCalendar({
         selectedDate: requestedDate,
         days: getMonthCalendarData(requestedDate),
       });
@@ -93,168 +80,163 @@ export default function ProfileCalendar(props: Props) {
   };
 
   return (
-    <>
-      {calendarQuery.isLoading ? 'Loading...' : null}
-      {calendarQuery.data ? (
-        <ProfileCalendarStyles>
-          <div className="menu-header">
-            <div className="flex space-between">
-              <p className="month">
-                {format(calendar.selectedDate, 'MMMM yyyy')}
-              </p>
-              <div className="calendar-actions">
-                <button
-                  type="button"
-                  onClick={handlePrevClick}
-                  className="toggle-month-button"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="sr-only">Previous month</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const now = new Date();
-                    setCalendar({
-                      selectedDate: now,
-                      days: getMonthCalendarData(now),
-                    });
-                    setYearInput(now.getFullYear().toString());
-                    setMonthInput(now.getMonth().toString());
-                    setSearchError(undefined);
-                  }}
-                  className="today-button"
-                >
-                  Today
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextClick}
-                  className="toggle-month-button"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span className="sr-only">Next month</span>
-                </button>
-              </div>
-            </div>
-            <div className="calendar-form">
-              <div className="form-item">
-                <label htmlFor="month">Month</label>
-                <select
-                  value={monthInput}
-                  onChange={e => setMonthInput(e.target.value)}
-                >
-                  <option value="0">January</option>
-                  <option value="1">February</option>
-                  <option value="2">March</option>
-                  <option value="3">April</option>
-                  <option value="4">May</option>
-                  <option value="5">June</option>
-                  <option value="6">July</option>
-                  <option value="7">August</option>
-                  <option value="8">September</option>
-                  <option value="9">October</option>
-                  <option value="10">November</option>
-                  <option value="11">December</option>
-                </select>
-              </div>
-              <div className="form-item year-input">
-                <label htmlFor="year">Year</label>
-                <input
-                  type="text"
-                  name="year"
-                  id="year"
-                  value={yearInput}
-                  onChange={e => handleYearInputChange(e)}
-                />
-                {searchError ? (
-                  <div className="search-error">{searchError}</div>
-                ) : null}
-              </div>
-              <button
-                type="button"
-                onClick={handleSearchClick}
-                className="go-to-month-button"
-              >
-                Search
-              </button>
-            </div>
-          </div>
-          <div className="calendar">
-            <div className="calendar-header">
-              <div>S</div>
-              <div>M</div>
-              <div>T</div>
-              <div>W</div>
-              <div>T</div>
-              <div>F</div>
-              <div>S</div>
-            </div>
-            <div className="calendar-body">
-              <>
-                {calendar.days.map((day, index) => (
-                  <DayButton
-                    key={day.date + index}
-                    calendarData={calendarQuery.data}
-                    day={day}
-                    setServerError={setServerError}
-                    user={props.user}
-                  />
-                ))}
-              </>
-            </div>
-          </div>
-          {serverError ? (
-            <div className="server-error">
+    <ProfileCalendarStyles>
+      <div className="menu-header">
+        <div className="flex space-between">
+          <p className="month">
+            {format(props.calendar.selectedDate, 'MMMM yyyy')}
+          </p>
+          <div className="calendar-actions">
+            <button
+              type="button"
+              onClick={handlePrevClick}
+              className="toggle-month-button"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
+                viewBox="0 0 20 20"
+                fill="currentColor"
               >
                 <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  fillRule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  clipRule="evenodd"
                 />
               </svg>
-              Server error. Please try again.
-            </div>
-          ) : null}
-          <div className="legend" aria-hidden="true">
-            <div className="legend-item">
-              <span className="label instructions"></span>
-              <p>Click on a date to toggle available/unavailable</p>
-            </div>
-            <div className="legend-item">
-              <span className="label available" />
-              <p>Available on this day</p>
-            </div>
+              <span className="sr-only">Previous month</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const now = new Date();
+                props.setCalendar({
+                  selectedDate: now,
+                  days: getMonthCalendarData(now),
+                });
+                setYearInput(now.getFullYear().toString());
+                setMonthInput(now.getMonth().toString());
+                setSearchError(undefined);
+              }}
+              className="today-button"
+            >
+              Today
+            </button>
+            <button
+              type="button"
+              onClick={handleNextClick}
+              className="toggle-month-button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span className="sr-only">Next month</span>
+            </button>
           </div>
-        </ProfileCalendarStyles>
+        </div>
+        <div className="calendar-form">
+          <div className="form-item">
+            <label htmlFor="month">Month</label>
+            <select
+              value={monthInput}
+              onChange={e => setMonthInput(e.target.value)}
+            >
+              <option value="0">January</option>
+              <option value="1">February</option>
+              <option value="2">March</option>
+              <option value="3">April</option>
+              <option value="4">May</option>
+              <option value="5">June</option>
+              <option value="6">July</option>
+              <option value="7">August</option>
+              <option value="8">September</option>
+              <option value="9">October</option>
+              <option value="10">November</option>
+              <option value="11">December</option>
+            </select>
+          </div>
+          <div className="form-item year-input">
+            <label htmlFor="year">Year</label>
+            <input
+              type="text"
+              name="year"
+              id="year"
+              value={yearInput}
+              onChange={e => handleYearInputChange(e)}
+            />
+            {searchError ? (
+              <div className="search-error">{searchError}</div>
+            ) : null}
+          </div>
+          <button
+            type="button"
+            onClick={handleSearchClick}
+            className="go-to-month-button"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+      <div className="calendar">
+        <div className="calendar-header">
+          <div>S</div>
+          <div>M</div>
+          <div>T</div>
+          <div>W</div>
+          <div>T</div>
+          <div>F</div>
+          <div>S</div>
+        </div>
+        <div className="calendar-body">
+          <>
+            {props.calendar.days.map((day, index) => (
+              <DayButton
+                key={day.date + index}
+                calendarData={props.calendarQueryData}
+                day={day}
+                setServerError={setServerError}
+                user={props.user}
+              />
+            ))}
+          </>
+        </div>
+      </div>
+      {serverError ? (
+        <div className="server-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          Server error. Please try again.
+        </div>
       ) : null}
-    </>
+      <div className="legend" aria-hidden="true">
+        <div className="legend-item">
+          <span className="label instructions"></span>
+          <p>Click on a date to toggle available/unavailable</p>
+        </div>
+        <div className="legend-item">
+          <span className="label available" />
+          <p>Available on this day</p>
+        </div>
+      </div>
+    </ProfileCalendarStyles>
   );
 }
 

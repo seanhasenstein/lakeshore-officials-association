@@ -1,4 +1,5 @@
 import { format, getDay, getDaysInMonth, subDays, subMonths } from 'date-fns';
+import { CalendarCollection } from '../interfaces';
 import { formatToTwoDigits } from './misc';
 
 export type CurrentMonthDays = {
@@ -99,4 +100,48 @@ export function getMonthCalendarData(date: Date) {
   );
 
   return [...previousMonthDays, ...currentMonthDays, ...nextMonthDays];
+}
+
+export function getUpdatedCalendarYear(
+  data: CalendarCollection,
+  year: string,
+  month: string,
+  day: string,
+  userId: string
+) {
+  let update;
+
+  if (
+    data.calendar[year] &&
+    data.calendar[year][month] &&
+    data.calendar[year][month][day]
+  ) {
+    update = {
+      ...data.calendar,
+      [year]: {
+        ...data.calendar[year],
+        [month]: {
+          ...data.calendar[year][month],
+          [day]: [...data.calendar[year][month][day], userId],
+        },
+      },
+    };
+  } else if (data.calendar[year] && data.calendar[year][month]) {
+    update = {
+      ...data.calendar,
+      [year]: {
+        ...data.calendar[year],
+        [month]: { ...data.calendar[year][month], [day]: [userId] },
+      },
+    };
+  } else if (data.calendar[year]) {
+    update = {
+      ...data.calendar,
+      [year]: { ...data.calendar[year], [month]: { [day]: [userId] } },
+    };
+  } else {
+    update = { ...data.calendar, [year]: { [month]: { [day]: [userId] } } };
+  }
+
+  return update;
 }

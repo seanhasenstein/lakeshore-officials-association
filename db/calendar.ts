@@ -1,50 +1,6 @@
 import { Db, ObjectId } from 'mongodb';
 import { CalendarCollection } from '../interfaces';
-
-// TODO move to util file?
-function getUpdatedCalendarYear(
-  data: CalendarCollection,
-  year: string,
-  month: string,
-  day: string,
-  userId: string
-) {
-  let update;
-
-  if (
-    data.calendar[year] &&
-    data.calendar[year][month] &&
-    data.calendar[year][month][day]
-  ) {
-    update = {
-      ...data.calendar,
-      [year]: {
-        ...data.calendar[year],
-        [month]: {
-          ...data.calendar[year][month],
-          [day]: [...data.calendar[year][month][day], userId],
-        },
-      },
-    };
-  } else if (data.calendar[year] && data.calendar[year][month]) {
-    update = {
-      ...data.calendar,
-      [year]: {
-        ...data.calendar[year],
-        [month]: { ...data.calendar[year][month], [day]: [userId] },
-      },
-    };
-  } else if (data.calendar[year]) {
-    update = {
-      ...data.calendar,
-      [year]: { ...data.calendar[year], [month]: { [day]: [userId] } },
-    };
-  } else {
-    update = { ...data.calendar, [year]: { [month]: { [day]: [userId] } } };
-  }
-
-  return update;
-}
+import { getUpdatedCalendarYear } from '../utils/calendar';
 
 export async function getAllCalendarData(db: Db) {
   const result = await db.collection('calendar').findOne<CalendarCollection>({

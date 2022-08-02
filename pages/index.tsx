@@ -1,19 +1,39 @@
 import Link from 'next/link';
 import React from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { useUser } from '../hooks/useUser';
+import { Calendar } from '../interfaces';
 import { formatPhoneNumber } from '../utils/misc';
+import { getMonthCalendarData } from '../utils/calendar';
+import { fetchCalendarData } from '../utils/queries';
 import FullLayout from '../components/layouts/FullLayout';
 import ProfileCalendar from '../components/calendar/ProfileCalendar';
+import ServerError from '../components/ServerError';
 
 export default function Homepage() {
   const user = useUser();
+  const [calendar, setCalendar] = React.useState(() => {
+    const now = new Date();
+    return {
+      selectedDate: now,
+      days: getMonthCalendarData(now),
+    };
+  });
+
+  const calendarQuery = useQuery<Calendar>(
+    ['calendar', 'year', calendar.selectedDate.getFullYear().toString()],
+    () => fetchCalendarData(calendar.selectedDate.getFullYear().toString()),
+    { staleTime: 1000 * 60 * 5 }
+  );
 
   return (
     <FullLayout title="Your profile" authRequired={true}>
       <HomepageStyles>
-        {user.data ? (
+        {user.isLoading || calendarQuery.isLoading ? 'Loading...' : null}
+        {user.isError || calendarQuery.isError ? <ServerError /> : null}
+        {user.data && calendarQuery.data ? (
           <>
             <div className="header-row">
               <div>
@@ -33,7 +53,12 @@ export default function Homepage() {
             </div>
             <div className="grid-cols-2">
               <div className="calendar-section">
-                <ProfileCalendar user={user.data} />
+                <ProfileCalendar
+                  user={user.data}
+                  calendarQueryData={calendarQuery.data}
+                  calendar={calendar}
+                  setCalendar={setCalendar}
+                />
               </div>
               <div className="contact-info">
                 <h3>Contact information</h3>

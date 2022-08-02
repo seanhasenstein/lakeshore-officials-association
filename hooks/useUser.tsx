@@ -10,6 +10,7 @@ interface UserProvider {
 
 interface UserContextState {
   isLoading: boolean;
+  isError: boolean;
   isFetching: boolean;
   error: unknown | undefined;
   data: User | undefined;
@@ -17,6 +18,7 @@ interface UserContextState {
 
 const initialState = {
   isLoading: false,
+  isError: false,
   isFetching: false,
   error: undefined,
   data: undefined,
@@ -56,6 +58,7 @@ export function UserProvider({ children }: UserProvider) {
     <UserContext.Provider
       value={{
         isLoading: query.isLoading,
+        isError: query.isError,
         isFetching: query.isFetching,
         error: query.error,
         data: query.data,

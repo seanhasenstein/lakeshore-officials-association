@@ -1,49 +1,38 @@
 import React from 'react';
-import { useQuery } from 'react-query';
+import { UseQueryResult } from 'react-query';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
-import { getMonthCalendarData } from '../../utils/calendar';
+import { CurrentMonthDays, getMonthCalendarData } from '../../utils/calendar';
 import DirectoryCalendarDay from './DirectoryCalendarDay';
 import { Calendar } from '../../interfaces';
 
 type Props = {
   userId: string;
+  calendarQuery: UseQueryResult<Calendar, unknown>;
+  calendar: {
+    selectedDate: Date;
+    days: CurrentMonthDays[];
+  };
+  setCalendar: React.Dispatch<
+    React.SetStateAction<{
+      selectedDate: Date;
+      days: CurrentMonthDays[];
+    }>
+  >;
 };
 
 export default function DirectoryCalendar(props: Props) {
-  const [calendar, setCalendar] = React.useState(() => {
-    const now = new Date();
-    return {
-      selectedDate: now,
-      days: getMonthCalendarData(now),
-    };
-  });
   const [monthInput, setMonthInput] = React.useState(
-    calendar.selectedDate.getMonth().toString()
+    props.calendar.selectedDate.getMonth().toString()
   );
   const [yearInput, setYearInput] = React.useState<string>(
-    calendar.selectedDate.getFullYear().toString()
+    props.calendar.selectedDate.getFullYear().toString()
   );
   const [searchError, setSearchError] = React.useState<string>();
 
-  const calendarQuery = useQuery<Calendar>(
-    ['calendar', 'year', calendar.selectedDate.getFullYear()],
-    async () => {
-      const response = await fetch(
-        `/api/get-calendar-data?year=${calendar.selectedDate.getFullYear()}`
-      );
-
-      // TODO: handle !response.ok or error respsonse
-
-      const data = await response.json();
-      return data;
-    },
-    { staleTime: 1000 * 60 * 5 }
-  );
-
   const handlePrevClick = () => {
-    const prevMonth = subMonths(calendar.selectedDate, 1);
-    setCalendar({
+    const prevMonth = subMonths(props.calendar.selectedDate, 1);
+    props.setCalendar({
       selectedDate: prevMonth,
       days: getMonthCalendarData(prevMonth),
     });
@@ -52,8 +41,8 @@ export default function DirectoryCalendar(props: Props) {
   };
 
   const handleNextClick = () => {
-    const nextMonth = addMonths(calendar.selectedDate, 1);
-    setCalendar({
+    const nextMonth = addMonths(props.calendar.selectedDate, 1);
+    props.setCalendar({
       selectedDate: nextMonth,
       days: getMonthCalendarData(nextMonth),
     });
@@ -77,7 +66,7 @@ export default function DirectoryCalendar(props: Props) {
         monthIndexPlusOne < 10 ? `0${monthIndexPlusOne}` : monthIndexPlusOne;
       const requestedDate = new Date(`${yearInput}-${month}-01T00:00:00`);
 
-      setCalendar({
+      props.setCalendar({
         selectedDate: requestedDate,
         days: getMonthCalendarData(requestedDate),
       });
@@ -94,7 +83,9 @@ export default function DirectoryCalendar(props: Props) {
     <DirectoryCalendarStyles>
       <div className="menu-header">
         <div className="flex space-between">
-          <p className="month">{format(calendar.selectedDate, 'MMMM yyyy')}</p>
+          <p className="month">
+            {format(props.calendar.selectedDate, 'MMMM yyyy')}
+          </p>
           <div className="calendar-actions">
             <button
               type="button"
@@ -118,7 +109,7 @@ export default function DirectoryCalendar(props: Props) {
               type="button"
               onClick={() => {
                 const now = new Date();
-                setCalendar({
+                props.setCalendar({
                   selectedDate: now,
                   days: getMonthCalendarData(now),
                 });
@@ -205,10 +196,10 @@ export default function DirectoryCalendar(props: Props) {
         </div>
         <div className="calendar-body">
           <>
-            {calendar.days.map((day, index) => (
+            {props.calendar.days.map((day, index) => (
               <DirectoryCalendarDay
                 key={day.date + index}
-                calendarData={calendarQuery.data}
+                calendarData={props.calendarQuery.data}
                 day={day}
                 userId={props.userId}
               />

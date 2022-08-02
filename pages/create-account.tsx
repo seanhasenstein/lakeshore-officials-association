@@ -8,6 +8,7 @@ import { useUser } from '../hooks/useUser';
 import useUpdateProfile from '../hooks/useUpdateProfile';
 import FullLayout from '../components/layouts/FullLayout';
 import ProfileForm from '../components/forms/ProfileForm';
+import ServerError from '../components/ServerError';
 
 export default function CreateAccount() {
   const router = useRouter();
@@ -35,19 +36,22 @@ export default function CreateAccount() {
   return (
     <FullLayout title="Create a profile" authRequired={true}>
       <CreateAccountStyles>
-        <h2>Create your account</h2>
-        <p>
-          Complete this form to create your account for the Lakeshore Officials
-          Association website.
-        </p>
+        {user.isLoading ? 'Loading...' : null}
+        {user.isError ? <ServerError /> : null}
         {user.data && (
-          <ProfileForm
-            initialValues={formatDbValuesForForm(user.data)}
-            onSubmit={onSubmit}
-            serverError={serverError}
-          />
+          <>
+            <h2>Create your account</h2>
+            <p>
+              Complete this form to create your account for the Lakeshore
+              Officials Association website.
+            </p>
+            <ProfileForm
+              initialValues={formatDbValuesForForm(user.data)}
+              onSubmit={onSubmit}
+              serverError={serverError}
+            />
+          </>
         )}
-        {/* TODO: show error if useUser fails */}
       </CreateAccountStyles>
     </FullLayout>
   );
@@ -71,5 +75,18 @@ const CreateAccountStyles = styled.div`
     font-weight: 500;
     line-height: 1.5;
     color: #747b89;
+  }
+
+  .server-error {
+    max-width: 32rem;
+
+    p {
+      color: #be123c;
+      line-height: 1.5;
+    }
+
+    a {
+      text-decoration: underline;
+    }
   }
 `;

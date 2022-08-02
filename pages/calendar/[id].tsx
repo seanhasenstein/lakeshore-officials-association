@@ -3,16 +3,25 @@ import { useRouter } from 'next/router';
 import { useQuery, useQueryClient } from 'react-query';
 import { format } from 'date-fns';
 import styled from 'styled-components';
-import { User } from '../../interfaces';
+import { Calendar, User } from '../../interfaces';
 import { formatPhoneNumber, getUrlParam } from '../../utils/misc';
-import { fetchUserById } from '../../utils/queries';
+import { fetchCalendarData, fetchUserById } from '../../utils/queries';
 import FullLayout from '../../components/layouts/FullLayout';
 import DirectoryCalendar from '../../components/calendar/DirectoryCalendar';
+import { getMonthCalendarData } from '../../utils/calendar';
+import ServerError from '../../components/ServerError';
 
 export default function OfficialCalendar() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [id, setId] = React.useState<string>();
+  const [calendar, setCalendar] = React.useState(() => {
+    const now = new Date();
+    return {
+      selectedDate: now,
+      days: getMonthCalendarData(now),
+    };
+  });
 
   React.useEffect(() => {
     if (router.query.id) {
@@ -20,7 +29,7 @@ export default function OfficialCalendar() {
     }
   }, [router.query.id]);
 
-  const query = useQuery(
+  const userQuery = useQuery(
     ['users', 'user', id],
     () => fetchUserById(getUrlParam(id)),
     {
@@ -38,70 +47,86 @@ export default function OfficialCalendar() {
     }
   );
 
+  const calendarQuery = useQuery<Calendar>(
+    ['calendar', 'year', calendar.selectedDate.getFullYear()],
+    () => fetchCalendarData(calendar.selectedDate.getFullYear().toString()),
+    { staleTime: 1000 * 60 * 5 }
+  );
+
   return (
     <FullLayout
-      title={query.data ? `${query.data.firstName} ${query.data.lastName}` : ''}
+      title={
+        userQuery.data
+          ? `${userQuery.data.firstName} ${userQuery.data.lastName}`
+          : ''
+      }
       authRequired={true}
     >
       <OfficialCalendarStyles>
-        {query.isLoading ? 'Loading...' : null}
-        {query.data ? (
+        {userQuery.isLoading || calendarQuery.isLoading ? 'Loading...' : null}
+        {userQuery.isError || calendarQuery.isError ? <ServerError /> : null}
+        {userQuery.data && calendarQuery.data ? (
           <div>
             <div>
               <h2 className="name">
-                {query.data.firstName} {query.data.lastName}
+                {userQuery.data.firstName} {userQuery.data.lastName}
               </h2>
               <p className="city">
-                {query.data.city}, {query.data.state}
+                {userQuery.data.city}, {userQuery.data.state}
               </p>
             </div>
             <div className="grid-cols-2">
               <div className="calendar-section">
                 {router.isReady ? (
-                  <DirectoryCalendar userId={query.data._id} />
+                  <DirectoryCalendar
+                    userId={userQuery.data._id}
+                    calendarQuery={calendarQuery}
+                    calendar={calendar}
+                    setCalendar={setCalendar}
+                  />
                 ) : null}
               </div>
               <div className="contact-info">
                 <h3>Contact information</h3>
-                {query.data.email && (
+                {userQuery.data.email && (
                   <div className="contact-item">
                     <div className="label">Email</div>
                     <div className="value">
-                      <a href={`mailto:${query.data.email}`}>
-                        {query.data.email}
+                      <a href={`mailto:${userQuery.data.email}`}>
+                        {userQuery.data.email}
                       </a>
                     </div>
                   </div>
                 )}
-                {query.data.cellPhone && (
+                {userQuery.data.cellPhone && (
                   <div className="contact-item">
                     <div className="label">Cell</div>
                     <div className="value">
-                      {formatPhoneNumber(query.data.cellPhone)}
+                      {formatPhoneNumber(userQuery.data.cellPhone)}
                     </div>
                   </div>
                 )}
-                {query.data.homePhone && (
+                {userQuery.data.homePhone && (
                   <div className="contact-item">
                     <div className="label">Home</div>
                     <div className="value">
-                      {formatPhoneNumber(query.data.homePhone)}
+                      {formatPhoneNumber(userQuery.data.homePhone)}
                     </div>
                   </div>
                 )}
-                {query.data.workPhone.number && (
+                {userQuery.data.workPhone.number && (
                   <div className="contact-item">
                     <div className="label">Work</div>
                     <div className="value">
-                      {formatPhoneNumber(query.data.workPhone.number)} Ext.{' '}
-                      {query.data.workPhone.extension}
+                      {formatPhoneNumber(userQuery.data.workPhone.number)} Ext.{' '}
+                      {userQuery.data.workPhone.extension}
                     </div>
                   </div>
                 )}
-                {query.data.sports.length > 0 ? (
+                {userQuery.data.sports.length > 0 ? (
                   <div className="contact-item">
                     <div className="label">Sports</div>
-                    {query.data.sports.map(s => (
+                    {userQuery.data.sports.map(s => (
                       <div key={s.name} className="value sport">
                         {s.name} - <span className="level">{s.level}</span>
                       </div>
@@ -112,7 +137,7 @@ export default function OfficialCalendar() {
             </div>
             <p className="last-updated">
               Last updated:{' '}
-              {format(new Date(query.data.updatedAt), "PP 'at' h:mmaaa")}
+              {format(new Date(userQuery.data.updatedAt), "PP 'at' h:mmaaa")}
             </p>
           </div>
         ) : null}

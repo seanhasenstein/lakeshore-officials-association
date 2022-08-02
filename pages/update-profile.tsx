@@ -8,6 +8,7 @@ import { useUser } from '../hooks/useUser';
 import useUpdateProfile from '../hooks/useUpdateProfile';
 import FullLayout from '../components/layouts/FullLayout';
 import ProfileForm from '../components/forms/ProfileForm';
+import ServerError from '../components/ServerError';
 
 export default function UpdateProfile() {
   const router = useRouter();
@@ -38,16 +39,19 @@ export default function UpdateProfile() {
   return (
     <FullLayout title="Update profile" authRequired={true}>
       <UpdateProfileStyles>
-        <h2>Update your profile</h2>
-        <p>Use this form to update any information that has changed.</p>
+        {user.isLoading ? 'Loading...' : null}
+        {user.isError ? <ServerError /> : null}
         {user.data && (
-          <ProfileForm
-            initialValues={formatDbValuesForForm(user.data)}
-            onSubmit={onSubmit}
-            serverError={serverError}
-          />
+          <>
+            <h2>Update your profile</h2>
+            <p>Use this form to update any information that has changed.</p>
+            <ProfileForm
+              initialValues={formatDbValuesForForm(user.data)}
+              onSubmit={onSubmit}
+              serverError={serverError}
+            />
+          </>
         )}
-        {/* TODO: show error if useUser fails */}
       </UpdateProfileStyles>
     </FullLayout>
   );

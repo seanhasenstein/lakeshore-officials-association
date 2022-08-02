@@ -5,11 +5,12 @@ import { format } from 'date-fns';
 import styled from 'styled-components';
 import { Calendar, FilterLevels, Sport, User } from '../../interfaces';
 import { formatToTitleCase, getUrlParam } from '../../utils/misc';
-import { fetchUsersBySport } from '../../utils/queries';
+import { fetchCalendarData, fetchUsersBySport } from '../../utils/queries';
 import FullLayout from '../../components/layouts/FullLayout';
 import LevelFilter from '../../components/directory/LevelFilter';
 import DateSelection from '../../components/directory/DateSelection';
 import TableRow from '../../components/directory/TableRow';
+import ServerError from '../../components/ServerError';
 
 const initialLevels = [
   { name: 'MS', checked: true },
@@ -44,23 +45,12 @@ export default function SportPage() {
   const sportQuery = useQuery(
     ['users', 'sports', sport],
     () => fetchUsersBySport(sport as Sport | undefined),
-    {
-      staleTime: 1000 * 60 * 5,
-    }
+    { staleTime: 1000 * 60 * 5 }
   );
 
   const calendarQuery = useQuery<Calendar>(
     ['calendar', 'year', new Date(selectedDate).getFullYear().toString()],
-    async () => {
-      const response = await fetch(
-        `/api/get-calendar-data?year=${new Date(selectedDate).getFullYear()}`
-      );
-
-      // TODO: handle !response.ok or error respsonse
-
-      const data = await response.json();
-      return data;
-    },
+    async () => fetchCalendarData(selectedDate),
     { staleTime: 1000 * 60 * 5 }
   );
 
@@ -143,8 +133,9 @@ export default function SportPage() {
       authRequired={true}
     >
       <SportPageStyles>
-        {sportQuery.isLoading ? 'Loading...' : ''}
-        {sportQuery.data && sport ? (
+        {sportQuery.isLoading || calendarQuery.isLoading ? 'Loading...' : ''}
+        {sportQuery.isError || calendarQuery.isError ? <ServerError /> : null}
+        {sportQuery.data && calendarQuery.data && sport ? (
           <>
             <h3 className="title">{formatToTitleCase(sport)} directory</h3>
             <div className="actions-row">
@@ -189,7 +180,6 @@ export default function SportPage() {
                       <td />
                       <td />
                       <td />
-                      <td />
                     </tr>
                   ) : (
                     <>
@@ -222,7 +212,6 @@ export default function SportPage() {
                   {filteredUsers.unavailable.length < 1 ? (
                     <tr>
                       <td>No officials match your filter</td>
-                      <td />
                       <td />
                       <td />
                       <td />
