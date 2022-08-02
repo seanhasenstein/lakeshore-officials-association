@@ -38,7 +38,7 @@ router.post(async (req, res) => {
   const zonedTime = utcToZonedTime(new Date(), 'America/Chicago');
 
   const result = await sendEmail({
-    // TODO: enter a real email address for production
+    // TODO: enter a real email address for production OR .env var?
     to: 'seanhasenstein+lakeshore-officials@gmail.com',
     from: 'Lakeshore Officials<admin@lakeshoreofficials.com>',
     replyTo: req.body.email,

@@ -3,6 +3,7 @@ import { createRouter } from 'next-connect';
 import { user } from '../../db';
 import { ProfileFormValues, Request, User } from '../../interfaces';
 import database from '../../middleware/db';
+import auth from '../../middleware/auth';
 
 interface RouteRequest extends Request {
   body: ProfileFormValues;
@@ -10,28 +11,31 @@ interface RouteRequest extends Request {
 
 const router = createRouter<RouteRequest, NextApiResponse<User>>();
 
-router.use(database).post(async (req, res) => {
-  const email = req.body.email.toLowerCase().trim();
+router
+  .use(auth)
+  .use(database)
+  .post(async (req, res) => {
+    const email = req.body.email.toLowerCase().trim();
 
-  // check if email is already connected to an account
-  const userWithEmailAlreadyExists = await user.getUserByEmail(req.db, email);
-  if (userWithEmailAlreadyExists) {
-    res.status(500).end(`An account already exists with ${email}`);
-    return;
-  }
+    // check if email is already connected to an account
+    const userWithEmailAlreadyExists = await user.getUserByEmail(req.db, email);
+    if (userWithEmailAlreadyExists) {
+      res.status(500).end(`An account already exists with ${email}`);
+      return;
+    }
 
-  const timestamp = new Date().toISOString();
+    const timestamp = new Date().toISOString();
 
-  // create the user
-  const userResult = await user.createUser(req.db, {
-    ...req.body,
-    isAdmin: false,
-    createdAt: timestamp,
-    updatedAt: timestamp,
+    // create the user
+    const userResult = await user.createUser(req.db, {
+      ...req.body,
+      isAdmin: false,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    });
+
+    res.json(userResult);
   });
-
-  res.json(userResult);
-});
 
 export default router.handler({
   onError: (err: any, req, res) => {

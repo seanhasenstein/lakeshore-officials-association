@@ -44,8 +44,10 @@ export default function Homepage() {
                   </div>
                 </div>
                 <div className="contact-item">
-                  <div className="label">City</div>
-                  <div className="value">{user.data.city}</div>
+                  <div className="label">Location</div>
+                  <div className="value">
+                    {user.data.city}, {user.data.state}
+                  </div>
                 </div>
                 {user.data.email && (
                   <div className="contact-item">

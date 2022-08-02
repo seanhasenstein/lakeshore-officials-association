@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter';
 import nodemailer from 'nodemailer';
@@ -12,7 +12,7 @@ if (!process.env.NEXTAUTH_SECRET) {
   throw new Error('Must provide NEXTAUTH_SECRET in .env.local');
 }
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
       server: process.env.NEXTAUTH_EMAIL_SERVER,
@@ -67,4 +67,6 @@ export default NextAuth({
     maxAge: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
   },
-});
+};
+
+export default NextAuth(authOptions);

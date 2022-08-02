@@ -1,8 +1,9 @@
 import { NextApiResponse } from 'next';
 import { createRouter } from 'next-connect';
 import { Request } from '../../interfaces';
-import database from '../../middleware/db';
 import { calendar } from '../../db';
+import database from '../../middleware/db';
+import auth from '../../middleware/auth';
 
 interface RouteRequest extends Request {
   query: {
@@ -12,21 +13,24 @@ interface RouteRequest extends Request {
 
 const router = createRouter<RouteRequest, NextApiResponse>();
 
-router.use(database).get(async (req, res) => {
-  if (req.query.year) {
-    const data = await calendar.getYearCalendarData(req.db, req.query.year);
+router
+  .use(auth)
+  .use(database)
+  .get(async (req, res) => {
+    if (req.query.year) {
+      const data = await calendar.getYearCalendarData(req.db, req.query.year);
 
-    if (!data) {
-      res.json({});
-      return;
+      if (!data) {
+        res.json({});
+        return;
+      }
+
+      res.json(data);
+    } else {
+      const data = await calendar.getAllCalendarData(req.db);
+      res.json(data);
     }
-
-    res.json(data);
-  } else {
-    const data = await calendar.getAllCalendarData(req.db);
-    res.json(data);
-  }
-});
+  });
 
 export default router.handler({
   onError: (err, _req, res) => {

@@ -3,6 +3,7 @@ import { createRouter } from 'next-connect';
 import { user } from '../../db';
 import { Request, Sport, User } from '../../interfaces';
 import database from '../../middleware/db';
+import auth from '../../middleware/auth';
 
 interface RouteRequest extends Request {
   query: {
@@ -12,13 +13,16 @@ interface RouteRequest extends Request {
 
 const router = createRouter<RouteRequest, NextApiResponse<User[]>>();
 
-router.use(database).get(async (req, res) => {
-  const usersBySports = await user.getUsersForSingleSport(
-    req.db,
-    req.query.sport
-  );
-  res.json(usersBySports);
-});
+router
+  .use(auth)
+  .use(database)
+  .get(async (req, res) => {
+    const usersBySports = await user.getUsersForSingleSport(
+      req.db,
+      req.query.sport
+    );
+    res.json(usersBySports);
+  });
 
 export default router.handler({
   onError: (err, _req, res) => {

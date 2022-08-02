@@ -3,6 +3,7 @@ import { createRouter } from 'next-connect';
 import { user } from '../../db';
 import { ProfileFormValues, Request } from '../../interfaces';
 import database from '../../middleware/db';
+import auth from '../../middleware/auth';
 
 interface RouteRequest extends Request {
   body: {
@@ -13,14 +14,17 @@ interface RouteRequest extends Request {
 
 const router = createRouter<RouteRequest, NextApiResponse>();
 
-router.use(database).post(async (req, res) => {
-  const updatedUser = await user.updateUser(req.db, req.body._id, {
-    ...req.body.formValues,
-    updatedAt: new Date().toISOString(),
-  });
+router
+  .use(auth)
+  .use(database)
+  .post(async (req, res) => {
+    const updatedUser = await user.updateUser(req.db, req.body._id, {
+      ...req.body.formValues,
+      updatedAt: new Date().toISOString(),
+    });
 
-  res.json(updatedUser);
-});
+    res.json(updatedUser);
+  });
 
 export default router.handler({
   onError: (err: any, req, res) => {
