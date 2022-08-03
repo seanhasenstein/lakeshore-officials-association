@@ -25,6 +25,10 @@ export default function Header(props: Props) {
   useEscapeKeydownClose(showMenu, setShowMenu);
   usePreventYScroll(props.show);
 
+  React.useEffect(() => {
+    props.setShow(false);
+  }, [router.query.sport]);
+
   return (
     <HeaderStyles ref={headerRef} className={props.show ? 'show' : ''}>
       <div>
