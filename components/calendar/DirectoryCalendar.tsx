@@ -430,14 +430,18 @@ const DirectoryCalendarStyles = styled.div`
   }
 
   @media (max-width: 640px) {
-    margin: 1rem 0 0;
+    margin: 0.25rem 0 0;
 
     .calendar-actions {
       margin: 1.75rem 0 0;
     }
 
     .today-button {
-      padding: 0 1.5rem;
+      padding: 0 2rem;
+    }
+
+    .toggle-month-button {
+      width: 3rem;
     }
 
     .flex.space-between {

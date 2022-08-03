@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useQuery, UseQueryResult } from 'react-query';
 import { format } from 'date-fns';
 import styled from 'styled-components';
@@ -42,6 +43,24 @@ export default function DirectoryProfile(props: Props) {
       {props.userQuery.data && calendarQuery.data ? (
         <div>
           <div>
+            <div className="back-link-row">
+              <Link href={`/directory/${router.query.s}`}>
+                <a className="back-link">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Back to directory
+                </a>
+              </Link>
+            </div>
             <h2 className="name">
               {props.userQuery.data.firstName} {props.userQuery.data.lastName}
             </h2>
@@ -125,7 +144,27 @@ export default function DirectoryProfile(props: Props) {
 const DirectoryProfileStyles = styled.div`
   margin: 0 0 3rem;
 
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.125rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+
+    svg {
+      height: 1.125rem;
+      width: 1.125rem;
+      color: #9ca3af;
+    }
+
+    &:hover {
+      color: #111827;
+    }
+  }
+
   h2 {
+    margin: 1.75rem 0 0;
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
@@ -225,12 +264,25 @@ const DirectoryProfileStyles = styled.div`
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 1024px) {
+    margin-top: 0.5rem;
+
+    .back-link-row {
+      display: flex;
+      justify-content: center;
+    }
+
+    h2 {
+      margin: 2.25rem 0 0;
+    }
+
     .name,
     .city {
       text-align: center;
     }
+  }
 
+  @media (max-width: 640px) {
     .grid-cols-2 {
       padding: 0;
       background-color: transparent;

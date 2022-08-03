@@ -62,8 +62,8 @@ const FilterStyles = styled.div`
   .levels {
     margin: 0.75rem 0 0;
     position: relative;
-    flex-shrink: 0;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
     border-radius: 0.3125rem;
   }
 
@@ -120,11 +120,6 @@ const FilterStyles = styled.div`
 
   @media (max-width: 640px) {
     width: 100%;
-
-    .levels {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    }
 
     label {
       justify-content: center;

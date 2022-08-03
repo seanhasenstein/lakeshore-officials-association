@@ -129,7 +129,7 @@ const DateStyles = styled.div<{ isOpen: boolean }>`
   .date-calendar-button {
     position: absolute;
     right: 0.25rem;
-    padding: 0 1.25rem;
+    padding: 0 2.5rem;
     height: 1.75rem;
     font-size: 0.8125rem;
     font-weight: 600;
@@ -193,28 +193,42 @@ const DateStyles = styled.div<{ isOpen: boolean }>`
   }
 
   .date-input {
-    padding-left: 2.1875rem;
+    padding-left: 2.125rem;
     height: 2.25rem;
-    min-width: 14rem;
+    width: 100%;
     border-radius: 0.375rem;
+  }
+
+  @media (max-width: 1100px) {
+    .date-calendar-button {
+      position: absolute;
+      right: 0.25rem;
+      padding: 0 0.75rem;
+    }
   }
 
   @media (max-width: 640px) {
     width: 100%;
 
     .date-input {
-      padding-top: 0.625rem;
-      padding-bottom: 0.625rem;
+      padding-top: 0.6875rem;
+      padding-bottom: 0.6875rem;
+      padding-left: 2.375rem;
       height: initial;
       width: 100%;
     }
 
     .search-input-button {
       top: 0.625rem;
+
+      svg {
+        height: 1.125rem;
+        width: 1.125rem;
+      }
     }
 
     .date-calendar-button {
-      right: 0.375rem;
+      right: 0.5rem;
     }
   }
 `;

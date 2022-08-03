@@ -1,11 +1,11 @@
 import React from 'react';
+import Link from 'next/link';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { Calendar, FilterLevels, Sport, User } from '../interfaces';
 import LevelFilter from './directory/LevelFilter';
 import DateSelection from './directory/DateSelection';
-import TableRow from './directory/TableRow';
 import ServerError from './ServerError';
 import { fetchCalendarData, fetchUsersBySport } from '../utils/queries';
 import { formatToTitleCase } from '../utils/misc';
@@ -57,7 +57,6 @@ export default function SportDirectory(props: Props) {
     available: [],
     unavailable: [],
   });
-  const [activeContactInfo, setActiveContactInfo] = React.useState<string>();
 
   const sportQuery = useQuery(
     ['users', 'sports', props.sport],
@@ -155,89 +154,96 @@ export default function SportDirectory(props: Props) {
             />
           </div>
 
-          <div className="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Name/Location</th>
-                  <th className="level">Level</th>
-                  <th className="contact">Contact info</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th className="secondary">
-                    <div>Available</div>
-                  </th>
-                  <th className="secondary" aria-hidden="true">
-                    <div />
-                  </th>
-                  <th className="secondary" aria-hidden="true">
-                    <div />
-                  </th>
-                  <th className="secondary" aria-hidden="true">
-                    <div />
-                  </th>
-                </tr>
-                {filteredUsers.available.length < 1 ? (
-                  <tr>
-                    <td>No officials match your filter</td>
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                ) : (
-                  <>
-                    {filteredUsers.available.map(user => (
-                      <TableRow
-                        key={user._id}
-                        user={user}
-                        sport={props.sport}
-                        status="available"
-                        activeContactInfo={activeContactInfo}
-                        setActiveContactInfo={setActiveContactInfo}
-                      />
-                    ))}
-                  </>
-                )}
-                <tr>
-                  <th className="secondary">
-                    <div>Unavailable</div>
-                  </th>
-                  <th className="secondary" aria-hidden="true">
-                    <div />
-                  </th>
-                  <th className="secondary" aria-hidden="true">
-                    <div />
-                  </th>
-                  <th className="secondary" aria-hidden="true">
-                    <div />
-                  </th>
-                </tr>
-                {filteredUsers.unavailable.length < 1 ? (
-                  <tr>
-                    <td>No officials match your filter</td>
-                    <td />
-                    <td />
-                    <td />
-                  </tr>
-                ) : (
-                  <>
-                    {filteredUsers.unavailable.map(user => (
-                      <TableRow
-                        key={user._id}
-                        user={user}
-                        sport={props.sport}
-                        status="unavailable"
-                        activeContactInfo={activeContactInfo}
-                        setActiveContactInfo={setActiveContactInfo}
-                      />
-                    ))}
-                  </>
-                )}
-              </tbody>
-            </table>
+          <div className="grid-container">
+            <div className="grid-header">
+              Availability on {format(new Date(selectedDate), 'MM-dd-yyyy')}
+            </div>
+            <div className="grid-body">
+              {filteredUsers.available.map(user => {
+                const sport = user.sports.find(
+                  s => s.name === formatToTitleCase(props.sport)
+                );
+
+                return (
+                  <Link
+                    key={user._id}
+                    href={`/calendar/${
+                      user._id
+                    }?s=${props.sport.toLowerCase()}`}
+                  >
+                    <a className="grid-body-row">
+                      <div className="grid-body-item official">
+                        <span className="available" />
+                        <div>
+                          <div className="name">
+                            {user.firstName} {user.lastName}
+                          </div>
+                          <div className="location">{user.city}</div>
+                        </div>
+                      </div>
+                      <div className="grid-body-item level">
+                        <span className="pill">{sport?.level}</span>
+                      </div>
+                      <div className="grid-body-item icon" aria-hidden="true">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </a>
+                  </Link>
+                );
+              })}
+              {filteredUsers.unavailable.map(user => {
+                const sport = user.sports.find(
+                  s => s.name === formatToTitleCase(props.sport)
+                );
+
+                return (
+                  <Link
+                    key={user._id}
+                    href={`/calendar/${
+                      user._id
+                    }?s=${props.sport.toLowerCase()}`}
+                  >
+                    <a className="grid-body-row">
+                      <div className="grid-body-item official">
+                        <span className="unavailable" />
+                        <div>
+                          <div className="name">
+                            {user.firstName} {user.lastName}
+                          </div>
+                          <div className="location">{user.city}</div>
+                        </div>
+                      </div>
+                      <div className="grid-body-item level">
+                        <span className="pill">{sport?.level}</span>
+                      </div>
+                      <div className="grid-body-item icon" aria-hidden="true">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                    </a>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </>
       ) : null}
@@ -247,6 +253,7 @@ export default function SportDirectory(props: Props) {
 
 const SportDirectoryStyles = styled.div`
   margin: 0 0 5rem;
+  max-width: 40rem;
 
   .title {
     font-size: 1.5rem;
@@ -257,159 +264,185 @@ const SportDirectoryStyles = styled.div`
 
   .actions-row {
     margin: 2.5rem 0 0;
-    display: flex;
-    align-items: flex-end;
-    gap: 3rem;
-    max-width: 60rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
   }
 
-  .table-container {
+  .grid-container {
     margin: 1.75rem 0 0;
-    white-space: nowrap;
-    overflow: auto hidden;
-    position: relative;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
       0 2px 4px -2px rgb(0 0 0 / 0.15);
     border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
+    border-radius: 0.375rem;
   }
 
-  table {
-    border-collapse: collapse;
-    width: 100%;
+  .grid-body-row {
+    display: grid;
+    grid-template-columns: minmax(0, 16rem) 1fr 1fr;
+    align-items: center;
   }
 
-  th {
+  .grid-header {
     padding: 0.875rem 2rem;
-    text-align: left;
+    background-color: #e5e7eb;
     font-size: 0.8125rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: #374151;
-    background-color: #e5e7eb;
     border-bottom: 1px solid #d1d5db;
+    border-radius: 0.375rem 0.375rem 0 0;
+  }
 
-    &.secondary,
-    &.secondary:first-of-type,
-    &.secondary:last-of-type {
-      padding: 0;
-      background-color: #f3f4f6;
-      border-radius: 0;
-      text-transform: none;
-      border-bottom: 1px solid #d1d5db;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #374151;
-      letter-spacing: 0.00625em;
-
-      > div {
-        position: relative;
-        margin: -1px 0 0;
-        padding: 0.875rem 2rem;
-        height: 46px;
-        border-top: 1px solid #d1d5db;
-        z-index: 100;
-      }
-    }
-
-    &:first-of-type {
-      border-top-left-radius: 0.5rem;
-    }
+  .grid-body-row {
+    padding: 0.75rem 2rem;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(228, 233, 240, 1);
+    transition: background-color 100ms linear;
 
     &:last-of-type {
-      border-top-right-radius: 0.5rem;
+      border-radius: 0 0 0.375rem 0.375rem;
     }
 
-    &.level {
-      padding-left: 0;
-      text-align: center;
-    }
+    &:hover {
+      background-color: #fbfbfb;
 
-    &.date-query {
-      text-align: center;
+      .icon svg {
+        color: #374151;
+      }
     }
   }
 
-  td {
-    padding: 0.875rem 2rem;
-    background-color: #fff;
-    border-bottom: 1px solid rgba(228, 233, 240, 1);
+  .grid-body-item {
     font-size: 0.875rem;
     font-weight: 500;
     color: #141a25;
+  }
+
+  .official {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #06080b;
+  }
+
+  .location {
+    margin: 0.125rem 0 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #7b8595;
+  }
+
+  .available,
+  .unavailable {
+    display: inline-block;
+    height: 0.8125rem;
+    width: 0.8125rem;
+    border-radius: 9999px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  }
+
+  .available {
+    background-color: #34d399;
+    border: 3px solid #d1fae5;
+  }
+
+  .unavailable {
+    background-color: #f87171;
+    border: 3px solid #fee2e2;
+  }
+
+  .level {
+    padding: 0 2rem 0 0;
+    text-align: center;
+
+    .pill {
+      padding: 0.1875rem 0;
+      width: 2.25rem;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-color: #f3f4f6;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.075em;
+      color: #4b5563;
+      border: 1px solid #e5e7eb;
+      border-radius: 9999px;
+    }
+  }
+
+  .icon {
+    display: flex;
+    justify-content: flex-end;
+
+    svg {
+      height: 1.125rem;
+      width: 1.125rem;
+      color: #9ca3af;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    max-width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .actions-row {
+      margin: 2rem 0 0;
+      grid-template-columns: 1fr;
+      align-items: flex-start;
+      gap: 2.25rem;
+    }
+
+    .grid-header,
+    .grid-body-row {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+
+    .level {
+      padding: 0 3rem 0 0;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .grid-header,
+    .grid-body-row {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
 
     .official {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
+      gap: 0.6875rem;
     }
 
     .name {
-      font-size: 0.9375rem;
-      font-weight: 600;
-      color: #06080b;
+      font-size: 0.875rem;
     }
 
     .location {
-      margin: 0.1875rem 0 0;
-      color: #9499a4;
-    }
-
-    &.level {
-      padding-left: 0;
       font-size: 0.8125rem;
-      text-align: center;
     }
 
-    &.contact {
-      .expand-contact-button {
-        padding: 0.0625rem 0.375rem;
-        background-color: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #9499a4;
-        border: 1px solid #d1d5db;
-        border-radius: 0.3125rem;
-        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
-          0 1px 2px -1px rgb(0 0 0 / 0.1);
-        cursor: pointer;
-        transition: all 100ms linear;
+    .level {
+      padding: 0 1.5rem 0 0;
 
-        svg {
-          height: 1.25rem;
-          width: 1.25rem;
-        }
-
-        &:hover {
-          background-color: #f9fafb;
-          border-color: #bbc1ca;
-          box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.2),
-            0 1px 2px -1px rgb(0 0 0 / 0.2);
-        }
-      }
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.625rem;
-
-      .number {
-        display: flex;
-        align-items: center;
-      }
-
-      .abbreviation {
-        margin: 0 0.5rem 0 0;
+      .pill {
         padding: 0.125rem 0;
+        width: 1.875rem;
         display: inline-flex;
         justify-content: center;
         align-items: center;
         text-align: center;
-        height: 1.125rem;
-        width: 3rem;
         background-color: #f3f4f6;
         font-size: 0.625rem;
         font-weight: 600;
@@ -419,103 +452,6 @@ const SportDirectoryStyles = styled.div`
         border: 1px solid #e5e7eb;
         border-radius: 9999px;
       }
-
-      .extension {
-        margin: 0 0 0 0.5rem;
-      }
-
-      a {
-        &:hover {
-          text-decoration: underline;
-        }
-
-        &:focus {
-          outline: 2px solid transparent;
-          outline-offset: 2px;
-        }
-
-        &:focus-visible {
-          text-decoration: underline;
-          color: #0a65ed;
-        }
-      }
-    }
-
-    &.view-profile {
-      text-align: right;
-
-      a {
-        font-size: 0.875rem;
-        font-weight: 500;
-        color: #084db5;
-        border-radius: 9999px;
-
-        &:hover {
-          text-decoration: underline;
-        }
-
-        &:focus {
-          outline: 2px solid transparent;
-          outline-offset: 2px;
-        }
-
-        &:focus-visible {
-          text-decoration: underline;
-          color: #0a65ed;
-        }
-      }
-    }
-  }
-
-  tbody {
-    tr {
-      &:last-of-type {
-        td {
-          border-bottom: none;
-
-          &:first-of-type {
-            border-bottom-left-radius: 0.5rem;
-          }
-
-          &:last-of-type {
-            border-bottom-right-radius: 0.5rem;
-          }
-        }
-      }
-
-      &:hover {
-        td {
-          background-color: #fbfbfb;
-        }
-      }
-    }
-  }
-
-  .green,
-  .red {
-    display: inline-block;
-    height: 0.8125rem;
-    width: 0.8125rem;
-    border-radius: 9999px;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  }
-
-  .green {
-    background-color: #34d399;
-    border: 3px solid #d1fae5;
-  }
-
-  .red {
-    background-color: #f87171;
-    border: 3px solid #fee2e2;
-  }
-
-  @media (max-width: 640px) {
-    .actions-row {
-      margin: 2rem 0 0;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2.25rem;
     }
   }
 `;
