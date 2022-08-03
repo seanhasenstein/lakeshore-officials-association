@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Calendar } from '../../interfaces';
+import { isToday } from '../../utils/calendar';
 
 type Props = {
   calendarData: Calendar | undefined;
@@ -45,12 +46,15 @@ export default function DirectoryCalendarDay(props: Props) {
         status ? status : ''
       }`}`}
     >
-      {props.day.dayOfMonth}
+      <span className={`day${isToday(props.day.date) ? ' today' : ''}`}>
+        {props.day.dayOfMonth}
+      </span>
     </DirectoryCalendarDayStyles>
   );
 }
 
 const DirectoryCalendarDayStyles = styled.div`
+  position: relative;
   margin: -1px 0 0 -1px;
   padding: 0.75rem 0;
   display: flex;
@@ -109,5 +113,19 @@ const DirectoryCalendarDayStyles = styled.div`
 
   &:hover {
     background-color: #f3f4f6;
+  }
+
+  .today {
+    position: absolute;
+    top: calc(50% - 0.875rem);
+    left: calc(50% - 0.875rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1.75rem;
+    width: 1.75rem;
+    background-color: #162131;
+    border-radius: 9999px;
+    color: #f3f4f6;
   }
 `;

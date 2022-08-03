@@ -136,3 +136,15 @@ export function getUpdatedCalendarYear(
 
   return update;
 }
+
+export function isToday(dateString: string) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const today = `${year}-${formatToTwoDigits(month)}-${formatToTwoDigits(
+    day
+  )}T00:00:00`;
+
+  return dateString === today;
+}

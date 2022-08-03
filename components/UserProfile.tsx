@@ -35,7 +35,7 @@ export default function UserProfile() {
         <>
           <div className="header-row">
             <div>
-              <h2>Welcome back {user.data.firstName}</h2>
+              <h2>Your profile</h2>
               <p className="welcome">
                 If you have any questions about the new website or need to
                 report a bug, please{' '}
@@ -158,7 +158,7 @@ const UserProfileStyles = styled.div`
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.5;
-    color: #747b89;
+    color: #4b5563;
 
     a {
       text-decoration: underline;

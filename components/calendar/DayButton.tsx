@@ -2,7 +2,7 @@ import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { Calendar, User } from '../../interfaces';
-import { CurrentMonthDays } from '../../utils/calendar';
+import { CurrentMonthDays, isToday } from '../../utils/calendar';
 
 type Props = {
   calendarData: Calendar;
@@ -89,7 +89,9 @@ export default function DayButton(props: Props) {
         <LoadingSpinner />
       ) : (
         <>
-          {props.day.dayOfMonth}
+          <span className={`day${isToday(props.day.date) ? ' today' : ''}`}>
+            {props.day.dayOfMonth}
+          </span>
           <span className="sr-only">
             {status === 'available'
               ? 'Available on this day'
@@ -170,6 +172,20 @@ const DayButtonStyles = styled.button`
 
   &:last-of-type {
     border-bottom-right-radius: 0.5rem;
+  }
+
+  .today {
+    position: absolute;
+    top: calc(50% - 0.875rem);
+    left: calc(50% - 0.875rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1.75rem;
+    width: 1.75rem;
+    background-color: #162131;
+    border-radius: 9999px;
+    color: #f3f4f6;
   }
 `;
 
