@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { format } from 'date-fns';
@@ -31,13 +30,29 @@ type Props = {
 };
 
 export default function SportDirectory(props: Props) {
-  const router = useRouter();
-  const [selectedDate, setSelectedDate] = React.useState<string>(
-    format(new Date(), 'MM-dd-yyyy')
-  );
+  const [selectedDate, setSelectedDate] = React.useState<string>(() => {
+    const storage = sessionStorage.getItem('sport');
+
+    if (storage) {
+      const parsedStorage = JSON.parse(storage);
+      return parsedStorage.selectedDate;
+    }
+
+    return `${format(new Date(), 'yyyy-MM-dd')}T00:00:00`;
+  });
   const [dateIds, setDateIds] = React.useState<string[]>();
-  const [filteredLevels, setFilteredLevels] =
-    React.useState<FilterLevels>(initialLevels);
+  const [filteredLevels, setFilteredLevels] = React.useState<FilterLevels>(
+    () => {
+      const storage = sessionStorage.getItem('sport');
+
+      if (storage) {
+        const parsedStorage = JSON.parse(storage);
+        return parsedStorage.filteredLevels;
+      }
+
+      return initialLevels;
+    }
+  );
   const [filteredUsers, setFilteredUsers] = React.useState<FilteredUsers>({
     available: [],
     unavailable: [],
@@ -58,16 +73,14 @@ export default function SportDirectory(props: Props) {
 
   // setSelectedDate with sessionStorage
   React.useEffect(() => {
-    if (router.isReady && router.query.sport) {
-      const storage = sessionStorage.getItem('sport');
+    const storage = sessionStorage.getItem('sport');
 
-      if (storage) {
-        const parsedStorage = JSON.parse(storage);
-        setSelectedDate(parsedStorage.selectedDate);
-        setFilteredLevels(parsedStorage.filteredLevels);
-      }
+    if (storage) {
+      const parsedStorage = JSON.parse(storage);
+      setSelectedDate(parsedStorage.selectedDate);
+      setFilteredLevels(parsedStorage.filteredLevels);
     }
-  }, [router.isReady, router.query.sport]);
+  }, []);
 
   // setDateIds
   React.useEffect(() => {
@@ -120,11 +133,9 @@ export default function SportDirectory(props: Props) {
 
   // sessionStorage
   React.useEffect(() => {
-    if (props.sport) {
-      const value = JSON.stringify({ filteredLevels, selectedDate });
-      sessionStorage.setItem('sport', value);
-    }
-  }, [props.sport, filteredLevels, selectedDate]);
+    const value = JSON.stringify({ filteredLevels, selectedDate });
+    sessionStorage.setItem('sport', value);
+  }, [filteredLevels, selectedDate]);
 
   return (
     <SportDirectoryStyles>

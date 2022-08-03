@@ -4,6 +4,7 @@ import useMenu from '../../hooks/useMenu';
 import { format } from 'date-fns';
 import { getMonthCalendarData } from '../../utils/calendar';
 import CalendarDropdown from '../calendar/CalendarDropdown';
+import { formatToTwoDigits } from '../../utils/misc';
 
 type Props = {
   selectedDate: string;
@@ -14,7 +15,9 @@ export default function DateSelection(props: Props) {
   const menuRef = React.useRef<HTMLDivElement>(null);
   const menu = useMenu(menuRef);
 
-  const [inputDate, setInputDate] = React.useState(props.selectedDate);
+  const [inputDate, setInputDate] = React.useState(() => {
+    return format(new Date(props.selectedDate), 'MM-dd-yyyy');
+  });
   const [dateInputError, setDateInputError] = React.useState(false);
   const [calendar, setCalendar] = React.useState(() => {
     const now = new Date(props.selectedDate);
@@ -26,10 +29,14 @@ export default function DateSelection(props: Props) {
 
   const handleSearchSubmit = () => {
     try {
-      const date = new Date(inputDate);
-      const stringDate = format(date, 'MM-dd-yyyy');
+      const splitInputDate = inputDate.split('-');
+      const year = splitInputDate[2];
+      const month = formatToTwoDigits(splitInputDate[0]);
+      const day = formatToTwoDigits(splitInputDate[1]);
+      const date = new Date(`${year}-${month}-${day}T00:00:00`);
+      const stringDate = `${format(new Date(date), 'yyyy-MM-dd')}T00:00:00`;
       props.setSelectedDate(stringDate);
-      setInputDate(stringDate);
+      setInputDate(format(date, 'MM-dd-yyyy'));
       setDateInputError(false);
       setCalendar({
         selectedDate: date,

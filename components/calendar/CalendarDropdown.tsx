@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
 import { CurrentMonthDays, getMonthCalendarData } from '../../utils/calendar';
+import { formatToTwoDigits } from '../../utils/misc';
 
 type Props = {
   calendar: {
@@ -80,13 +81,12 @@ export default function CalendarDropdown(props: Props) {
             type="button"
             onClick={() => {
               const now = new Date();
-              const update = format(now, 'MM-dd-yyyy');
               props.setCalendar({
                 selectedDate: now,
                 days: getMonthCalendarData(now),
               });
-              props.setSelectedDate(update);
-              props.setInputDate(update);
+              props.setSelectedDate(`${format(now, 'yyyy-MM-dd')}T00:00:00`);
+              props.setInputDate(format(now, 'MM-dd-yyyy'));
             }}
             className="today-button"
           >
@@ -131,14 +131,10 @@ export default function CalendarDropdown(props: Props) {
                 onClick={() => {
                   const date = new Date(`${day.date}`);
                   const year = date.getFullYear();
-                  const month = date.getMonth();
-                  const dayDate = date.getDate();
-                  const update = format(
-                    new Date(year, month, dayDate),
-                    'MM-dd-yyyy'
-                  );
-                  props.setSelectedDate(update);
-                  props.setInputDate(update);
+                  const month = formatToTwoDigits(date.getMonth() + 1);
+                  const dayDate = formatToTwoDigits(date.getDate());
+                  props.setSelectedDate(`${year}-${month}-${dayDate}T00:00:00`);
+                  props.setInputDate(format(date, 'MM-dd-yyyy'));
                   props.menu.setIsOpen(false);
                 }}
                 className={`day-button

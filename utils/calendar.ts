@@ -1,4 +1,4 @@
-import { format, getDay, getDaysInMonth, subDays, subMonths } from 'date-fns';
+import { getDay, getDaysInMonth, subDays, subMonths } from 'date-fns';
 import { CalendarCollection } from '../interfaces';
 import { formatToTwoDigits } from './misc';
 
@@ -13,15 +13,16 @@ function createDaysForCurrentMonth(
   year: number,
   month: number
 ): CurrentMonthDays[] {
-  const daysInMonth = getDaysInMonth(new Date(`${month}-01-${year}`));
+  const daysInMonth = getDaysInMonth(
+    new Date(`${year}-${formatToTwoDigits(month)}-01T00:00:00`)
+  );
   return [...Array(daysInMonth)].map((_, index) => {
     const dayOfMonth: number = index + 1;
     const m = formatToTwoDigits(month);
     const d = formatToTwoDigits(dayOfMonth);
-    const date = new Date(`${year}-${m}-${d}T00:00:00`);
 
     return {
-      date: format(date, 'MM-dd-yyyy'),
+      date: `${year}-${m}-${d}T00:00:00`,
       dayOfMonth,
       isCurrentMonth: true,
     };
@@ -33,26 +34,22 @@ function createDaysForPreviousMonth(
   month: number,
   currentMonthDays: CurrentMonthDays[]
 ): CurrentMonthDays[] {
-  const firstDayOfTheMonthWeekday = getDay(
-    new Date(`${currentMonthDays[0].date}`)
+  const firstDayOfTheMonthWeekday = getDay(new Date(currentMonthDays[0].date));
+  const prevMonth = subMonths(
+    new Date(`${year}-${formatToTwoDigits(month)}-01T00:00:00`),
+    1
   );
-  const prevMonth = subMonths(new Date(`${month}-01-${year}`), 1);
   const visibleNumberOfDaysFromPrevMonth = firstDayOfTheMonthWeekday;
   const prevMonthLastMondayOfMonth = subDays(
-    new Date(`${currentMonthDays[0].date}`),
+    new Date(currentMonthDays[0].date),
     visibleNumberOfDaysFromPrevMonth
   ).getDate();
 
   return [...Array(visibleNumberOfDaysFromPrevMonth)].map((_, index) => {
     return {
-      date: format(
-        new Date(
-          `${prevMonth.getFullYear()}-${formatToTwoDigits(
-            prevMonth.getMonth() + 1
-          )}-${formatToTwoDigits(prevMonthLastMondayOfMonth + index)}T00:00:00`
-        ),
-        'MM-dd-yyyy'
-      ),
+      date: `${prevMonth.getFullYear()}-${formatToTwoDigits(
+        prevMonth.getMonth() + 1
+      )}-${formatToTwoDigits(prevMonthLastMondayOfMonth + index)}T00:00:00`,
       dayOfMonth: prevMonthLastMondayOfMonth + index,
       isCurrentMonth: false,
     };
@@ -67,17 +64,11 @@ function createDaysForNextMonth(
   const visibleNumberOfDaysFromNextMonth = 42 - totalPrevAndCurrentDays;
 
   return [...Array(visibleNumberOfDaysFromNextMonth)].map((_, index) => {
+    const y = Number(month) === 12 ? Number(year) + 1 : Number(year);
+    const m = formatToTwoDigits(Number(month) === 12 ? 1 : Number(month) + 1);
+    const d = formatToTwoDigits(index + 1);
     return {
-      date: format(
-        new Date(
-          `${
-            Number(month) === 12 ? Number(year) + 1 : Number(year)
-          }-${formatToTwoDigits(
-            Number(month) === 12 ? 1 : Number(month) + 1
-          )}-${formatToTwoDigits(index + 1)}T00:00:00`
-        ),
-        'MM-dd-yyyy'
-      ),
+      date: `${y}-${m}-${d}T00:00:00`,
       dayOfMonth: index + 1,
       isCurrentMonth: false,
     };

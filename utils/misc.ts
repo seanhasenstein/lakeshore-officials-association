@@ -38,9 +38,9 @@ export function formatToTitleCase(value: string) {
 export function formatToTwoDigits(input: string | number) {
   const inputToNumber = Number(input);
   if (inputToNumber < 10) {
-    return `0${input}`;
+    return `0${inputToNumber}`;
   } else {
-    return `${input}`;
+    return `${inputToNumber}`;
   }
 }
 
