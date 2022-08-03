@@ -52,6 +52,27 @@ export default function CalendarDropdown(props: Props) {
     });
   };
 
+  const handleTodayClick = () => {
+    const now = new Date();
+    props.setCalendar({
+      selectedDate: now,
+      days: getMonthCalendarData(now),
+    });
+    props.setSelectedDate(`${format(now, 'yyyy-MM-dd')}T00:00:00`);
+    props.setInputDate(format(now, 'MM-dd-yyyy'));
+    props.menu.setIsOpen(false);
+  };
+
+  const handleDayClick = (day: CurrentMonthDays) => {
+    const date = new Date(`${day.date}`);
+    const year = date.getFullYear();
+    const month = formatToTwoDigits(date.getMonth() + 1);
+    const dayDate = formatToTwoDigits(date.getDate());
+    props.setSelectedDate(`${year}-${month}-${dayDate}T00:00:00`);
+    props.setInputDate(format(date, 'MM-dd-yyyy'));
+    props.menu.setIsOpen(false);
+  };
+
   return (
     <CalendarDropdownStyles ref={props.menuRef}>
       <div className="top-row">
@@ -79,15 +100,7 @@ export default function CalendarDropdown(props: Props) {
           </button>
           <button
             type="button"
-            onClick={() => {
-              const now = new Date();
-              props.setCalendar({
-                selectedDate: now,
-                days: getMonthCalendarData(now),
-              });
-              props.setSelectedDate(`${format(now, 'yyyy-MM-dd')}T00:00:00`);
-              props.setInputDate(format(now, 'MM-dd-yyyy'));
-            }}
+            onClick={handleTodayClick}
             className="today-button"
           >
             Today
@@ -128,15 +141,7 @@ export default function CalendarDropdown(props: Props) {
               <button
                 key={day.date + index}
                 type="button"
-                onClick={() => {
-                  const date = new Date(`${day.date}`);
-                  const year = date.getFullYear();
-                  const month = formatToTwoDigits(date.getMonth() + 1);
-                  const dayDate = formatToTwoDigits(date.getDate());
-                  props.setSelectedDate(`${year}-${month}-${dayDate}T00:00:00`);
-                  props.setInputDate(format(date, 'MM-dd-yyyy'));
-                  props.menu.setIsOpen(false);
-                }}
+                onClick={() => handleDayClick(day)}
                 className={`day-button
                   ${day.date === props.selectedDate ? ' selected' : ''}
                   ${day.isCurrentMonth ? '' : ' not-current-month'}
