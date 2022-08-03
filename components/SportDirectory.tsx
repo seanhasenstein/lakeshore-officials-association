@@ -102,7 +102,7 @@ export default function SportDirectory(props: Props) {
 
   // setFilteredUsers
   React.useEffect(() => {
-    if (sportQuery.data && props.sport && dateIds) {
+    if (sportQuery.data && props.sport) {
       const updatedFilteredUsers = sportQuery.data.reduce(
         (accumulator: FilteredUsers, currentUser) => {
           const userSport = currentUser.sports.find(
@@ -113,7 +113,7 @@ export default function SportDirectory(props: Props) {
           );
 
           if (userPassesFilteredLevels) {
-            const isAvailable = dateIds.includes(currentUser._id);
+            const isAvailable = dateIds?.includes(currentUser._id);
 
             if (isAvailable) {
               accumulator.available.push(currentUser);
