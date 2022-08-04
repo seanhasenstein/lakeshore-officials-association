@@ -34,7 +34,7 @@ export default function CalendarDropdown(props: Props) {
         days: getMonthCalendarData(new Date(props.selectedDate)),
       });
     };
-  }, []);
+  }, [props.selectedDate]);
 
   const handlePrevClick = () => {
     const prevMonth = subMonths(props.calendar.selectedDate, 1);
