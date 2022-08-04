@@ -27,15 +27,6 @@ type Props = {
 };
 
 export default function CalendarDropdown(props: Props) {
-  React.useEffect(() => {
-    return () => {
-      props.setCalendar({
-        selectedDate: new Date(props.selectedDate),
-        days: getMonthCalendarData(new Date(props.selectedDate)),
-      });
-    };
-  }, [props.selectedDate]);
-
   const handlePrevClick = () => {
     const prevMonth = subMonths(props.calendar.selectedDate, 1);
     props.setCalendar({
