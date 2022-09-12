@@ -417,7 +417,7 @@ const DirectoryCalendarStyles = styled.div`
       box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
       &.available {
-        background-color: #a7f3d0;
+        background-color: #2ee362;
       }
     }
 

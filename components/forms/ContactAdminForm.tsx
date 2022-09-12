@@ -59,8 +59,8 @@ export default function ContactAdminForm(props: Props) {
         <>
           <h2>{props.formTitle}</h2>
           <p>
-            Use this form to request access to the site, for any questions that
-            you have, or to report a problem with the website.
+            Use this form for any questions that you have, to report a bug, or
+            to request access to the site.
           </p>
           <div className="box">
             <Formik

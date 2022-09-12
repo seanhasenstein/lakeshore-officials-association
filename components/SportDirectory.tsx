@@ -8,7 +8,7 @@ import LevelFilter from './directory/LevelFilter';
 import DateSelection from './directory/DateSelection';
 import ServerError from './ServerError';
 import { fetchCalendarData, fetchUsersBySport } from '../utils/queries';
-import { formatToTitleCase } from '../utils/misc';
+import { formatPhoneNumber, formatToTitleCase } from '../utils/misc';
 
 const initialLevels = [
   { name: 'MS', checked: true },
@@ -181,8 +181,14 @@ export default function SportDirectory(props: Props) {
                           <div className="location">{user.city}</div>
                         </div>
                       </div>
-                      <div className="grid-body-item level">
-                        <span className="pill">{sport?.level}</span>
+                      <div className="grid-body-item details">
+                        <div className="level">
+                          <span className="pill">{sport?.level}</span>
+                        </div>
+                        <div className="contact">
+                          <div>{user.email}</div>
+                          <div>{formatPhoneNumber(user.cellPhone)}</div>
+                        </div>
                       </div>
                       <div className="grid-body-item icon" aria-hidden="true">
                         <svg
@@ -223,8 +229,14 @@ export default function SportDirectory(props: Props) {
                           <div className="location">{user.city}</div>
                         </div>
                       </div>
-                      <div className="grid-body-item level">
-                        <span className="pill">{sport?.level}</span>
+                      <div className="grid-body-item details">
+                        <div className="level">
+                          <span className="pill">{sport?.level}</span>
+                        </div>
+                        <div className="contact">
+                          <div>{user.email}</div>
+                          <div>{formatPhoneNumber(user.cellPhone)}</div>
+                        </div>
                       </div>
                       <div className="grid-body-item icon" aria-hidden="true">
                         <svg
@@ -253,7 +265,7 @@ export default function SportDirectory(props: Props) {
 
 const SportDirectoryStyles = styled.div`
   margin: 0 0 5rem;
-  max-width: 40rem;
+  max-width: 46rem;
 
   .title {
     font-size: 1.5rem;
@@ -271,15 +283,15 @@ const SportDirectoryStyles = styled.div`
 
   .grid-container {
     margin: 1.75rem 0 0;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.15);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.075),
+      0 2px 4px -2px rgb(0 0 0 / 0.075);
     border: 1px solid #d1d5db;
     border-radius: 0.375rem;
   }
 
   .grid-body-row {
     display: grid;
-    grid-template-columns: minmax(0, 16rem) 1fr 1fr;
+    grid-template-columns: minmax(0, 16rem) 1fr 1.25rem;
     align-items: center;
   }
 
@@ -302,6 +314,7 @@ const SportDirectoryStyles = styled.div`
     transition: background-color 100ms linear;
 
     &:last-of-type {
+      border-bottom: none;
       border-radius: 0 0 0.375rem 0.375rem;
     }
 
@@ -358,25 +371,31 @@ const SportDirectoryStyles = styled.div`
     border: 3px solid #fee2e2;
   }
 
-  .level {
-    padding: 0 2rem 0 0;
-    text-align: center;
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 
-    .pill {
-      padding: 0.1875rem 0;
-      width: 2.25rem;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background-color: #f3f4f6;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.075em;
-      color: #4b5563;
-      border: 1px solid #e5e7eb;
-      border-radius: 9999px;
+  .level {
+    font-size: 0.8125rem;
+    color: #374151;
+  }
+
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: #374151;
+
+    > div {
+      padding: 0 0.25rem 0 0;
+      max-width: 12rem;
+      width: 100%;
+      overflow-x: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 
@@ -393,6 +412,10 @@ const SportDirectoryStyles = styled.div`
 
   @media (max-width: 1024px) {
     max-width: 100%;
+
+    .contact > div {
+      max-width: 15rem;
+    }
   }
 
   @media (max-width: 640px) {
@@ -409,8 +432,12 @@ const SportDirectoryStyles = styled.div`
       padding-right: 1.25rem;
     }
 
-    .level {
-      padding: 0 3rem 0 0;
+    .grid-body-row {
+      grid-template-columns: minmax(0, 16rem) 1fr 2.75rem;
+    }
+
+    .contact {
+      display: none;
     }
   }
 
@@ -431,27 +458,6 @@ const SportDirectoryStyles = styled.div`
 
     .location {
       font-size: 0.8125rem;
-    }
-
-    .level {
-      padding: 0 1.5rem 0 0;
-
-      .pill {
-        padding: 0.125rem 0;
-        width: 1.875rem;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background-color: #f3f4f6;
-        font-size: 0.625rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.075em;
-        color: #4b5563;
-        border: 1px solid #e5e7eb;
-        border-radius: 9999px;
-      }
     }
   }
 `;

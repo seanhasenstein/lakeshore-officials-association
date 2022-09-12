@@ -37,16 +37,16 @@ export default function UserProfile() {
             <div>
               <h2>Your profile</h2>
               <p className="welcome">
-                If you have any questions about the new website or need to
+                Welcome to our new website. If you have any questions or need to
                 report a bug, please{' '}
                 <Link href="/contact-admin">
-                  <a>contact us</a>
+                  <a>contact the site admin</a>
                 </Link>
                 .
               </p>
             </div>
             <Link href="/update-profile">
-              <a className="update-profile-link">Update contact info</a>
+              <a className="update-profile-link">Update your profile</a>
             </Link>
           </div>
           <div className="grid-cols-2">
@@ -173,7 +173,7 @@ const UserProfileStyles = styled.div`
       margin: 1.375rem 0 0 0.875rem;
       font-size: 0.875rem;
       font-weight: 500;
-      color: #7e8694;
+      color: #6b7280;
     }
   }
 

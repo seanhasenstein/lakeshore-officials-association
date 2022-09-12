@@ -69,12 +69,12 @@ const DirectoryCalendarDayStyles = styled.div`
 
   &.available,
   &.available.not-current-month {
-    background-color: #a7f3d0;
-    color: #053c2d;
+    background-color: #2ee362;
+    color: #021006;
     z-index: 100;
 
     &:hover {
-      background-color: #8aeabe;
+      background-color: #1cce4f;
     }
   }
 

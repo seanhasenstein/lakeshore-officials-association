@@ -61,7 +61,7 @@ export default function ProfileForm(props: Props) {
                 <ErrorMessage component="div" className="error" name="city" />
               </div>
               <div className="item">
-                <label htmlFor="state">State:</label>
+                <label htmlFor="state">State</label>
                 <Field as="select" name="state" id="state">
                   <option value="">Select your state</option>
                   {unitedStates.map(s => (
