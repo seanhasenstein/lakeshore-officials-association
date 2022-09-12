@@ -186,8 +186,15 @@ export default function SportDirectory(props: Props) {
                           <span className="pill">{sport?.level}</span>
                         </div>
                         <div className="contact">
-                          <div>{user.email}</div>
-                          <div>{formatPhoneNumber(user.cellPhone)}</div>
+                          <div>
+                            <a href={`mailto:${user.email}`}>{user.email}</a>
+                          </div>
+                          {/* TODO: use phone number that they provide */}
+                          <div>
+                            <a href={`tel:+1${user.cellPhone}`}>
+                              {formatPhoneNumber(user.cellPhone)}
+                            </a>
+                          </div>
                         </div>
                       </div>
                       <div className="grid-body-item icon" aria-hidden="true">
@@ -234,8 +241,15 @@ export default function SportDirectory(props: Props) {
                           <span className="pill">{sport?.level}</span>
                         </div>
                         <div className="contact">
-                          <div>{user.email}</div>
-                          <div>{formatPhoneNumber(user.cellPhone)}</div>
+                          <div>
+                            <a href={`mailto:${user.email}`}>{user.email}</a>
+                          </div>
+                          {/* TODO: use phone number that they provide */}
+                          <div>
+                            <a href={`tel:+1${user.cellPhone}`}>
+                              {formatPhoneNumber(user.cellPhone)}
+                            </a>
+                          </div>
                         </div>
                       </div>
                       <div className="grid-body-item icon" aria-hidden="true">
@@ -396,6 +410,10 @@ const SportDirectoryStyles = styled.div`
       overflow-x: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   }
 
