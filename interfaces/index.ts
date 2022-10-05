@@ -25,15 +25,15 @@ export interface User {
   _id: string;
   firstName: string;
   lastName: string;
-  city: string;
-  state: string;
-  homePhone: string;
-  cellPhone: string;
-  workPhone: {
-    number: string;
-    extension: string;
-  };
   email: string;
+  phone: string;
+  address: {
+    street: string;
+    street2: string;
+    city: string;
+    state: string;
+    zipcode: string;
+  };
   sports: {
     name: Sport;
     level: Level;

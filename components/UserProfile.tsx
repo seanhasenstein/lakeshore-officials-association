@@ -67,48 +67,27 @@ export default function UserProfile() {
                 </div>
               </div>
               <div className="contact-item">
-                <div className="label">Location</div>
+                <div className="label">Address</div>
                 <div className="value">
-                  {user.data.city}, {user.data.state}
+                  {user.data.address.street}
+                  {user.data.address.street2 && ` ${user.data.address.street2}`}
+                </div>
+                <div className="value">
+                  {user.data.address.city}, {user.data.address.state}{' '}
+                  {user.data.address.zipcode}
                 </div>
               </div>
               {user.data.email && (
                 <div className="contact-item">
                   <div className="label">Email</div>
-                  <div className="value">
-                    <a href={`mailto:${user.data.email}`}>{user.data.email}</a>
-                  </div>
+                  <div className="value">{user.data.email}</div>
                 </div>
               )}
-              {user.data.cellPhone ||
-              user.data.homePhone ||
-              user.data.workPhone.number ? (
+              {user.data.phone ? (
                 <div className="contact-item">
                   <div className="label">Phone</div>
-                  <div className="value multiple">
-                    {user.data.cellPhone ? (
-                      <div>
-                        <span className="secondary-label">Cell:</span>
-                        {formatPhoneNumber(user.data.cellPhone)}
-                      </div>
-                    ) : null}
-                    {user.data.homePhone ? (
-                      <div>
-                        <span className="secondary-label">Home:</span>
-                        {formatPhoneNumber(user.data.homePhone)}
-                      </div>
-                    ) : null}
-                    {user.data.workPhone.number ? (
-                      <div>
-                        <span className="secondary-label">Work:</span>
-                        {formatPhoneNumber(user.data.workPhone.number)}{' '}
-                        {user.data.workPhone.extension ? (
-                          <span className="extension">
-                            Ext. {user.data.workPhone.extension}
-                          </span>
-                        ) : null}
-                      </div>
-                    ) : null}
+                  <div className="value">
+                    {formatPhoneNumber(user.data.phone)}
                   </div>
                 </div>
               ) : null}
@@ -170,7 +149,7 @@ const UserProfileStyles = styled.div`
     }
 
     &.last-updated {
-      margin: 1.375rem 0 0 0.875rem;
+      margin: 1.875rem 0 0 0.875rem;
       font-size: 0.875rem;
       font-weight: 500;
       color: #6b7280;
@@ -260,24 +239,9 @@ const UserProfileStyles = styled.div`
         font-weight: 400;
         color: #111827;
 
-        &.multiple {
-          display: flex;
-          flex-direction: column;
-          gap: 0.3125rem;
-        }
-
-        .secondary-label {
-          display: inline-block;
-          width: 3.5rem;
-        }
-
         .extension {
           padding: 0.1875rem 0 0 3.5rem;
           display: block;
-        }
-
-        a:hover {
-          text-decoration: underline;
         }
       }
     }

@@ -65,7 +65,8 @@ export default function DirectoryProfile(props: Props) {
               {props.userQuery.data.firstName} {props.userQuery.data.lastName}
             </h2>
             <p className="city">
-              {props.userQuery.data.city}, {props.userQuery.data.state}
+              {props.userQuery.data.address.city},{' '}
+              {props.userQuery.data.address.state}
             </p>
           </div>
           <div className="grid-cols-2">
@@ -91,28 +92,11 @@ export default function DirectoryProfile(props: Props) {
                   </div>
                 </div>
               )}
-              {props.userQuery.data.cellPhone && (
+              {props.userQuery.data.phone && (
                 <div className="contact-item">
-                  <div className="label">Cell</div>
+                  <div className="label">Phone</div>
                   <div className="value">
-                    {formatPhoneNumber(props.userQuery.data.cellPhone)}
-                  </div>
-                </div>
-              )}
-              {props.userQuery.data.homePhone && (
-                <div className="contact-item">
-                  <div className="label">Home</div>
-                  <div className="value">
-                    {formatPhoneNumber(props.userQuery.data.homePhone)}
-                  </div>
-                </div>
-              )}
-              {props.userQuery.data.workPhone.number && (
-                <div className="contact-item">
-                  <div className="label">Work</div>
-                  <div className="value">
-                    {formatPhoneNumber(props.userQuery.data.workPhone.number)}{' '}
-                    Ext. {props.userQuery.data.workPhone.extension}
+                    {formatPhoneNumber(props.userQuery.data.phone)}
                   </div>
                 </div>
               )}

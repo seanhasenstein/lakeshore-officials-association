@@ -178,7 +178,7 @@ export default function SportDirectory(props: Props) {
                           <div className="name">
                             {user.firstName} {user.lastName}
                           </div>
-                          <div className="location">{user.city}</div>
+                          <div className="location">{user.address.city}</div>
                         </div>
                       </div>
                       <div className="grid-body-item details">
@@ -189,10 +189,9 @@ export default function SportDirectory(props: Props) {
                           <div>
                             <a href={`mailto:${user.email}`}>{user.email}</a>
                           </div>
-                          {/* TODO: use phone number that they provide */}
                           <div>
-                            <a href={`tel:+1${user.cellPhone}`}>
-                              {formatPhoneNumber(user.cellPhone)}
+                            <a href={`tel:+1${user.phone}`}>
+                              {formatPhoneNumber(user.phone)}
                             </a>
                           </div>
                         </div>
@@ -233,7 +232,7 @@ export default function SportDirectory(props: Props) {
                           <div className="name">
                             {user.firstName} {user.lastName}
                           </div>
-                          <div className="location">{user.city}</div>
+                          <div className="location">{user.address.city}</div>
                         </div>
                       </div>
                       <div className="grid-body-item details">
@@ -244,10 +243,9 @@ export default function SportDirectory(props: Props) {
                           <div>
                             <a href={`mailto:${user.email}`}>{user.email}</a>
                           </div>
-                          {/* TODO: use phone number that they provide */}
                           <div>
-                            <a href={`tel:+1${user.cellPhone}`}>
-                              {formatPhoneNumber(user.cellPhone)}
+                            <a href={`tel:+1${user.phone}`}>
+                              {formatPhoneNumber(user.phone)}
                             </a>
                           </div>
                         </div>

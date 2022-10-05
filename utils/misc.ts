@@ -44,6 +44,12 @@ export function formatToTwoDigits(input: string | number) {
   }
 }
 
+export function formatZipcode(input: string) {
+  const digits = removeNonDigits(input);
+  const digitsArray = digits.split('');
+  return digitsArray.filter((_d, i) => i < 5).join('');
+}
+
 export function getUrlParam(param: string | string[] | undefined) {
   if (!param) return '';
   return Array.isArray(param) ? param[0] : param;

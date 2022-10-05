@@ -1,19 +1,19 @@
 import * as Yup from 'yup';
 import { ProfileFormValues, Sport, User } from '../interfaces';
-import { formatPhoneNumber, removeNonDigits } from './misc';
+import { formatPhoneNumber, formatZipcode, removeNonDigits } from './misc';
 
 export const blankProfileFormValues: ProfileFormValues = {
   firstName: '',
   lastName: '',
-  city: '',
-  state: '',
-  homePhone: '',
-  cellPhone: '',
-  workPhone: {
-    number: '',
-    extension: '',
-  },
   email: '',
+  phone: '',
+  address: {
+    street: '',
+    street2: '',
+    city: '',
+    state: '',
+    zipcode: '',
+  },
   sports: [],
   isAdmin: false, // set again on server so they can't override
   createdAt: '', // set on the server
@@ -45,15 +45,15 @@ export function formatDbValuesForForm(input: User): ProfileFormValues {
     ...user,
     firstName: input.firstName.trim(),
     lastName: input.lastName.trim(),
-    city: input.city.trim(),
-    state: input.state.trim(),
-    homePhone: formatPhoneNumber(input.homePhone) || '',
-    cellPhone: formatPhoneNumber(input.cellPhone) || '',
-    workPhone: {
-      number: formatPhoneNumber(input.workPhone.number) || '',
-      extension: input.workPhone.extension.trim(),
-    },
     email: input.email.toLowerCase().trim(),
+    phone: formatPhoneNumber(input.phone) || '',
+    address: {
+      street: input.address.street.trim(),
+      street2: input.address.street2.trim(),
+      city: input.address.city.trim(),
+      state: input.address.state.trim(),
+      zipcode: input.address.zipcode.trim(),
+    },
     sports: updatedSports,
   };
 }
@@ -69,15 +69,15 @@ export function formatFormValuesForDb(
     ...input,
     firstName: input.firstName.trim(),
     lastName: input.lastName.trim(),
-    city: input.city.trim(),
-    state: input.state.trim(),
-    homePhone: removeNonDigits(input.homePhone),
-    cellPhone: removeNonDigits(input.cellPhone),
-    workPhone: {
-      number: removeNonDigits(input.workPhone.number),
-      extension: input.workPhone.extension.trim(),
-    },
     email: input.email.toLowerCase().trim(),
+    phone: removeNonDigits(input.phone),
+    address: {
+      street: input.address.street.trim(),
+      street2: input.address.street2.trim(),
+      city: input.address.city.trim(),
+      state: input.address.state.trim(),
+      zipcode: formatZipcode(input.address.zipcode),
+    },
     sports,
   };
 }
@@ -85,25 +85,13 @@ export function formatFormValuesForDb(
 export const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('First name is required'),
   lastName: Yup.string().required('Last name is required'),
-  city: Yup.string().required('Your city is required'),
-  homePhone: Yup.string()
-    .transform(value => {
-      return removeNonDigits(value);
-    })
-    .matches(new RegExp(/^\d{10}$/), 'Must be a valid 10 digit number'),
-  cellPhone: Yup.string()
-    .transform(value => {
-      return removeNonDigits(value);
-    })
-    .matches(new RegExp(/^\d{10}$/), 'Must be a valid 10 digit number'),
-  workPhone: Yup.object().shape({
-    number: Yup.string()
-      .transform(value => {
-        return removeNonDigits(value);
-      })
-      .matches(new RegExp(/^\d{10}$/), 'Must be a valid 10 digit number'),
-  }),
   email: Yup.string()
     .email('A valid email is required')
     .required('Email is required'),
+  phone: Yup.string()
+    .transform(value => {
+      return removeNonDigits(value);
+    })
+    .matches(new RegExp(/^\d{10}$/), 'Must be a valid 10 digit number'),
+  // todo: do I need to add address {street, city, state, zipcode} ??
 });

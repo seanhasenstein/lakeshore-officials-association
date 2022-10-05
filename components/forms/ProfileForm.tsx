@@ -56,13 +56,40 @@ export default function ProfileForm(props: Props) {
             </div>
             <div className="grid-cols-2">
               <div className="item">
-                <label htmlFor="city">City</label>
-                <Field name="city" id="city" />
-                <ErrorMessage component="div" className="error" name="city" />
+                <label htmlFor="email">Email address</label>
+                <Field name="email" id="email" />
+                <ErrorMessage component="div" className="error" name="email" />
               </div>
               <div className="item">
-                <label htmlFor="state">State</label>
-                <Field as="select" name="state" id="state">
+                <label htmlFor="phone">Phone</label>
+                <Field name="phone" id="phone" />
+                <ErrorMessage component="div" className="error" name="phone" />
+              </div>
+            </div>
+            <h4>Address</h4>
+            <div className="grid-cols-2">
+              <div className="item">
+                <label htmlFor="address.street">Street</label>
+                <Field name="address.street" id="address.street" />
+              </div>
+              <div className="item">
+                <label htmlFor="address.street2">Line 2</label>
+                <Field name="address.street2" id="address.street2" />
+              </div>
+            </div>
+            <div className="grid-cols-2">
+              <div className="item">
+                <label htmlFor="address.city">City</label>
+                <Field name="address.city" id="address.city" />
+                <ErrorMessage
+                  component="div"
+                  className="error"
+                  name="address.city"
+                />
+              </div>
+              <div className="item">
+                <label htmlFor="address.state">State</label>
+                <Field as="select" name="address.state" id="address.state">
                   <option value="">Select your state</option>
                   {unitedStates.map(s => (
                     <option key={s.value} value={s.text}>
@@ -70,53 +97,16 @@ export default function ProfileForm(props: Props) {
                     </option>
                   ))}
                 </Field>
-                <ErrorMessage component="div" className="error" name="state" />
+                <ErrorMessage
+                  component="div"
+                  className="error"
+                  name="address.state"
+                />
               </div>
             </div>
             <div className="item">
-              <label htmlFor="email">Email address</label>
-              <Field name="email" id="email" />
-              <ErrorMessage component="div" className="error" name="email" />
-            </div>
-            <div className="grid-cols-2">
-              <div className="item">
-                <label htmlFor="homePhone">Home phone</label>
-                <Field name="homePhone" id="homePhone" />
-                <ErrorMessage
-                  component="div"
-                  className="error"
-                  name="homePhone"
-                />
-              </div>
-              <div className="item">
-                <label htmlFor="cellPhone">Cell phone</label>
-                <Field name="cellPhone" id="cellPhone" />
-                <ErrorMessage
-                  component="div"
-                  className="error"
-                  name="cellPhone"
-                />
-              </div>
-            </div>
-            <div className="grid-cols-2">
-              <div className="item">
-                <label htmlFor="workPhone.number">Work phone</label>
-                <Field name="workPhone.number" id="workPhone.number" />
-                <ErrorMessage
-                  component="div"
-                  className="error"
-                  name="workPhone.number"
-                />
-              </div>
-              <div className="item">
-                <label htmlFor="workPhone.extension">Work extension</label>
-                <Field name="workPhone.extension" id="workPhone.extension" />
-                <ErrorMessage
-                  component="div"
-                  className="error"
-                  name="workPhone.extension"
-                />
-              </div>
+              <label htmlFor="address.zipcode">Zipcode</label>
+              <Field name="address.zipcode" id="address.zipcode" />
             </div>
             <div className="sports">
               <div className="instructions">
@@ -222,6 +212,14 @@ const ProfileFormStyles = styled.div`
   h3 {
     font-size: 1.125rem;
     font-weight: 700;
+    color: #1c2a3f;
+  }
+
+  h4 {
+    margin: 2.25rem 0 0;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     color: #1c2a3f;
   }
 
