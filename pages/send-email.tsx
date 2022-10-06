@@ -24,7 +24,7 @@ const groups = [
 export default function SendEmail() {
   const session = useSession();
   const [status, setStatus] = React.useState<'idle' | 'error' | 'success'>(
-    'error'
+    'idle'
   );
 
   const handleSubmit = async (formValues: SendEmailFormValues) => {
