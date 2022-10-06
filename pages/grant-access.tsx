@@ -103,15 +103,15 @@ export default function GrantAccess() {
                     </div>
                   ) : (
                     <div className="box">
-                      <h2>Grant website access</h2>
+                      <h2>Grant dashboard access</h2>
                       <p>
-                        Send an email that will allow a new user to create a
-                        profile and use the website.
+                        Send an email that will allow a new user to create an
+                        account and gain acccess to the dashboard.
                       </p>
-
+                      <p>*Only admin users have the ability grant access.</p>
                       <Form>
                         <div className="item">
-                          <label htmlFor="email">Email address</label>
+                          <label htmlFor="email">New users email address</label>
                           <Field name="email" id="email" />
                           <ErrorMessage
                             name="email"
