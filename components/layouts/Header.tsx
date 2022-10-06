@@ -156,7 +156,7 @@ export default function Header(props: Props) {
             </h3>
             <ul>
               <NavLinkItem
-                label="Profile/Calendar"
+                label="Your profile"
                 href="/"
                 isActive={router.pathname === '/'}
               />
@@ -167,7 +167,7 @@ export default function Header(props: Props) {
               />
               {user.data?.isAdmin ? (
                 <NavLinkItem
-                  label="Grant site access"
+                  label="Grant access"
                   href="/grant-access"
                   isActive={router.pathname === '/grant-access'}
                 />
@@ -305,13 +305,14 @@ const HeaderStyles = styled.header`
   }
 
   .brand {
-    padding: 3rem 2rem 0;
+    padding: 3rem 2.25rem 0;
   }
 
   h1 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.025em;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.875rem;
+    font-weight: 500;
+    letter-spacing: 0.025em;
     line-height: 1.25;
     color: #eef2f6;
   }
@@ -324,7 +325,7 @@ const HeaderStyles = styled.header`
   }
 
   .section {
-    margin: 3.25rem 0 0;
+    margin: 2.875rem 0 0;
     padding: 0 2.25rem;
 
     h3 {
@@ -534,7 +535,7 @@ const HeaderStyles = styled.header`
     }
 
     nav {
-      padding-bottom: 3rem;
+      padding-bottom: 22rem;
       height: unset;
     }
   }

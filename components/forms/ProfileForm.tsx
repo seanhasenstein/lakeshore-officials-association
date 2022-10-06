@@ -201,17 +201,17 @@ export default function ProfileForm(props: Props) {
 
 const ProfileFormStyles = styled.div`
   margin: 2.25rem 0 0;
-  padding: 2rem;
+  padding: 2.25rem;
   max-width: 38rem;
   width: 100%;
-  background-color: #fbfbfb;
+  background-color: #fafafa;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  border-top: 1px solid #e9eaec;
+  border: 1px solid #d4d6da;
 
   h3 {
-    font-size: 1.125rem;
-    font-weight: 700;
+    font-size: 1.25rem;
+    font-weight: 600;
     color: #1c2a3f;
   }
 
@@ -224,7 +224,7 @@ const ProfileFormStyles = styled.div`
   }
 
   p {
-    margin: 0.5rem 0 0;
+    margin: 0.875rem 0 0;
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.5;
@@ -232,7 +232,7 @@ const ProfileFormStyles = styled.div`
   }
 
   .instructions {
-    margin: 0 0 0.5rem;
+    margin: 0 0 1.25rem;
   }
 
   .grid-cols-2 {

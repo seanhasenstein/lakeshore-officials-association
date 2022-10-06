@@ -132,12 +132,12 @@ const DayButtonStyles = styled.button`
 
   &.available,
   &.available.not-current-month {
-    background-color: #2ee362;
-    color: #021006;
+    background-color: #37da8e;
+    color: #062014;
     z-index: 100;
 
     &:hover {
-      background-color: #1cce4f;
+      background-color: #24c57a;
     }
   }
 

@@ -457,7 +457,7 @@ const ProfileCalendarStyles = styled.div`
       box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
       &.available {
-        background-color: #2ee362;
+        background-color: #37da8e;
       }
 
       &.instructions {
@@ -477,7 +477,7 @@ const ProfileCalendarStyles = styled.div`
           height: 0;
           bottom: 0;
           border-left: 0.75rem solid transparent;
-          border-right: 1.375rem solid #2ee362;
+          border-right: 1.375rem solid #37da8e;
           border-top: 1.125rem solid transparent;
         }
       }

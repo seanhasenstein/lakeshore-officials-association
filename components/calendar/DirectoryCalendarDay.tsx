@@ -69,13 +69,9 @@ const DirectoryCalendarDayStyles = styled.div`
 
   &.available,
   &.available.not-current-month {
-    background-color: #2ee362;
-    color: #021006;
+    background-color: #37da8e;
+    color: #062014;
     z-index: 100;
-
-    &:hover {
-      background-color: #1cce4f;
-    }
   }
 
   &.unavailable {
@@ -85,13 +81,6 @@ const DirectoryCalendarDayStyles = styled.div`
     &.not-current-month {
       background-color: #f3f4f6;
       color: #1f2937;
-    }
-
-    &:hover,
-    &.not-current-month:hover {
-      background-color: #e5e7eb;
-      color: #111827;
-      z-index: 100;
     }
   }
 
@@ -109,10 +98,6 @@ const DirectoryCalendarDayStyles = styled.div`
 
   &:last-of-type {
     border-bottom-right-radius: 0.5rem;
-  }
-
-  &:hover {
-    background-color: #f3f4f6;
   }
 
   .today {

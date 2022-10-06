@@ -37,6 +37,46 @@ export const GlobalStyles = createGlobalStyle`
     url("/fonts/Inter-Bold.woff?v=3.18") format("woff");
 }
 
+@font-face {
+  font-family: "Teko";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/Teko-Light.ttf") format("truetype"),
+}
+
+@font-face {
+  font-family: "Teko";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Teko-Regular.ttf") format("truetype"),
+}
+
+@font-face {
+  font-family: "Teko";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/Teko-Medium.ttf") format("truetype"),
+}
+
+@font-face {
+  font-family: "Teko";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/Teko-SemiBold.ttf") format("truetype"),
+}
+
+@font-face {
+  font-family: "Teko";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Teko-Bold.ttf") format("truetype"),
+}
+
 html,
 body {
   padding: 0;

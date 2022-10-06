@@ -135,9 +135,9 @@ const UserProfileStyles = styled.div`
   p {
     margin: 0.25rem 0 0;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.5;
-    color: #4b5563;
+    color: #626875;
 
     a {
       text-decoration: underline;

@@ -215,10 +215,10 @@ const ContactAdminFormStyles = styled.div`
     padding: 1rem 2rem 2rem;
     max-width: 38rem;
     width: 100%;
-    background-color: #fefefe;
+    background-color: #fafafa;
     border-radius: 0.5rem;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    border-top: 1px solid #e9eaec;
+    border: 1px solid #d4d6da;
   }
 
   .grid-cols-2 {
