@@ -129,6 +129,7 @@ export default function Header(props: Props) {
           <div className="section">
             <h3>
               {router.pathname === '/' ||
+              router.pathname === '/send-email' ||
               router.pathname === '/grant-access' ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -506,13 +507,6 @@ const HeaderStyles = styled.header`
     &.show {
       left: 0;
       max-width: unset;
-
-      .user {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-      }
     }
 
     .close-nav-button {
@@ -541,7 +535,7 @@ const HeaderStyles = styled.header`
 
     nav {
       padding-bottom: 3rem;
-      height: calc(100vh - 104px - 85px);
+      height: unset;
     }
   }
 
