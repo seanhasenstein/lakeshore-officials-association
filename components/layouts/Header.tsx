@@ -532,7 +532,7 @@ const HeaderStyles = styled.header`
     }
 
     .brand {
-      padding: 1.5rem 1.75rem;
+      display: none;
     }
 
     .section:first-of-type {
