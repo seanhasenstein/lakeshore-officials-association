@@ -113,4 +113,9 @@ const DirectoryCalendarDayStyles = styled.div`
     border-radius: 9999px;
     color: #f3f4f6;
   }
+
+  &.available .today {
+    background-color: #09301e;
+    color: #fefffe;
+  }
 `;

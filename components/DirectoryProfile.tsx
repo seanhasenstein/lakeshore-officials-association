@@ -100,6 +100,24 @@ export default function DirectoryProfile(props: Props) {
                   </div>
                 </div>
               )}
+              <div className="contact-item">
+                <div className="label">Address</div>
+                <div className="value">
+                  {props.userQuery.data.address.street
+                    ? props.userQuery.data.address.street
+                    : null}
+                  {props.userQuery.data.address.street ||
+                  props.userQuery.data.address.street2 ? (
+                    <br />
+                  ) : null}
+                  {props.userQuery.data.address.street2
+                    ? props.userQuery.data.address.street2
+                    : null}
+                  {props.userQuery.data.address.city},{' '}
+                  {props.userQuery.data.address.state}{' '}
+                  {props.userQuery.data.address.zipcode}
+                </div>
+              </div>
               {props.userQuery.data.sports.length > 0 ? (
                 <div className="contact-item">
                   <div className="label">Sports</div>
@@ -170,10 +188,10 @@ const DirectoryProfileStyles = styled.div`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 0.75fr;
-    background-color: #fdfdfd;
+    background-color: #fafafa;
     border-radius: 0.5rem;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    border-top: 1px solid #e9eaec;
+    border: 1px solid #d4d6da;
   }
 
   .calendar-section {
@@ -215,6 +233,7 @@ const DirectoryProfileStyles = styled.div`
         font-size: 0.9375rem;
         font-weight: 400;
         color: #111827;
+        line-height: 1.5;
 
         a:hover {
           text-decoration: underline;

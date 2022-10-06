@@ -39,8 +39,8 @@ export default function UserProfile() {
               <p className="welcome">
                 Welcome to our new website. If you have any questions or need to
                 report a bug, please{' '}
-                <Link href="/contact-admin">
-                  <a>contact the site admin</a>
+                <Link href="/contact">
+                  <a>contact us</a>
                 </Link>
                 .
               </p>
@@ -69,10 +69,13 @@ export default function UserProfile() {
               <div className="contact-item">
                 <div className="label">Address</div>
                 <div className="value">
-                  {user.data.address.street}
-                  {user.data.address.street2 && ` ${user.data.address.street2}`}
-                </div>
-                <div className="value">
+                  {user.data.address.street ? user.data.address.street : null}
+                  {user.data.address.street2
+                    ? ` ${user.data.address.street2}`
+                    : null}
+                  {user.data.address.street || user.data.address.street2 ? (
+                    <br />
+                  ) : null}
                   {user.data.address.city}, {user.data.address.state}{' '}
                   {user.data.address.zipcode}
                 </div>
@@ -195,7 +198,7 @@ const UserProfileStyles = styled.div`
     background-color: #fafafa;
     border-radius: 0.5rem;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    border-top: 1px solid #e9eaec;
+    border: 1px solid #d4d6da;
   }
 
   .calendar-section {
@@ -238,6 +241,7 @@ const UserProfileStyles = styled.div`
         font-size: 0.9375rem;
         font-weight: 400;
         color: #111827;
+        line-height: 1.5;
 
         .extension {
           padding: 0.1875rem 0 0 3.5rem;

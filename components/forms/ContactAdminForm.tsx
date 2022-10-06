@@ -105,10 +105,7 @@ export default function ContactAdminForm(props: Props) {
                     <label htmlFor="subject">Subject</label>
                     <Field as="select" name="subject" id="subject">
                       <option value="">Choose a subject</option>
-                      <option value="account">
-                        I want to create an account
-                      </option>
-                      <option value="bug">Report a bug</option>
+                      <option value="bug">Report a website bug</option>
                       <option value="other">Other</option>
                     </Field>
                     <ErrorMessage

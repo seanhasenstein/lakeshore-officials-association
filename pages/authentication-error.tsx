@@ -44,9 +44,9 @@ export default function AuthenticationError() {
         <h2>Server Error</h2>
         <p>
           There is a problem with the server configuration. If this problem
-          persists{' '}
+          persists {/* TODO: link to marketing site contact form */}
           <Link href="/contact-us">
-            <a>contact the site administrator</a>
+            <a>contact usistrator</a>
           </Link>
           .
         </p>
@@ -63,8 +63,9 @@ export default function AuthenticationError() {
         <h2>Access Denied</h2>
         <p>
           You do not have permission to log in. If you think this is an error{' '}
+          {/* TODO: link to marketing site contact form */}
           <Link href="/contact-us">
-            <a>contact the site administrator</a>
+            <a>contact usistrator</a>
           </Link>
           .
         </p>
@@ -91,8 +92,9 @@ export default function AuthenticationError() {
         <h2>Authentication Error</h2>
         <p>
           An error occurred during authentication. If this error continues,{' '}
+          {/* TODO: link to marketing site contact form */}
           <Link href="/contact-us">
-            <a>contact the site administrator</a>
+            <a>contact usistrator</a>
           </Link>
           .
         </p>

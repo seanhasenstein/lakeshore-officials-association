@@ -7,7 +7,7 @@ export default function ServerError() {
       <p>
         Internal server error. Check your internet connection and try reloading
         the page. If your problem continues please{' '}
-        <Link href="/contact-admin">
+        <Link href="/contact">
           <a>contact us</a>
         </Link>
         .

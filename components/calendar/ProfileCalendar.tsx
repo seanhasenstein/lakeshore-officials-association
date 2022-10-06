@@ -453,7 +453,7 @@ const ProfileCalendarStyles = styled.div`
       height: 1.25rem;
       width: 1.5rem;
       border-radius: 0.0625rem;
-      border: 1px solid rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(0, 0, 0, 0.2);
       box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
       &.available {
@@ -465,10 +465,10 @@ const ProfileCalendarStyles = styled.div`
         background-color: #fff;
         display: flex;
         justify-content: flex-end;
-        border-top: 1px solid #d9d9d9;
-        border-left: 1px solid #d9d9d9;
-        border-right: 1px solid #8fcfb1;
-        border-bottom: 1px solid #8fcfb1;
+        border-top: 1px solid #c5c5c5;
+        border-left: 1px solid #c5c5c5;
+        border-right: 1px solid #46a377;
+        border-bottom: 1px solid #46a377;
 
         &::after {
           content: '';
