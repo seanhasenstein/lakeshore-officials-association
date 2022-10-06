@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
@@ -25,7 +24,7 @@ const groups = [
 export default function SendEmail() {
   const session = useSession();
   const [status, setStatus] = React.useState<'idle' | 'error' | 'success'>(
-    'idle'
+    'error'
   );
 
   const handleSubmit = async (formValues: SendEmailFormValues) => {
@@ -128,9 +127,6 @@ export default function SendEmail() {
                     />
                   </div>
                   <div className="actions">
-                    <Link href="/">
-                      <a className="cancel-link-button">Cancel</a>
-                    </Link>
                     <button type="submit" className="submit-button">
                       {isSubmitting ? <LoadingSpinner /> : 'Send your email'}
                     </button>
@@ -174,6 +170,10 @@ const SendEmailStyles = styled.div`
     color: #747b89;
   }
 
+  form {
+    margin: 2rem 0 0;
+  }
+
   .form-item {
     margin: 1.25rem 0 0;
     display: flex;
@@ -193,31 +193,6 @@ const SendEmailStyles = styled.div`
 
   .actions {
     margin: 2rem 0 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 1.75rem;
-  }
-
-  .cancel-link-button {
-    color: #3d5271;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    transition: color 100ms linear;
-
-    &:hover {
-      color: #000;
-    }
-
-    &:focus {
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-
-    &:focus-visible {
-      color: #2672e5;
-      text-decoration: underline;
-    }
   }
 
   .submit-button {
@@ -290,6 +265,7 @@ const SendEmailStyles = styled.div`
       margin: 0.75rem 0 0;
       font-size: 1.0625rem;
       color: #6c727d;
+      text-align: center;
 
       .underline {
         text-decoration: underline;
@@ -298,6 +274,23 @@ const SendEmailStyles = styled.div`
 
     .reset-button {
       margin: 1.875rem 0 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    max-width: unset;
+  }
+
+  @media (max-width: 640px) {
+    padding: 1.5rem 1.25rem;
+
+    .submit-button {
+      max-width: 100%;
+    }
+
+    .server-error {
+      text-align: center;
+      line-height: 1.35;
     }
   }
 `;
