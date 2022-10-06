@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 import styled from 'styled-components';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import { ProfileFormValues } from '../../interfaces';
@@ -18,13 +17,15 @@ type Props = {
 
 export default function ProfileForm(props: Props) {
   const router = useRouter();
-  const session = useSession();
 
   return (
     <ProfileFormStyles>
       <div className="instructions">
         <h3>Contact information</h3>
-        <p>This information will be available to all Lakeshore Officials.</p>
+        <p>
+          This information will be available to all Lakeshore Officials that
+          have an account on this platform.
+        </p>
       </div>
       <Formik
         initialValues={props.initialValues}
@@ -32,7 +33,7 @@ export default function ProfileForm(props: Props) {
         validationSchema={validationSchema}
         onSubmit={(values, actions) => props.onSubmit(values, actions)}
       >
-        {({ values, setFieldValue, isSubmitting }) => (
+        {({ values, setFieldValue, isSubmitting, errors, submitCount }) => (
           <Form>
             <div className="grid-cols-2">
               <div className="item">
@@ -71,6 +72,11 @@ export default function ProfileForm(props: Props) {
               <div className="item">
                 <label htmlFor="address.street">Street</label>
                 <Field name="address.street" id="address.street" />
+                <ErrorMessage
+                  component="div"
+                  className="error"
+                  name="address.street"
+                />
               </div>
               <div className="item">
                 <label htmlFor="address.street2">Line 2</label>
@@ -107,6 +113,11 @@ export default function ProfileForm(props: Props) {
             <div className="item">
               <label htmlFor="address.zipcode">Zipcode</label>
               <Field name="address.zipcode" id="address.zipcode" />
+              <ErrorMessage
+                component="div"
+                className="error"
+                name="address.zipcode"
+              />
             </div>
             <div className="sports">
               <div className="instructions">
@@ -177,16 +188,16 @@ export default function ProfileForm(props: Props) {
                 </>
               ) : null}
             </div>
+            {submitCount > 0 && Object.keys(errors).length > 0 ? (
+              <div className="error validation-check">
+                You have validation errors above to fix before you can submit
+                your update.
+              </div>
+            ) : null}
             {props.serverError ? (
               <div className="error server-error">
                 {props.serverError} Please{' '}
-                <Link
-                  href={
-                    session.status === 'authenticated'
-                      ? '/contact-admin'
-                      : 'contact-us'
-                  }
-                >
+                <Link href="/contact">
                   <a>contact us</a>
                 </Link>{' '}
                 if this issue continues or if you have questions.
@@ -333,6 +344,11 @@ const ProfileFormStyles = styled.div`
     font-weight: 500;
     color: #be123c;
     line-height: 1.5;
+  }
+
+  .validation-check {
+    margin: 1.5rem 0 0;
+    text-align: center;
   }
 
   .server-error {
