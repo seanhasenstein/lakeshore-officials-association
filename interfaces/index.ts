@@ -53,6 +53,17 @@ export interface UsersBySports {
 
 export type ProfileFormValues = Omit<User, '_id'>;
 
+export type BulkEmailGroup = 'All' | Sport;
+
+export interface SendEmailFormValues {
+  user: {
+    email: string | undefined;
+  };
+  group: BulkEmailGroup | '';
+  subject: string;
+  body: string;
+}
+
 export type CalendarMonth = {
   [date: string]: string[];
 };

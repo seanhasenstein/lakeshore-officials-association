@@ -159,6 +159,11 @@ export default function Header(props: Props) {
                 href="/"
                 isActive={router.pathname === '/'}
               />
+              <NavLinkItem
+                label="Send an email"
+                href="/send-email"
+                isActive={router.pathname === '/send-email'}
+              />
               {user.data?.isAdmin ? (
                 <NavLinkItem
                   label="Grant site access"

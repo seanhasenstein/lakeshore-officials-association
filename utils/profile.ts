@@ -93,5 +93,4 @@ export const validationSchema = Yup.object().shape({
       return removeNonDigits(value);
     })
     .matches(new RegExp(/^\d{10}$/), 'Must be a valid 10 digit number'),
-  // todo: do I need to add address {street, city, state, zipcode} ??
 });
