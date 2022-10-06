@@ -505,12 +505,12 @@ const HeaderStyles = styled.header`
 
     &.show {
       left: 0;
+      max-width: unset;
 
       .user {
         position: fixed;
         bottom: 0;
         left: 0;
-        max-width: 22rem;
         width: 100%;
       }
     }
