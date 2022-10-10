@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { format } from 'date-fns';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { Calendar, FilterLevels, Sport, User } from '../interfaces';
 import LevelFilter from './directory/LevelFilter';
 import DateSelection from './directory/DateSelection';
@@ -186,28 +187,12 @@ export default function SportDirectory(props: Props) {
                           <span className="pill">{sport?.level}</span>
                         </div>
                         <div className="contact">
-                          <div>
-                            <a href={`mailto:${user.email}`}>{user.email}</a>
-                          </div>
-                          <div>
-                            <a href={`tel:+1${user.phone}`}>
-                              {formatPhoneNumber(user.phone)}
-                            </a>
-                          </div>
+                          <div>{user.email}</div>
+                          <div>{formatPhoneNumber(user.phone)}</div>
                         </div>
                       </div>
                       <div className="grid-body-item icon" aria-hidden="true">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
+                        <ChevronRightIcon strokeWidth={3} />
                       </div>
                     </a>
                   </Link>
@@ -240,28 +225,12 @@ export default function SportDirectory(props: Props) {
                           <span className="pill">{sport?.level}</span>
                         </div>
                         <div className="contact">
-                          <div>
-                            <a href={`mailto:${user.email}`}>{user.email}</a>
-                          </div>
-                          <div>
-                            <a href={`tel:+1${user.phone}`}>
-                              {formatPhoneNumber(user.phone)}
-                            </a>
-                          </div>
+                          <div>{user.email}</div>
+                          <div>{formatPhoneNumber(user.phone)}</div>
                         </div>
                       </div>
                       <div className="grid-body-item icon" aria-hidden="true">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
+                        <ChevronRightIcon strokeWidth={3} />
                       </div>
                     </a>
                   </Link>
@@ -420,8 +389,8 @@ const SportDirectoryStyles = styled.div`
     justify-content: flex-end;
 
     svg {
-      height: 1.125rem;
-      width: 1.125rem;
+      height: 0.8125rem;
+      width: 0.8125rem;
       color: #9ca3af;
     }
   }

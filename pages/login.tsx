@@ -130,10 +130,11 @@ const LoginStyles = styled.div`
   }
 
   h2 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    color: #141a25;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: 0.00625em;
+    color: #222c3e;
   }
 
   h3 {

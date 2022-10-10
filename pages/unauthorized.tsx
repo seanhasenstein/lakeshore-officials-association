@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
 import SimpleLayout from '../components/layouts/SimpleLayout';
 
 export default function Unauthorized() {
@@ -8,17 +9,7 @@ export default function Unauthorized() {
       <UnauthorizedStyles>
         <div className="container">
           <div className="icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <ExclamationTriangleIcon />
           </div>
           <h2>Unauthorized</h2>
           <p>Access denied. You need to be logged in to continue.</p>
@@ -56,50 +47,36 @@ const UnauthorizedStyles = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 2.25rem;
-    width: 2.25rem;
-    background-color: #ffe4e6;
-    border-radius: 9999px;
 
     svg {
-      height: 1.625rem;
-      width: 1.625rem;
-      color: #be123c;
+      height: 2rem;
+      width: 2rem;
+      color: #ff441a;
     }
   }
 
   h2,
-  h3,
   p {
     text-align: center;
   }
 
   h2 {
-    margin: 1rem 0 0;
+    margin: 0.5rem 0 0;
     font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -0.025em;
     color: #141a25;
   }
 
-  h3 {
-    margin: 1.5rem 0 0;
-    font-size: 1rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #7f8592;
-  }
-
   p {
-    margin: 1.5rem 0 0;
+    margin: 1rem 0 0;
     font-size: 1rem;
-    color: #222c3e;
+    color: #747b89;
     line-height: 1.5;
   }
 
   .login-link {
-    margin: 2rem 0 0;
+    margin: 1.5rem 0 0;
     height: 2.5rem;
     width: 100%;
     display: flex;

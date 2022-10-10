@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import styled from 'styled-components';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import FullLayout from '../components/layouts/FullLayout';
 import BasicTopHeaderLayout from '../components/layouts/BasicTopHeaderLayout';
 
@@ -8,17 +9,7 @@ function Box() {
   return (
     <BoxStyles>
       <div className="icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <ExclamationTriangleIcon />
       </div>
       <h2>404 - Page not found</h2>
       <p>Sorry, the page you&apos;re looking for doesn&apos;t exist.</p>
@@ -55,7 +46,7 @@ const BoxStyles = styled.div`
   max-width: 30rem;
   width: 100%;
   background-color: #fefefe;
-  border-radius: 0.5rem;
+  border-radius: 0.125rem;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   border-top: 1px solid #e9eaec;
 
@@ -67,7 +58,7 @@ const BoxStyles = styled.div`
     svg {
       height: 2rem;
       width: 2rem;
-      color: #be123c;
+      color: #ff441a;
     }
   }
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import Header from './Header';
+import { Bars3Icon } from '@heroicons/react/20/solid';
+import Header from './header/Index';
 import Footer from './Footer';
 import styled from 'styled-components';
 import useAuthSession from '../../hooks/useAuthSession';
@@ -41,17 +42,7 @@ export default function FullLayout({ children, title, authRequired }: Props) {
               }}
               className={`nav-toggle-button ${showHeader ? 'hide' : ''}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <Bars3Icon />
               <span className="sr-only">Toggle navigation</span>
             </button>
           ) : null}
@@ -97,9 +88,11 @@ const FullLayoutStyles = styled.div`
 
       h2 {
         width: 12rem;
-        font-size: 1.25rem;
-        font-weight: 800;
-        letter-spacing: -0.025em;
+        font-family: 'Teko', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: 0.0125em;
+        line-height: 1.25;
         color: #eef2f6;
       }
     }
@@ -108,7 +101,7 @@ const FullLayoutStyles = styled.div`
       padding: 1rem 0 1rem 1rem;
       background-color: transparent;
       border: none;
-      color: #7a7a7e;
+      color: #9ca3af;
       cursor: pointer;
 
       &.hide {

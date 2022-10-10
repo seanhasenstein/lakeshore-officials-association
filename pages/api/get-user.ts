@@ -38,11 +38,11 @@ router
   });
 
 export default router.handler({
-  onError: (err, _req, res) => {
-    console.error(err);
+  onError: (err: any, _req, res) => {
+    console.error(err.message);
     res.status(500).end('Internal server error');
   },
   onNoMatch: (_req, res) => {
-    res.status(404).end('Page not found');
+    res.status(404).end('User not found');
   },
 });

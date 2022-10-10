@@ -50,9 +50,10 @@ const BasicTopHeaderLayoutStyles = styled.div`
     justify-content: center;
 
     h1 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
+      font-family: 'Teko', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 500;
+      letter-spacing: 0.025em;
       line-height: 1.25;
       color: #eef2f6;
       text-align: center;

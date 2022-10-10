@@ -2,6 +2,8 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { removeNonDigits } from '../../utils/misc';
 
 export const validationSchema = Yup.object().shape({
@@ -36,17 +38,7 @@ export default function ContactAdminForm(props: Props) {
       {status === 'success' ? (
         <div className="box success">
           <div className="icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <CheckCircleIcon />
           </div>
           <div>
             <h3>Message sent!</h3>
@@ -165,19 +157,7 @@ export default function ContactAdminForm(props: Props) {
                   </div>
                   {status === 'error' ? (
                     <p className="server-error error">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
+                      <ExclamationCircleIcon strokeWidth={2} />
                       Server error. Please try sending again.
                     </p>
                   ) : null}
@@ -202,9 +182,9 @@ const ContactAdminFormStyles = styled.div`
   p {
     margin: 1rem 0 0;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 1.5;
-    color: #747b89;
+    color: #6b7280;
   }
 
   .box {

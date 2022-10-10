@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import SimpleLayout from '../components/layouts/SimpleLayout';
 
 type Props = {
@@ -14,17 +15,7 @@ function AuthErrorLayout({ children }: Props) {
       <AuthErrorStyles>
         <div className="container">
           <div className="icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <ExclamationTriangleIcon />
           </div>
           {children}
         </div>
@@ -123,7 +114,7 @@ const AuthErrorStyles = styled.div`
     flex-direction: column;
     align-items: center;
     background-color: #fff;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
 
@@ -135,7 +126,7 @@ const AuthErrorStyles = styled.div`
     svg {
       height: 2rem;
       width: 2rem;
-      color: #be123c;
+      color: #ff441a;
     }
   }
 
@@ -146,7 +137,7 @@ const AuthErrorStyles = styled.div`
   }
 
   h2 {
-    margin: 1rem 0 0;
+    margin: 0.625rem 0 0;
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
@@ -163,7 +154,7 @@ const AuthErrorStyles = styled.div`
   }
 
   p {
-    margin: 1.5rem 0 0;
+    margin: 1rem 0 0;
     font-size: 1rem;
     color: #222c3e;
     line-height: 1.5;
@@ -175,7 +166,7 @@ const AuthErrorStyles = styled.div`
   }
 
   .login-link {
-    margin: 2rem 0 0;
+    margin: 1.5rem 0 0;
     height: 2.5rem;
     width: 100%;
     display: flex;

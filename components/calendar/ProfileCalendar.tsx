@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { addMonths, format, subMonths } from 'date-fns';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import { Calendar, User } from '../../interfaces';
 import { CurrentMonthDays, getMonthCalendarData } from '../../utils/calendar';
 import DayButton from './DayButton';
@@ -92,17 +94,7 @@ export default function ProfileCalendar(props: Props) {
               onClick={handlePrevClick}
               className="toggle-month-button"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <ChevronLeftIcon />
               <span className="sr-only">Previous month</span>
             </button>
             <button
@@ -126,17 +118,7 @@ export default function ProfileCalendar(props: Props) {
               onClick={handleNextClick}
               className="toggle-month-button"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <ChevronRightIcon />
               <span className="sr-only">Next month</span>
             </button>
           </div>
@@ -210,19 +192,7 @@ export default function ProfileCalendar(props: Props) {
       </div>
       {serverError ? (
         <div className="server-error">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          <ExclamationCircleIcon strokeWidth={2} />
           Server error. Please try again.
         </div>
       ) : null}

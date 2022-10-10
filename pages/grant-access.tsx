@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
+import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import { User } from '../interfaces';
 import { blankProfileFormValues } from '../utils/profile';
 import { useUser } from '../hooks/useUser';
@@ -62,6 +63,7 @@ export default function GrantAccess() {
                   redirect: false,
                 });
 
+                setServerError(undefined);
                 setStatus('success');
               }}
             >
@@ -70,17 +72,7 @@ export default function GrantAccess() {
                   {status === 'success' ? (
                     <div className="success box">
                       <h3>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
+                        <CheckCircleIcon />
                         Message sent
                       </h3>
                       <p>
@@ -98,17 +90,17 @@ export default function GrantAccess() {
                         }}
                         className="reset-button button"
                       >
-                        Send another email
+                        Grant another access
                       </button>
                     </div>
                   ) : (
                     <div className="box">
-                      <h2>Grant dashboard access</h2>
+                      <h2>Grant access to new user</h2>
                       <p>
                         Send an email that will allow a new user to create an
-                        account and gain acccess to the dashboard.
+                        account and gain acccess to this dashboard.
                       </p>
-                      <p>*Only admin users have the ability grant access.</p>
+                      <p>You have access to this feature as an admin user.</p>
                       <Form>
                         <div className="item">
                           <label htmlFor="email">New users email address</label>
@@ -151,17 +143,24 @@ export default function GrantAccess() {
 const GrantAccessStyles = styled.div`
   h2 {
     font-size: 1.5rem;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: -0.025em;
     color: #06080b;
   }
 
   p {
-    margin: 0.875rem 0 0;
+    margin: 1rem 0 0;
     font-size: 1rem;
-    font-weight: 500;
     line-height: 1.5;
-    color: #747b89;
+    color: #6b7280;
+  }
+
+  .icon {
+    margin: 3px 0 0 0;
+    flex-shrink: 0;
+    height: 1rem;
+    width: 1rem;
+    color: #9ca3af;
   }
 
   .box {

@@ -83,3 +83,10 @@ export async function updateUser(
   );
   return result.value;
 }
+
+export async function deleteUser(db: Db, _id: string) {
+  const result = await db
+    .collection('users')
+    .findOneAndDelete({ _id: new ObjectId(_id) });
+  return result.ok;
+}
